@@ -15,11 +15,9 @@ const postsSchema = mongoose.Schema({
         required : true,
         trim : true // 앞뒤 공백제거
     },
-    userId : {
+    user : {
         type: mongoose.Schema.Types.ObjectId,
         ref : "Users",
-        required : true,
-        trim : true // 앞뒤 공백제거
     },
     createdAt : {
         type : Date,
