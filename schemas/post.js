@@ -20,6 +20,12 @@ const postsSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
     },
+    comment: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comments",
+      },
+    ],
   },
   { timestamps: true }
 );
