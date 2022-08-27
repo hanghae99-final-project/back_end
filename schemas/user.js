@@ -29,6 +29,12 @@ const usersSchema = mongoose.Schema(
         ref: "Posts",
       },
     ],
+    comments : [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comments",
+      }
+    ]
   },
   { timestamps: true }
 );
