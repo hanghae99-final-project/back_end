@@ -22,15 +22,16 @@ const usersSchema = mongoose.Schema({
     required: true,
     trim: true, // 앞뒤 공백제거
   },
-  posts: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Posts",
-  }],
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Posts",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
     required: true,
-    unique: false,
   },
 });
 
