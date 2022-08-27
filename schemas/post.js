@@ -7,18 +7,17 @@ const postsSchema = mongoose.Schema({
         trim : true // 앞뒤 공백제거
     },
     postImg: {
-        type :String,
-        required : true
-    },
-    title : {
-        type : String,
-        required : true,
-        trim : true // 앞뒤 공백제거
+        type :Array,
+        required : false
     },
     content : {
         type : String,
         required : true,
         trim : true // 앞뒤 공백제거
+    },
+    user : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref : "Users",
     },
     createdAt : {
         type : Date,
