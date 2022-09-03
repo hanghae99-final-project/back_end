@@ -19,10 +19,9 @@ app.use(requestMiddleWare);
 app.use(cors());
 app.use(morgan("dev"));
 
-app.get("/", (req, res) => {
+app.use("/", (req, res) => {
   res.send("Hello World!");
 });
-//app.use("/", route);
 
 const port = process.env.PORT || 3000;
 
