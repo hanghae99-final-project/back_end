@@ -8,8 +8,7 @@ exports.main = (req, res) => {
 exports.kakaoCallback = (req, res, next) => {
     passport.authenticate("kakao", async (err, user) => {
       if (err) return next(err);
-      const userFindId = await User.findOne({ kakaoId: user.kakaoId });
-      const token = userFindId.createJWT();
-      res.status(StatusCodes.OK).json({ token });
+
+      res.status(StatusCodes.OK).json({ message:"성공" });
     })(req, res, next);
   };

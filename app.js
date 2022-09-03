@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const route = require("./routes");
+const route = require("./routes/index");
 const morgan = require("morgan");
 const cors = require("cors");
 const passport = require("passport");
@@ -10,7 +10,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const ejs = require("ejs");
-
 
 const requestMiddleWare = (req, res, next) => {
   console.log("request URL: ", req.originalUrl, " - ", new Date());

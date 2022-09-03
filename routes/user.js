@@ -4,7 +4,7 @@ const passport = require("passport");
 
 const User = require('../controllers/user');
 
-router.route("/").get(User.main)
+
 router.get("/kakao",passport.authenticate("kakao"))
 router.get("/kakao/finish", User.kakaoCallback);
 
