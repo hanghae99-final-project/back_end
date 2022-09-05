@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=0" />
+
+        <title>관리자 로그인</title>
+
+        <link rel="stylesheet" type="text/css" href="/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+    </head>
+    <body>
+
+        <!-- 로그인 뒷배경 -->
+        <main class="login_back">
+            <!-- 로그인 box 시작 -->
+            <section class="login_box">
+                <h1>Login</h1>
+                <form method="post" action="/login">
+                    
+                    <!-- 로그인 group 시작 -->
+                    <div class="login_group">
+                        <input type="text" name="id" maxlength="100" placeholder="ID" >
+                        <input type="password" name="pwd" autocomplete placeholder="Password" >
+                        <button type="submit" class="btn_login">Login</button>  
+                    </div>
+                    <!-- 로그인 group 끝 -->
+                </form>
+            </section>
+            <!-- 로그인 box 끝 -->
+        </main>
+
+    </body>
+</html>
