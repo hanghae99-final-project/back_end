@@ -24,7 +24,6 @@ const usersSchema = mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      // match: /.+\@.+@..+/,
     },
     ageGroup: {
       type: String,

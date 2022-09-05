@@ -1,6 +1,6 @@
 const passport = require("passport");
 const KakaoStrategy = require("passport-kakao").Strategy;
-const User = require("../models/user");
+const User = require("../schemas/user");
 
 //카카오 로그인
 module.exports = function (passport) {
@@ -12,12 +12,11 @@ module.exports = function (passport) {
       },
       // 카카오에서는 인증 수 callbakcURL 에 적힌 주소로 accessToken, refreshToken, profile 보냄
       async (accessToken, refreshToken, profile, done) => {
-        console.log("kakao profile: ", profile.username.replace(/(\s*)/g, ""));
+        // console.log("kakao profile: ", profile);
         const newUser = {
           kakaoId: profile.id,
-          username: profile.username.replace(/(\s*)/g, ""),
+          nickname: profile.username.replace(/(\s*)/g, ""),
           email: profile._json.kakao_account.email,
-          profile_image: profile._json.kakao_account.thumbnail_image,
         };
         try {
           let user = await User.findOne({ kakaoId: profile.id });
