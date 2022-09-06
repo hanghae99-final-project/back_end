@@ -1,0 +1,37 @@
+<%- include("../partials/header"); -%>
+<main class="main">
+<section class="card">
+    <div class="card_header">
+        <h1>회원 상황</h1>
+    </div>
+<table>    
+<thead>
+    <tr>
+        <th>닉네임</th>
+        <th>이메일</th>
+        <th>연령대</th>
+        <th>관심분야</th>
+        <th>가입날짜</th>
+    </tr>
+    </thead>
+<%if(data){data.forEach((element) => {%>
+    <div>
+        <div>
+                <tbody>
+                    <tr>
+                        <td><%=element.nickname %></td>
+                        <td><%=element.email%></td>
+                        <td><%=element.ageGroup%></td>
+                        <td><%=element.specialty ? '' : '미선택'%></td>
+                        <td><%= element.createdAt.toString().substring(0, 15) %></td>
+                    </tr>
+                </tbody>
+        </div>
+        </div>
+    <%})}else {%>
+        <h1>가입한 회원이 없습니다.</h1>
+        <%}%>
+</table>
+</section>
+</main>
+        <%- include("../partials/footer"); -%>

@@ -9,6 +9,8 @@ const connectDB = require("./db/connect");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const mongoose = require("mongoose");
+const MongoStore = require("connect-mongo")(session);
 const ejs = require("ejs");
 
 const requestMiddleWare = (req, res, next) => {
@@ -21,7 +23,7 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(requestMiddleWare);
-app.use(cors());
+app.use(cors({ origin: "*", credentials: true }));
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
@@ -29,7 +31,8 @@ app.use(
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
-    cookie: { httpOnly: true, secure: false },
+    cookie: { httpOnly: true, secure: false, maxAge: 3.6e6 * 24 },
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
 require("./passport/kakao")(passport);

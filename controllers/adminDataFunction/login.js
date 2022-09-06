@@ -1,30 +1,73 @@
-const Joi = require("joi");
 const Admin = require("../../schemas/admin");
+const adminModel = require("../../models/adminLogin");
+const Joi = require("joi");
+const { StatusCodes } = require("http-status-codes");
 
-exports.main = (req, res) => {
+exports.loginPage = (req, res) => {
   res.render("login");
 };
 exports.create = async (req, res) => {
   const adminSchema = Joi.object({
-    EMAIL: Joi.string().email().required(),
-    PASSWORD: Joi.string().min(5).max(12).alphanum().required(),
-    CONFIRM: Joi.string().min(5).max(12).alphanum().required(),
+    adminEmail: Joi.string().email().required(),
+    password: Joi.string()
+      .pattern(
+        new RegExp(
+          "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$"
+        )
+      )
+      .required(),
+    confirm: Joi.ref("password"),
   });
 
-  // joi 객체의 스키마를 잘 통과했는지 확인
-  const { EMAIL, PASSWORD, CONFIRM } = await adminSchema.validateAsync(
+  const { adminEmail, password, confirm } = await adminSchema.validateAsync(
     req.body
   );
-  if (!EMAIL) {
-    return res.send({ msg: "이메일을 입력해주세요." });
+  if (!adminEmail) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .send({ message: "이메일 필수 입력" });
   }
-  if (PASSWORD !== CONFIRM) {
-    return res.send({
-      statusCode: 412,
-      message: "입력하신 두개의 비밀번호가 다릅니다.",
-    });
+  if (password !== confirm) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .send({ message: "비밀번호 불일치" });
   }
+
+  const admin = await Admin.create({ ...req.body });
+  res.status(StatusCodes.OK).send({ message: "계정이 생성 되었습니다." });
 };
-exports.login = (req, res) => {
-  res.send("Hello");
+exports.login = async (req, res) => {
+  const { adminEmail, password } = req.body;
+  if (!adminEmail) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .render("alert/alert", { error: "아이디를 입력해주세요." });
+  }
+  if (!password) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .render("alert/alert", { error: "비밀번호를 입력해주세요." });
+  }
+  // find admin
+  const admin = await Admin.findOne({ adminEmail });
+  if (!admin) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .render("alert/alert", { error: "비밀번호 또는 아이디가 틀립니다." });
+  }
+  const checkPassword = await adminModel.comparePassword(
+    password,
+    admin.password
+  );
+  if (!checkPassword) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .render("alert/alert", { error: "비밀번호 또는 아이디가 틀립니다." });
+  }
+  req.session.admin = admin._id;
+  res.status(StatusCodes.OK).redirect("main");
+};
+exports.logout = async (req, res) => {
+  req.session.destroy();
+  res.status(StatusCodes.OK).redirect("/");
 };

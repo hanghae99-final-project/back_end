@@ -3,14 +3,6 @@
 	box-sizing: border-box;
 }
 
-.sr_only {
-  position: absolute !important; /* Outside the DOM flow */
-  height: 1px; width: 1px; /* Nearly collapsed */
-  overflow: hidden;
-  clip: rect(1px 1px 1px 1px); /* IE 7+ only support clip without commas */
-  clip: rect(1px, 1px, 1px, 1px); /* All other browsers */
-}
-
 /* 아이콘 */
 i {
 	margin-right: 5px;
@@ -212,7 +204,6 @@ input:focus, select:focus {
 	border-color: #000;
 }
 select {
-	padding-right: 30px;
 	min-width: 80px;
 	background-image: url("/images/icon/select.svg");
 	background-repeat: no-repeat;
@@ -387,10 +378,10 @@ th {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 50px 0 80px;
+	margin-top: 40px;
 	font-size: 14px;
 }
-.pagination a {
+.pagination li {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -400,42 +391,12 @@ th {
 	height: 30px;
 	border-radius: 50%;
 }
-.pagination a:hover {
+.pagination li:hover {
 	background-color: #efefef;
 }
-.pagination li.active a {
+.pagination li.active {
 	background-color: #333;
 	color: #FFF;
-}
-
-[data-class="Next"] span,
-[data-class="Last"] span,
-[data-class="First"] span,
-[data-class="Previous"] span {
-	display: none;
-}
-[data-class="Next"]::after,
-[data-class="Last"]::before,
-[data-class="Last"]::after,
-[data-class="First"]::before,
-[data-class="First"]::after,
-[data-class="Previous"]::before {
-	content: "";
-	display: inline-block;
-	width: 10px;
-	height: 10px;
-	border-top: 1px solid #999;
-	border-right: 1px solid #999;
-}		
-[data-class="Next"]::after,
-[data-class="Last"]::before,
-[data-class="Last"]::after {
-	transform: rotate(45deg);
-}
-[data-class="First"]::before,
-[data-class="First"]::after,
-[data-class="Previous"]::before {
-	transform: rotate(-135deg);
 }
 
 .page-item {
@@ -866,10 +827,6 @@ th {
 	align-items: center;
 	padding: 15px 0;
 }
-.view_desc textarea {
-	resize: vertical;
-	height: 300px;
-}
 .view_desc dt {
 	flex: 0 0 120px;
 	max-width: 120px;
@@ -884,8 +841,7 @@ th {
 	max-width: 100%;
 	color: #999;
 }
-.view_desc input,
-.view_desc textarea {
+.view_desc input {
 	width: 100%;
 }
 .view_img_box {

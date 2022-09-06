@@ -7,10 +7,6 @@ const adminSchema = mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      match: [
-        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-        "정확한 이메일을 입력해주세요.",
-      ],
     },
     password: {
       type: String,
@@ -21,7 +17,9 @@ const adminSchema = mongoose.Schema(
   { timestamps: true }
 );
 adminSchema.pre("save", async function () {
-  const salt = await bcrypt.genSalt(process.env.SALTNUMBER);
+  console.log(process.env.SALTNUMBER);
+  const salt = await bcrypt.genSalt(parseInt(process.env.SALTNUMBER));
+
   this.password = await bcrypt.hash(this.password, salt);
 });
 
