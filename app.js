@@ -18,12 +18,12 @@ const requestMiddleWare = (req, res, next) => {
   next();
 };
 
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(requestMiddleWare);
-app.use(cors({ origin: "*", credentials: true }));
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
