@@ -7,7 +7,6 @@ const authMiddleware = require("../middleware/userAuth");
 const scheduleMiddleware = require("../middleware/scheduler");
 
 const router = express.Router();
-const schedule = require("node-schedule");
 
 router.use("/", Admin);
 router.use("/users", Users);
