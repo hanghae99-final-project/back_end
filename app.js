@@ -16,6 +16,17 @@ const requestMiddleWare = (req, res, next) => {
   console.log("request URL: ", req.originalUrl, " - ", new Date());
   next();
 };
+// const schedule = require("node-schedule");
+// const scheduler =(req, res, next) => {
+//   //check header
+
+//       schedule.scheduleJob("20 * * * * *", async() =>{
+//           console.log("1분마다 스케쥴러가 작동돼!");
+//       })
+//     next();
+// };
+const schedule = require("./middleware/scheduler")
+app.use(schedule);
 
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(bodyParser.urlencoded({ extended: true }));

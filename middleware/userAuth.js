@@ -5,16 +5,16 @@ const { localsName } = require("ejs");
 
 const auth = async (req, res, next) => {
   //check header
+  try {
   const authHeader = req.headers.authorization;
-
   if (!authHeader || !authHeader.startsWith("Bearer")) {
-    res
+    return res
       .status(StatusCodes.BAD_REQUEST)
       .send({ message: "로그인이 필요합니다." });
   }
   const token = authHeader.split(" ")[1];
 
-  try {
+  
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     //attach the user to the job routes
     const user = await User.findOne({ kakaoId: payload.userId });
