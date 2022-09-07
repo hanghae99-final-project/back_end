@@ -78,6 +78,6 @@ exports.login = async (req, res) => {
 };
 exports.logout = async (req, res) => {
   res.clearCookie(process.env.COOKIE_NAME);
-  res.end();
+
   res.status(StatusCodes.OK).redirect("/");
 };
