@@ -5,6 +5,16 @@ const specListSchema = mongoose.Schema({
   experience: { type: String, maxlength: 100 },
 });
 
+const dDaySchema = mongoose.Schema({
+  deadline: Number,
+  content: String,
+});
+
+const targetTimeSchema = mongoose.Schema({
+  time: Number,
+  completed: Boolean,
+});
+
 const usersSchema = mongoose.Schema(
   {
     kakaoId: {
@@ -48,11 +58,12 @@ const usersSchema = mongoose.Schema(
       ],
     },
     targetTime: {
-      type: Number,
+      time: {type: Number, default: 0},
+      completed: {type: Boolean, default: false},
     },
+
     spec: [specListSchema],
-    // notice : {
-    //   type: String
+    dDay : [dDaySchema],
   },
   { timestamps: true }
 );
