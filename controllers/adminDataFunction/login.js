@@ -1,6 +1,7 @@
 const Admin = require("../../schemas/admin");
 const adminModel = require("../../models/adminLogin");
 const Joi = require("joi");
+const loginModel = require("../../models/login");
 const { StatusCodes } = require("http-status-codes");
 
 exports.loginPage = (req, res) => {
@@ -64,10 +65,19 @@ exports.login = async (req, res) => {
       .status(StatusCodes.BAD_REQUEST)
       .render("alert/alert", { error: "비밀번호 또는 아이디가 틀립니다." });
   }
-  req.session.admin = admin._id;
+  // req.session.admin = admin._id;
+  const token = loginModel.createJWT(admin);
+
+  const expires = new Date();
+  expires.setMinutes(expires.getMinutes() + 60);
+
+  res.cookie(process.env.COOKIE_NAME, `Bearer ${token}`, {
+    expires: expires,
+  });
   res.status(StatusCodes.OK).redirect("main");
 };
 exports.logout = async (req, res) => {
-  req.session.destroy();
+  res.clearCookie(process.env.COOKIE_NAME);
+  res.end();
   res.status(StatusCodes.OK).redirect("/");
 };

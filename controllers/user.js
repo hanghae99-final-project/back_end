@@ -11,8 +11,16 @@ exports.kakaoCallback = (req, res, next) => {
   passport.authenticate("kakao", async (err, user) => {
     if (err) return next(err);
 
-    const userInfo = await User.findOne({ kakaoId: user.kakaoId });
+    const { kakaoId } = user;
+    const userInfo = await User.findOne({ kakaoId });
+
     const token = userModel.createJWT(userInfo);
     res.status(StatusCodes.OK).json({ token });
   })(req, res, next);
+};
+exports.main = (req, res) => {
+  const { kakaoId, email } = req.locals;
+  if (req.locals.nickname) {
+    console.log("닉네임 있음");
+  }
 };

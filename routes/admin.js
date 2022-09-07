@@ -4,9 +4,11 @@ const admin = require("../controllers/adminDataFunction/login");
 const adminPage = require("../controllers/adminDataFunction/adminPage");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
-router.route("/").get(ensureGuest, admin.loginPage);
-// .post(asyncWrapper(Admin.create));
-router.route("/login").post(admin.login);
+const asyncWrapper = require("../middleware/async");
+
+router.route("/").get(ensureGuest, asyncWrapper(admin.loginPage));
+//   .post(asyncWrapper(admin.create));
+router.route("/login").post(asyncWrapper(admin.login));
 router.route("/logout").get(admin.logout);
 
 router.route("/main").get(ensureAuth, adminPage.mainPage);

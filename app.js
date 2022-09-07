@@ -9,8 +9,7 @@ const connectDB = require("./db/connect");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const mongoose = require("mongoose");
-const MongoStore = require("connect-mongo")(session);
+
 const ejs = require("ejs");
 
 const requestMiddleWare = (req, res, next) => {
@@ -32,7 +31,6 @@ app.use(
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
     cookie: { httpOnly: true, secure: false, maxAge: 3.6e6 * 24 },
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
 require("./passport/kakao")(passport);

@@ -15,7 +15,7 @@ module.exports = function (passport) {
         // console.log("kakao profile: ", profile);
         const newUser = {
           kakaoId: profile.id,
-          nickname: profile.username.replace(/(\s*)/g, ""),
+          // nickname: profile.username.replace(/(\s*)/g, ""),
           email: profile._json.kakao_account.email,
         };
         try {

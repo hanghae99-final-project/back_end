@@ -1,14 +1,27 @@
 const { StatusCodes } = require("http-status-codes");
+const Admin = require("../schemas/admin");
+const jwt = require("jsonwebtoken");
 module.exports = {
-  ensureAuth: function (req, res, next) {
-    if (req.session.admin) {
-      return next();
+  ensureAuth: async function (req, res, next) {
+    const cookies = req.cookies[process.env.COOKIE_NAME];
+    if (cookies) {
+      const [tokenType, tokenValue] = cookies.split(" ");
+      if (tokenType !== "Bearer") {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .render("alert/alert", { error: "토큰오류." });
+      }
+      const { userId } = jwt.verify(tokenValue, process.env.JWT_SECRET);
+      const admin = await Admin.findOne({ adminEmail: userId });
+      res.locals.user = admin;
+      next();
     } else {
       res.redirect("/");
     }
   },
   ensureGuest: function (req, res, next) {
-    if (req.session.admin) {
+    const cookies = req.cookies[process.env.COOKIE_NAME];
+    if (cookies) {
       res.redirect("/main");
     } else {
       return next();
