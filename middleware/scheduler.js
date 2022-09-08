@@ -8,24 +8,24 @@ const scheduler = (req, res, next) => {
   rule.hour = 2;
   rule.tz = "Asia/Seoul";
   schedule.scheduleJob(rule, async () => {
-    const now = new Date();
     const today = moment().startOf("day");
-    const yesterday = moment(today).subtract(1, "day");
+    const yesterdayStart = moment(today).subtract(1, "day").add(2, "hours"); // moment(today).add(-1,"days")도 동일
+    const yesterdayEnd = moment(yesterday).endOf("day").add(2, "hours");
     const times = await Time.find({
         // test 위해 today로 바꿔놓았음. 원래는 yesterday
         createdAt: {
-            $gte: yesterday.toDate(),
-            $lte: moment(yesterday).endOf("day").toDate(),
+            $gte: yesterdayStart.toDate(),
+            $lte: yesterdayEnd.toDate(),
           }
     });
     times.forEach(async time => {
         if (time.studyStartPoint !== 0 && time.restStartPoint ===0) {
-            time.savedStudyTime += now.getTime() - time.studyStartPoint;
+            time.savedStudyTime += yesterdayEnd.toDate().getTime() - time.studyStartPoint;
             time.studyStartPoint = 0;
             await time.save();
         }
         else if(time.studyStartPoint === 0 && time.restStartPoint !==0){
-            time.savedRestTime += now.getTime() - time.restStartPoint;
+            time.savedRestTime += yesterdayEnd.toDate().getTime() - time.restStartPoint;
             time.restStartPoint = 0;
             await time.save();
         }
