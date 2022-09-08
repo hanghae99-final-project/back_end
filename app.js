@@ -25,8 +25,6 @@ const requestMiddleWare = (req, res, next) => {
 //       })
 //     next();
 // };
-const schedule = require("./middleware/scheduler")
-app.use(schedule);
 
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(bodyParser.urlencoded({ extended: true }));

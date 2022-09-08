@@ -46,7 +46,9 @@ console.log(moment(today).endOf("day").add(2,"hours").toDate())
 const todayStart = moment().startOf("day").add(2,"hours");
 const todayEnd = moment().endOf("day").add(2,"hours");
 console.log(todayStart)
+console.log(todayStart.toDate())
 console.log(todayEnd)
+console.log(todayEnd.toDate())
 
 const yesterdayStart = moment(todayStart).subtract(1, "day");
 const yesterdayEnd = moment(yesterdayStart).endOf("day").add(2,"hours");
