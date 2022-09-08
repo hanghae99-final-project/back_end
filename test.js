@@ -17,13 +17,38 @@ const rule1 = "20 * * * * *"
 //     console.log(new Date())
 // })
 
-const now = new Date();
-const now1 = Date();
-const nowMS = now.getTime();
+// const now = new Date();
+// const now1 = Date();
+// const nowMS = now.getTime();
 //const nowMS1 = now1.getTime();
-console.log(now);
-console.log(now1);
-console.log(nowMS);
+// console.log(now);
+// console.log(now1);
+// console.log(nowMS);
 //console.log(nowMS1);
 
 const convert = new Date();
+
+const moment = require("moment");
+const today = moment().startOf("day");
+console.log(today)
+console.log(today.toDate())
+console.log(moment(today).endOf("day").toDate())
+
+today.add(2,"hours");
+console.log(today)
+console.log(today.toDate())
+console.log(moment(today).endOf("day").add(2,"hours").toDate())
+
+
+
+
+
+const todayStart = moment().startOf("day").add(2,"hours");
+const todayEnd = moment().endOf("day").add(2,"hours");
+console.log(todayStart)
+console.log(todayEnd)
+
+const yesterdayStart = moment(todayStart).subtract(1, "day");
+const yesterdayEnd = moment(yesterdayStart).endOf("day").add(2,"hours");
+console.log(yesterdayStart)
+console.log(yesterdayEnd)
