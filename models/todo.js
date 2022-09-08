@@ -2,13 +2,14 @@ const Todo = require("../schemas/todo");
 const moment = require("moment");
 
 exports.createTodo = async (work, isDone, color, user) => {
-  const today = moment().startOf("day");
+  const todayStart = moment().startOf("day").add(2, "hours");
+  const todayEnd = moment().endOf("day").add(2, "hours");
   const existedTodo = await Todo.findOne({
     $and: [
       {
         createdAt: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
         },
       },
       {
@@ -28,13 +29,14 @@ exports.createTodo = async (work, isDone, color, user) => {
 };
 
 exports.getTodo = async (dayData, user) => {
-  const day = moment(dayData).startOf("day");
+  const dayStart = moment(dayData).startOf("day").add(2,"hours");
+  const dayEnd = moment(dayStart).endOf("day").add(2,"hours");
   const existedTodo = await Todo.findOne({
     $and: [
       {
         createdAt: {
-          $gte: day.toDate(),
-          $lte: moment(day).endOf("day").toDate(),
+          $gte: dayStart.toDate(),
+          $lte: dayEnd.toDate(),
         },
       },
       {
@@ -50,13 +52,14 @@ exports.getTodo = async (dayData, user) => {
 };
 
 exports.putTodo = async (todoId, work, color, user) => {
-  const today = moment().startOf("day");
+  const todayStart = moment().startOf("day").add(2, "hours");
+  const todayEnd = moment().endOf("day").add(2, "hours");
   const existedTodo = await Todo.findOne({
     $and: [
       {
         createdAt: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
         },
       },
       {
@@ -81,13 +84,14 @@ exports.putTodo = async (todoId, work, color, user) => {
 };
 
 exports.isDoneTodo = async (todoId, isDone, user) => {
-  const today = moment().startOf("day");
+  const todayStart = moment().startOf("day").add(2, "hours");
+  const todayEnd = moment().endOf("day").add(2, "hours");
   const existedTodo = await Todo.findOne({
     $and: [
       {
         createdAt: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
         },
       },
       {
@@ -111,13 +115,14 @@ exports.isDoneTodo = async (todoId, isDone, user) => {
 };
 
 exports.deleteTodo = async (todoId, user) => {
-  const today = moment().startOf("day");
+  const todayStart = moment().startOf("day").add(2, "hours");
+  const todayEnd = moment().endOf("day").add(2, "hours");
   const existedTodo = await Todo.findOne({
     $and: [
       {
         createdAt: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
         },
       },
       {

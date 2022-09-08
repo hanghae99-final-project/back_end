@@ -2,13 +2,14 @@ const Time = require("../schemas/time");
 const moment = require("moment");
 
 exports.getTime = async (user) => {
-  const today = moment().startOf("day");
+  const todayStart = moment().startOf("day").add(2,"hours");
+  const todayEnd = moment().endOf("day").add(2,"hours");
   const todayTime = await Time.findOne({
     $and: [
       {
         createdAt: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
         },
       },
       {
@@ -17,13 +18,14 @@ exports.getTime = async (user) => {
     ],
   });
 
-  const yesterday = moment(today).subtract(1, "day");
+  const yesterdayStart = moment(todayStart).subtract(1, "day");
+  const yesterdayEnd = moment(yesterdayStart).endOf("day").add(2,"hours");
   const yesterdayTime = await Time.findOne({
     $and: [
       {
         createdAt: {
-          $gte: yesterday.toDate(),
-          $lte: moment(yesterday).endOf("day").toDate(),
+          $gte: yesterdayStart.toDate(),
+          $lte: yesterdayEnd.toDate(),
         },
       },
       {
@@ -35,13 +37,14 @@ exports.getTime = async (user) => {
 };
 
 exports.studyStart = async (studyStartPoint, user) => {
-  const today = moment().startOf("day");
+  const todayStart = moment().startOf("day").add(2,"hours");
+  const todayEnd = moment().endOf("day").add(2,"hours");
   const existedTime = await Time.findOne({
     $and: [
       {
         createdAt: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
         },
       },
       {
@@ -63,13 +66,14 @@ exports.studyStart = async (studyStartPoint, user) => {
 };
 
 exports.studyEnd = async (studyEndPoint, restEndPoint, user) => {
-  const today = moment().startOf("day");
+  const todayStart = moment().startOf("day").add(2,"hours");
+  const todayEnd = moment().endOf("day").add(2,"hours");
   const existedTime = await Time.findOne({
     $and: [
       {
         createdAt: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
         },
       },
       {
@@ -115,13 +119,14 @@ exports.studyEnd = async (studyEndPoint, restEndPoint, user) => {
 };
 
 exports.restStart = async (studyEndPoint, restStartPoint, user) => {
-  const today = moment().startOf("day");
+  const todayStart = moment().startOf("day").add(2,"hours");
+  const todayEnd = moment().endOf("day").add(2,"hours");
   const existedTime = await Time.findOne({
     $and: [
       {
         createdAt: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
         },
       },
       {
@@ -151,13 +156,14 @@ exports.restStart = async (studyEndPoint, restStartPoint, user) => {
 };
 
 exports.restEnd = async (restEndPoint, studyStartPoint, user) => {
-  const today = moment().startOf("day");
+  const todayStart = moment().startOf("day").add(2,"hours");
+  const todayEnd = moment().endOf("day").add(2,"hours");
   const existedTime = await Time.findOne({
     $and: [
       {
         createdAt: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
         },
       },
       {
