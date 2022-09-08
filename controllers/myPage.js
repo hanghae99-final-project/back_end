@@ -9,7 +9,6 @@ exports.getMyPageMonthly = async (req, res) => {
   const { month } = req.params;
 
   const startOfMonth = moment().format(`YYYY-${month}-01`);
-
   const endOfMonth = moment().format(`YYYY-${month}-`) + moment().daysInMonth();
 
   const totalStudyTime = await myPageModel.getStudyTime(
@@ -17,38 +16,25 @@ exports.getMyPageMonthly = async (req, res) => {
     startOfMonth,
     endOfMonth
   );
-  // 월별(일일 공부 시간)
-  const monthlyData = [];
 
-  if (totalStudyTime.length > 0) {
-    totalStudyTime.forEach((element) => {
-      monthlyData.push({
-        studyDate: moment(element.createdAt).format("YYYY-MM-DD"),
-        studyTime: element.savedStudyTime,
-      });
-    });
-  } else {
-    monthlyData.push({ message: "해당 데이터 없음" });
-  }
-
-  return res.status(StatusCodes.OK).json({ monthlyData });
+  return res.status(StatusCodes.OK).json({ totalStudyTime });
 };
 
-// //To-do
-// const day = req.body.day;
-// let todoData = await todo.getTodo(day, user);
+exports.getMyWeekly = async (req, res) => {
+  const user = req.locals;
+  //Weekly study 데이터
+  const { startWeek, endWeek } = req.params;
 
-// //Weekly study 데이터
-// const { startWeek, endWeek } = req.body;
-// const weeklyStudy = await myPageModel.getWeeklyTime(user, startWeek, endWeek);
-// const weeklyData = [];
-// if (weeklyStudy) {
-//   weeklyStudy.forEach((element) => {
-//     weeklyData.push({
-//       studyDate: moment(element.createdAt).format("YYYY-MM-DD"),
-//       studyTime: element.savedStudyTime,
-//     });
-//   });
-// }
-
+  const weeklyStudy = await myPageModel.getWeeklyTime(user, startWeek, endWeek);
+  return res.status(StatusCodes.OK).json({ weeklyStudy });
+};
 // return res.status(StatusCodes.OK).json({ monthlyData, todoData, weeklyData });
+
+exports.getMyDailyTodo = async (req, res, err) => {
+  const user = req.locals;
+  //To-do
+  const day = req.params.day;
+  let todoData = await todo.getTodo(day, user);
+
+  return res.status(StatusCodes.OK).json({ todoData });
+};

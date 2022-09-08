@@ -1,8 +1,8 @@
 const Time = require("../schemas/time");
 const Todo = require("../schemas/todo");
-
+const moment = require("moment");
 exports.getStudyTime = async (user, firstDay, lastDay) => {
-  return await Time.find({
+  const totalStudyTime = await Time.find({
     $and: [
       {
         createdAt: {
@@ -15,10 +15,24 @@ exports.getStudyTime = async (user, firstDay, lastDay) => {
       },
     ],
   });
+
+  // 월별(일일 공부 시간)
+  const monthlyData = [];
+  if (totalStudyTime.length > 0) {
+    totalStudyTime.forEach((element) => {
+      monthlyData.push({
+        studyDate: moment(element.createdAt).format("YYYY-MM-DD"),
+        studyTime: element.savedStudyTime,
+      });
+    });
+  } else {
+    monthlyData.push({ message: "해당 데이터 없음" });
+  }
+  return monthlyData;
 };
 
 exports.getWeeklyTime = async (user, startWeek, endWeek) => {
-  return await Time.find({
+  const weeklyStudy = await Time.find({
     $and: [
       {
         createdAt: {
@@ -31,4 +45,17 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
       },
     ],
   });
+
+  const weeklyData = [];
+  if (weeklyStudy.length > 0) {
+    weeklyStudy.forEach((element) => {
+      weeklyData.push({
+        studyDate: moment(element.createdAt).format("YYYY-MM-DD"),
+        studyTime: element.savedStudyTime,
+      });
+    });
+  } else {
+    weeklyData.push({ message: "해당 데이터 없음" });
+  }
+  return weeklyData;
 };
