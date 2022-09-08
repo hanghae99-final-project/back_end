@@ -27,6 +27,7 @@ const usersSchema = mongoose.Schema(
       type: String,
       minlength: 1,
       maxlength: 20,
+      unique: true,
     },
     email: {
       type: String,
@@ -58,12 +59,12 @@ const usersSchema = mongoose.Schema(
       ],
     },
     targetTime: {
-      time: {type: Number, default: 0},
-      completed: {type: Boolean, default: false},
+      time: { type: Number, default: 0 },
+      completed: { type: Boolean, default: false },
     },
 
     spec: [specListSchema],
-    dDay : [dDaySchema],
+    dDay: [dDaySchema],
   },
   { timestamps: true }
 );
