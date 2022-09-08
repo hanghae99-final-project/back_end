@@ -1,5 +1,5 @@
 const time = require("../models/time");
-const asyncWrapper= require("../middleware/async");
+const asyncWrapper = require("../middleware/async");
 
 exports.getTime = asyncWrapper(async (req, res) => {
   const user = req.locals;

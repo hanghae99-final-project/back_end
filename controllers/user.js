@@ -3,10 +3,6 @@ const { StatusCodes } = require("http-status-codes");
 const User = require("../schemas/user");
 const userModel = require("../models/login");
 
-exports.main = (req, res) => {
-  res.send("Hello World");
-};
-
 exports.kakaoCallback = (req, res, next) => {
   passport.authenticate("kakao", async (err, user) => {
     if (err) return next(err);
@@ -18,7 +14,7 @@ exports.kakaoCallback = (req, res, next) => {
     res.status(StatusCodes.OK).json({ token });
   })(req, res, next);
 };
-exports.main = (req, res) => {
+exports.modProfile = (req, res) => {
   const { kakaoId, email } = req.locals;
   if (req.locals.nickname) {
     console.log("닉네임 있음");

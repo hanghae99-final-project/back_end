@@ -7,6 +7,7 @@ exports.createJWT = function (userinfo) {
     return jwt.sign(
       {
         userId: userinfo.kakaoId,
+        userEmail: userinfo.email,
       },
       process.env.JWT_SECRET,
       {
