@@ -3,11 +3,11 @@ const moment = require("moment");
 
 exports.getTime = async (user) => {
   let today = moment();
-  if(today.hours()>2){
-    today=today.add(-1,"days");
+  if (today.hours() < 2) {
+    today = today.add(-1, "days");
   }
-  const todayStart = moment(today).startOf("day").add(2,"hours");
-  const todayEnd = moment(today).endOf("day").add(2,"hours");
+  const todayStart = moment(today).startOf("day").add(2, "hours");
+  const todayEnd = moment(today).endOf("day").add(2, "hours");
   const todayTime = await Time.findOne({
     $and: [
       {
@@ -23,7 +23,7 @@ exports.getTime = async (user) => {
   });
 
   const yesterdayStart = moment(todayStart).subtract(1, "day");
-  const yesterdayEnd = moment(yesterdayStart).endOf("day").add(2,"hours");
+  const yesterdayEnd = moment(yesterdayStart).endOf("day").add(2, "hours");
   const yesterdayTime = await Time.findOne({
     $and: [
       {
@@ -42,11 +42,11 @@ exports.getTime = async (user) => {
 
 exports.studyStart = async (studyStartPoint, user) => {
   let today = moment();
-  if(today.hours()>2){
-    today=today.add(-1,"days");
+  if (today.hours() < 2) {
+    today = today.add(-1, "days");
   }
-  const todayStart = moment(today).startOf("day").add(2,"hours");
-  const todayEnd = moment(today).endOf("day").add(2,"hours");
+  const todayStart = moment(today).startOf("day").add(2, "hours");
+  const todayEnd = moment(today).endOf("day").add(2, "hours");
   const existedTime = await Time.findOne({
     $and: [
       {
@@ -75,11 +75,11 @@ exports.studyStart = async (studyStartPoint, user) => {
 
 exports.studyEnd = async (studyEndPoint, restEndPoint, user) => {
   let today = moment();
-  if(today.hours()>2){
-    today=today.add(-1,"days");
+  if (today.hours() < 2) {
+    today = today.add(-1, "days");
   }
-  const todayStart = moment(today).startOf("day").add(2,"hours");
-  const todayEnd = moment(today).endOf("day").add(2,"hours");
+  const todayStart = moment(today).startOf("day").add(2, "hours");
+  const todayEnd = moment(today).endOf("day").add(2, "hours");
   const existedTime = await Time.findOne({
     $and: [
       {
@@ -132,11 +132,11 @@ exports.studyEnd = async (studyEndPoint, restEndPoint, user) => {
 
 exports.restStart = async (studyEndPoint, restStartPoint, user) => {
   let today = moment();
-  if(today.hours()>2){
-    today=today.add(-1,"days");
+  if (today.hours() < 2) {
+    today = today.add(-1, "days");
   }
-  const todayStart = moment(today).startOf("day").add(2,"hours");
-  const todayEnd = moment(today).endOf("day").add(2,"hours");
+  const todayStart = moment(today).startOf("day").add(2, "hours");
+  const todayEnd = moment(today).endOf("day").add(2, "hours");
   const existedTime = await Time.findOne({
     $and: [
       {
@@ -173,11 +173,11 @@ exports.restStart = async (studyEndPoint, restStartPoint, user) => {
 
 exports.restEnd = async (restEndPoint, studyStartPoint, user) => {
   let today = moment();
-  if(today.hours()>2){
-    today=today.add(-1,"days");
+  if (today.hours() < 2) {
+    today = today.add(-1, "days");
   }
-  const todayStart = moment(today).startOf("day").add(2,"hours");
-  const todayEnd = moment(today).endOf("day").add(2,"hours");
+  const todayStart = moment(today).startOf("day").add(2, "hours");
+  const todayEnd = moment(today).endOf("day").add(2, "hours");
   const existedTime = await Time.findOne({
     $and: [
       {

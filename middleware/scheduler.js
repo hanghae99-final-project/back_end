@@ -10,7 +10,7 @@ const scheduler = (req, res, next) => {
   schedule.scheduleJob(rule, async () => {
     const today = moment().startOf("day");
     const yesterdayStart = moment(today).subtract(1, "day").add(2, "hours"); // moment(today).add(-1,"days")도 동일
-    const yesterdayEnd = moment(yesterday).endOf("day").add(2, "hours");
+    const yesterdayEnd = moment(yesterdayStart).endOf("day").add(2, "hours");
     const times = await Time.find({
         // test 위해 today로 바꿔놓았음. 원래는 yesterday
         createdAt: {
