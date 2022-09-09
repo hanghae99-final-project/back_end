@@ -1,13 +1,19 @@
 const jwt = require("jsonwebtoken");
+const user = require("../schemas/user");
 
 exports.createJWT = function (userinfo) {
   //Send JWT access token
   // console.log(userinfo.kakaoId);
   if (userinfo.kakaoId) {
+    let nickname = "";
+    if (userinfo.nickname) {
+      nickname = userinfo.nickname;
+    }
     return jwt.sign(
       {
         userId: userinfo.kakaoId,
         userEmail: userinfo.email,
+        nickname: nickname,
       },
       process.env.JWT_SECRET,
       {
