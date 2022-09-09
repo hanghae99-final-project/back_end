@@ -37,7 +37,6 @@ const usersSchema = mongoose.Schema(
     ageGroup: {
       type: String,
       enum: ["20대", "30대", "기타"],
-      default: "기타",
     },
     specialty: {
       type: String,
@@ -56,6 +55,7 @@ const usersSchema = mongoose.Schema(
         "관광레저서비스",
         "건설건축",
         "의료",
+        "공무원",
       ],
     },
     targetTime: {

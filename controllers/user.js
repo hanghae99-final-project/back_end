@@ -18,11 +18,18 @@ exports.kakaoCallback = (req, res, next) => {
 //회원 수정
 exports.modProfile = async (req, res) => {
   const user = req.locals;
-
-  //닉네임, 연령별, 전문분야 선택
+  //닉네임, 연령별, 전문분야 선택 필수 입력.
   const { nickname, ageGroup, specialty } = await profileSchema.validateAsync(
     req.body
   );
-  const check = await checkNickname(user._id, nickname);
-  console.log(check);
+  //닉네임 저장
+  const check = await checkNickname(user._id, nickname, ageGroup, specialty);
+
+  if (check) {
+    return res
+      .status(StatusCodes.OK)
+      .json({ message: "프로필 수정이 완료 되었습니다." });
+  } else {
+    throw new Error("닉네임이 중복 됩니다.");
+  }
 };

@@ -11,7 +11,7 @@ exports.profileSchema = Joi.object({
     .pattern(new RegExp(/^[ㄱ-ㅎ|가-힣]+$/)) // 닉네임은 한글만입력 가능
     .required()
     .messages({
-      "string.min": "3글자 ~ 8글자 이내로 작성해주세요",
+      "string.min": "1글자 ~ 8글자 이내로 작성해주세요",
       "string.max": "1글자 ~ 8글자 이내로 작성해주세요",
       "string.empty": "닉네임 입력해주세요",
       "string.pattern.base": "한글만 입력가능합니다.",
@@ -24,16 +24,18 @@ exports.profileSchema = Joi.object({
   }),
 });
 
-exports.checkNickname = async (id, nickname) => {
-  const result = await User.findOne({ nickname: nickname }).exec();
+exports.checkNickname = async (id, nickname, ageGroup, specialty) => {
+  const result = await User.findOne({ nickname: nickname });
   if (result) {
-    return "중복된 닉네임 입니다.";
+    return false;
   } else {
     await User.findByIdAndUpdate(
       { _id: id },
-      { nickname },
+      {
+        $set: { nickname: nickname, ageGroup: ageGroup, specialty: specialty },
+      },
       { runValidators: true }
     );
   }
-  return "닉네임이 저장 되었습니다.";
+  return true;
 };
