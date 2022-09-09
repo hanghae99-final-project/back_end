@@ -2,6 +2,7 @@ const passport = require("passport");
 const { StatusCodes } = require("http-status-codes");
 const User = require("../schemas/user");
 const userModel = require("../models/login");
+const { profileSchema, checkNickname } = require("../models/userValidation");
 
 exports.kakaoCallback = (req, res, next) => {
   passport.authenticate("kakao", async (err, user) => {
@@ -14,9 +15,14 @@ exports.kakaoCallback = (req, res, next) => {
     res.status(StatusCodes.OK).json({ token });
   })(req, res, next);
 };
-exports.modProfile = (req, res) => {
-  const { kakaoId, email } = req.locals;
-  if (req.locals.nickname) {
-    console.log("닉네임 있음");
-  }
+//회원 수정
+exports.modProfile = async (req, res) => {
+  const user = req.locals;
+
+  //닉네임, 연령별, 전문분야 선택
+  const { nickname, ageGroup, specialty } = await profileSchema.validateAsync(
+    req.body
+  );
+  const check = await checkNickname(user._id, nickname);
+  console.log(check);
 };
