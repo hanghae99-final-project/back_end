@@ -3,6 +3,7 @@ const Admin = require("./admin");
 const Users = require("./user");
 const Todo = require("./todo");
 const Time = require("./time");
+const Rank = require("./rank");
 const MyPage = require("./myPage");
 const authMiddleware = require("../middleware/userAuth");
 const scheduleMiddleware = require("../middleware/scheduler");
@@ -13,6 +14,7 @@ router.use("/", Admin);
 router.use("/users", Users);
 router.use("/todo", authMiddleware, Todo);
 router.use("/time", authMiddleware, scheduleMiddleware, Time);
+router.use("/rank", authMiddleware, Rank);
 router.use("/mypage", authMiddleware, MyPage);
 
 module.exports = router;

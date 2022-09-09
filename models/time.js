@@ -1,4 +1,5 @@
 const Time = require("../schemas/time");
+const Studying = require("../schemas/studying");
 const moment = require("moment");
 
 exports.getTime = async (user) => {
@@ -41,6 +42,8 @@ exports.getTime = async (user) => {
 };
 
 exports.studyStart = async (studyStartPoint, user) => {
+  await Studying.create({kakaoId : user.kakaoId, nickname : user.nickname});
+
   let today = moment();
   if (today.hours() < 2) {
     today = today.add(-1, "days");
@@ -74,6 +77,8 @@ exports.studyStart = async (studyStartPoint, user) => {
 };
 
 exports.studyEnd = async (studyEndPoint, restEndPoint, user) => {
+  await Studying.deleteMany({kakaoId : user.kakaoId});
+
   let today = moment();
   if (today.hours() < 2) {
     today = today.add(-1, "days");
