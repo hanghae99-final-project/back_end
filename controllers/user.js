@@ -18,11 +18,13 @@ exports.kakaoCallback = (req, res, next) => {
 //회원 수정
 exports.modProfile = async (req, res) => {
   const user = req.locals;
-  //닉네임, 연령별, 전문분야 선택
+  //닉네임, 연령별, 전문분야 선택 필수 입력.
   const { nickname, ageGroup, specialty } = await profileSchema.validateAsync(
     req.body
   );
-  const check = await checkNickname(user._id, nickname);
+  //닉네임 저장
+  const check = await checkNickname(user._id, nickname, ageGroup, specialty);
+
   if (check) {
     return res
       .status(StatusCodes.OK)

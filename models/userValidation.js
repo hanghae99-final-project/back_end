@@ -24,14 +24,16 @@ exports.profileSchema = Joi.object({
   }),
 });
 
-exports.checkNickname = async (id, nickname) => {
-  const result = await User.findOne({ nickname: nickname }).exec();
+exports.checkNickname = async (id, nickname, ageGroup, specialty) => {
+  const result = await User.findOne({ nickname: nickname });
   if (result) {
     return false;
   } else {
     await User.findByIdAndUpdate(
       { _id: id },
-      { nickname },
+      {
+        $set: { nickname: nickname, ageGroup: ageGroup, specialty: specialty },
+      },
       { runValidators: true }
     );
   }
