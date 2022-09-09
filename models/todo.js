@@ -78,19 +78,22 @@ exports.putTodo = async (todoId, work, color, user) => {
       },
     ],
   });
-  let todoArrIdx = undefined;
+  let todoArrIdx = false;
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
       if (todo._id.equals(todoId)) {
         todoArrIdx = idx;
+        existedTodo.todoArr[todoArrIdx].work = work;
+        existedTodo.todoArr[todoArrIdx].color = color;
       }
     });
-    existedTodo.todoArr[todoArrIdx].work = work;
-    existedTodo.todoArr[todoArrIdx].color = color;
+    if(!todoArrIdx){
+      throw new Error("todo id가 없거나 일치하지 않습니다.");
+    }
     const result = await existedTodo.save();
     return result.todoArr[todoArrIdx];
   } else {
-    throw new Error("데이터가 없습니다.");
+    throw new Error("todo에 데이터가 없습니다.");
   }
 };
 
@@ -114,18 +117,21 @@ exports.isDoneTodo = async (todoId, isDone, user) => {
       },
     ],
   });
-  let todoArrIdx = undefined;
+  let todoArrIdx = false;
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
       if (todo._id.equals(todoId)) {
         todoArrIdx = idx;
+        existedTodo.todoArr[todoArrIdx].isDone = isDone;
       }
     });
-    existedTodo.todoArr[todoArrIdx].isDone = isDone;
+    if(!todoArrIdx){
+      throw new Error("todo id가 없거나 일치하지 않습니다.");
+    }
     const result = await existedTodo.save();
     return result.todoArr[todoArrIdx];
   } else {
-    throw new Error("데이터가 없습니다.");
+    throw new Error("todo에 데이터가 없습니다.");
   }
 };
 
@@ -149,17 +155,20 @@ exports.deleteTodo = async (todoId, user) => {
       },
     ],
   });
-  let todoArrIdx = undefined;
+  let todoArrIdx = false;
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
       if (todo._id.equals(todoId)) {
         todoArrIdx = idx;
+        existedTodo.todoArr.splice(todoArrIdx, 1);
       }
     });
-    existedTodo.todoArr.splice(todoArrIdx, 1);
+    if(!todoArrIdx){
+      throw new Error("todo id가 없거나 일치하지 않습니다.");
+    }
     await existedTodo.save();
     return true;
   } else {
-    throw new Error("데이터가 없습니다.");
+    throw new Error("todo에 데이터가 없습니다.");
   }
 };

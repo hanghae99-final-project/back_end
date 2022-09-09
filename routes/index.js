@@ -5,6 +5,7 @@ const Todo = require("./todo");
 const Time = require("./time");
 const Rank = require("./rank");
 const MyPage = require("./myPage");
+const Profile = require("./profile");
 const authMiddleware = require("../middleware/userAuth");
 const scheduleMiddleware = require("../middleware/scheduler");
 
@@ -16,5 +17,6 @@ router.use("/todo", authMiddleware, Todo);
 router.use("/time", authMiddleware, scheduleMiddleware, Time);
 router.use("/rank", authMiddleware, Rank);
 router.use("/mypage", authMiddleware, MyPage);
+router.use("/profile",authMiddleware, Profile);
 
 module.exports = router;

@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
 
 const specListSchema = mongoose.Schema({
+  education: { type:String, enum: ["학력","경력"] },
+  career: {type: String},
   year: { type: String, maxlength: 4 },
   experience: { type: String, maxlength: 100 },
 });
 
 const dDaySchema = mongoose.Schema({
-  deadline: Number,
+  deadline: String,
   content: String,
 });
 
