@@ -28,7 +28,7 @@ exports.modProfile = async (req, res) => {
   if (check) {
     return res
       .status(StatusCodes.OK)
-      .json({ message: "프로필 수정이 완료 되었습니다." });
+      .json({ message: "회원가입이 완료되었습니다." });
   } else {
     throw new Error("닉네임이 중복 됩니다.");
   }

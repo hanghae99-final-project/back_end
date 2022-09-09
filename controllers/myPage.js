@@ -22,6 +22,7 @@ exports.getMyPageMonthly = async (req, res) => {
 exports.getMyWeekly = async (req, res) => {
   const user = req.locals;
   //Weekly study 데이터
+
   const { startWeek, endWeek } = req.params;
 
   const weeklyStudy = await myPageModel.getWeeklyTime(user, startWeek, endWeek);
