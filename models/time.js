@@ -1,6 +1,8 @@
 const Time = require("../schemas/time");
+const User = require("../schemas/user");
 const Studying = require("../schemas/studying");
 const moment = require("moment");
+const { suppressDeprecationWarnings } = require("moment");
 
 exports.getTime = async (user) => {
   let today = moment();
@@ -42,7 +44,7 @@ exports.getTime = async (user) => {
 };
 
 exports.studyStart = async (studyStartPoint, user) => {
-  await Studying.create({kakaoId : user.kakaoId, nickname : user.nickname});
+  await Studying.create({ kakaoId: user.kakaoId, nickname: user.nickname });
 
   let today = moment();
   if (today.hours() < 2) {
@@ -77,7 +79,7 @@ exports.studyStart = async (studyStartPoint, user) => {
 };
 
 exports.studyEnd = async (studyEndPoint, restEndPoint, user) => {
-  await Studying.deleteMany({kakaoId : user.kakaoId});
+  await Studying.deleteMany({ kakaoId: user.kakaoId });
 
   let today = moment();
   if (today.hours() < 2) {
@@ -127,6 +129,13 @@ exports.studyEnd = async (studyEndPoint, restEndPoint, user) => {
       existedTime.savedStudyTime += studyEndPoint - existedTime.studyStartPoint;
       existedTime.studyStartPoint = 0;
       existedTime.studyEndPoint = 0;
+
+      if (existedTime.savedStudyTime > user.targetTime.time) {
+        const userData = await User.findById({ _id: user._id });
+        userData.targetTime.completed = true;
+        await userData.save();
+      }
+
       await existedTime.save();
       return "Study time has been accumulated.";
     }

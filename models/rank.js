@@ -1,5 +1,4 @@
 const Time = require("../schemas/time");
-const User = require("../schemas/user");
 const moment = require("moment");
 
 exports.getAllRank = async (period) => {
