@@ -1,5 +1,5 @@
 const rank = require("../models/rank");
-const detail = require("../models/detail");
+const studying = require("../models/studying");
 const asyncWrapper = require("../middleware/async");
 
 exports.getRank = asyncWrapper(async (req, res) => {
@@ -19,7 +19,7 @@ exports.getRank = asyncWrapper(async (req, res) => {
   }
   console.log(ranking)
 
-  const studyingPerson = await detail.getStudying();
+  const studyingPerson = await studying.getStudying();
 
   ranking = ranking.map((element, index) => {
     let studying = false;
