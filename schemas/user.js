@@ -12,11 +12,6 @@ const dDaySchema = mongoose.Schema({
   content: String,
 });
 
-const targetTimeSchema = mongoose.Schema({
-  time: Number,
-  completed: Boolean,
-});
-
 const usersSchema = mongoose.Schema(
   {
     kakaoId: {
@@ -60,9 +55,12 @@ const usersSchema = mongoose.Schema(
         "공무원",
       ],
     },
+    /* 이전 : targetTime(목표시간)은 time, completed로 구성되었음
+     * 현재 : targetTime(목표시간)은 시간에 대한 ms 숫자로 구성 
+    **/ 
     targetTime: {
-      time: { type: Number, default: 0 },
-      completed: { type: Boolean, default: false },
+      type: Number,
+      default : 0
     },
 
     spec: [specListSchema],

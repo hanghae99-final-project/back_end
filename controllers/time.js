@@ -5,7 +5,7 @@ exports.getTime = asyncWrapper(async (req, res) => {
   const user = req.locals;
   console.log(user);
   let yesterdayStudyTime = 0;
-  let targetTime = user.targetTime; // user완료되면 넣자... 우선 1시간으로 고정해놨음
+  let targetTime = user.targetTime; // targetTime 수정
   let savedStudyTime = 0;
   let savedRestTime = 0;
   let studyStartPoint = 0;
@@ -19,7 +19,7 @@ exports.getTime = asyncWrapper(async (req, res) => {
     restStartPoint = result.todayTime.restStartPoint;
   }
 
-  if (result.yestdayTime) {
+  if (result.yesterdayTime) {
     yesterdayStudyTime = result.yesterdayTime.savedStudyTime;
   }
 
