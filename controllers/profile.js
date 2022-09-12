@@ -4,7 +4,6 @@ const { StatusCodes } = require("http-status-codes");
 
 exports.getProfile = async (req, res) => {
   const user = req.locals;
-  console.log(user);
   const myProfile = await Profile.getProfile(user);
   return res.status(StatusCodes.OK).json(myProfile);
 };
@@ -67,8 +66,8 @@ exports.deleteSpec = async (req, res) => {
 
 exports.getDday = async (req, res) => {
   const user = req.locals;
-  console.log(user);
   const myDday = await Profile.getDday(user);
+  myDday.sort((a,b)=> new Date(b.deadline).getTime()- new Date(a.deadline).getTime());
   return res.status(StatusCodes.OK).json({myDday});
 };
 
