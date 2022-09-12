@@ -60,9 +60,9 @@ const usersSchema = mongoose.Schema(
         "공무원",
       ],
     },
-    targetTime: {
-      time: { type: Number, default: 0 },
-      completed: { type: Boolean, default: false },
+    targetTime: { 
+      type: Number, 
+      default: 0 
     },
 
     spec: [specListSchema],

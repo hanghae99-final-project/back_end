@@ -69,6 +69,9 @@ exports.studyStart = async (studyStartPoint, user) => {
     if (existedTime.studyStartPoint !== 0) {
       throw new Error("공부 시작 포인트가 이미 존재합니다.");
     }
+    if (existedTime.restStartPoint !== 0) {
+      throw new Error("이미 공부시작 버튼이 눌러져 있는 상태입니다.");
+    }
     existedTime.studyStartPoint = studyStartPoint;
     await existedTime.save();
     return "study start success";
@@ -129,13 +132,11 @@ exports.studyEnd = async (studyEndPoint, restEndPoint, user) => {
       existedTime.savedStudyTime += studyEndPoint - existedTime.studyStartPoint;
       existedTime.studyStartPoint = 0;
       existedTime.studyEndPoint = 0;
-
-      if (existedTime.savedStudyTime > user.targetTime.time) {
-        const userData = await User.findById({ _id: user._id });
-        userData.targetTime.completed = true;
-        await userData.save();
+    
+      if (existedTime.savedStudyTime >= user.targetTime) {
+        existedTime.targetTimeCompleted = true;
       }
-
+      
       await existedTime.save();
       return "Study time has been accumulated.";
     }
