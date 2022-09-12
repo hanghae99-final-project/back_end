@@ -25,9 +25,9 @@ exports.createJWT = function (userinfo) {
       {
         userId: userinfo.adminEmail,
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_LIFETIME,
       {
-        expiresIn: "1h",
+        expiresIn: process.env.JWT_REFRESH_TIME,
       }
     );
   }
