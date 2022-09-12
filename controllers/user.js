@@ -5,15 +5,19 @@ const userModel = require("../models/login");
 const { profileSchema, checkNickname } = require("../models/userValidation");
 
 exports.kakaoCallback = (req, res, next) => {
-  passport.authenticate("kakao", async (err, user) => {
-    if (err) return next(err);
+  passport.authenticate(
+    "kakao",
+    { failureRedirect: "/" },
+    async (err, user) => {
+      if (err) return next(err);
 
-    const { kakaoId } = user;
-    const userInfo = await User.findOne({ kakaoId });
+      const { kakaoId } = user;
+      const userInfo = await User.findOne({ kakaoId });
 
-    const token = userModel.createJWT(userInfo);
-    res.status(StatusCodes.OK).json({ token });
-  })(req, res, next);
+      const token = userModel.createJWT(userInfo);
+      res.status(StatusCodes.OK).json({ token });
+    }
+  )(req, res, next);
 };
 //회원 수정
 exports.modProfile = async (req, res) => {
