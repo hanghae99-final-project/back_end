@@ -227,9 +227,11 @@ exports.restEnd = async (restEndPoint, studyStartPoint, user) => {
 };
 
 /**
- * @param {*} user 
- * @returns "시간 초기화 완료"
- * time db에서 오늘 날짜와 user를 검색하여 기록된 시간들을 초기화
+ * 함수 명 : resetPoint
+ * 매개변수 : user(object type)
+ * 성공 시 return : 시간 초기화 완료
+ * existedTime에 오늘 날짜와 유저의 고유 아이디(_id)로 오늘 공부 기록을 가져온다.
+ * 공부 기록에 들어있는 모든 공부시간 기록과 누적 시간을 초기화 시킨다.
  */
 exports.resetPoint = async (user) => {
   let today = moment();
@@ -261,6 +263,25 @@ exports.resetPoint = async (user) => {
     existedTime.savedRestTime = 0;
     await existedTime.save();
     return "시간 초기화 완료";
+  } else {
+    throw new Error("데이터가 없습니다.");
+  }
+};
+
+/**
+ * 함수 명 : resetpostTargetTimePoint
+ * 매개변수 : targetTime(Number type), user(object type)
+ * 성공 시 return : 목표시간 설정 완료
+ * userData에 user의 고유 인덱스(_id)로 검색한다.
+ * 데이터에서 targetTime을 수정해서 저장한다.
+ */
+ exports.postTargetTime = async (targetTime, user) => {
+  const userData = await User.findOne({_id : user._id});
+
+  if (userData) {
+    userData.targetTime = targetTime;
+    await userData.save();
+    return "목표시간 설정 완료";
   } else {
     throw new Error("데이터가 없습니다.");
   }

@@ -65,9 +65,17 @@ exports.restEnd = asyncWrapper(async (req, res) => {
   res.status(200).json({ message: result });
 });
 
-// 모든 시간 초기화 함수
+// 모든 시간 초기화 controller함수
 exports.resetPoint = asyncWrapper(async (req, res) => {
   const user = req.locals;
   const result = await time.resetPoint(user);
+  res.status(200).json({ message: result });
+});
+
+// targetTime(목표시간) 입력 controller함수
+exports.postTargetTime = asyncWrapper(async (req, res) => {
+  const user = req.locals;
+  const { targetTime } = req.body;
+  const result = await time.postTargetTime(targetTime, user);
   res.status(200).json({ message: result });
 });
