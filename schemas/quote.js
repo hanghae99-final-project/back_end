@@ -6,10 +6,6 @@ const quotesSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    from: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true }
 );

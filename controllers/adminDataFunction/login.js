@@ -78,7 +78,10 @@ exports.login = async (req, res) => {
   //refreshToken db에 저장
   await Admin.findOneAndUpdate({ adminEmail }, { refreshToken });
 
-  res.cookie(process.env.COOKIE_NAME, `Bearer ${refreshToken}`);
+  res.cookie(process.env.COOKIE_NAME, `Bearer ${refreshToken}`, {
+    httpOnly: true,
+    secure: false,
+  });
 
   res.status(StatusCodes.OK).redirect("main");
 };
