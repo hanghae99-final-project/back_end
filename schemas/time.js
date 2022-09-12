@@ -1,4 +1,3 @@
-const { boolean } = require("joi");
 const mongoose = require("mongoose");
 const Users = require("./user");
 
@@ -36,11 +35,6 @@ const timeSchema = mongoose.Schema(
     },
     savedRestTime: {
       type: Number,
-      required: true,
-      default: 0,
-    },
-    targetTimeCompleted: {
-      type: Boolean,
       required: true,
       default: 0,
     },

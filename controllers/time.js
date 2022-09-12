@@ -37,7 +37,6 @@ exports.studyStart = asyncWrapper(async (req, res) => {
   const user = req.locals;
   const { studyStartPoint } = req.body;
   const result = await time.studyStart(studyStartPoint, user);
-  console.log(result)
   res.status(200).json({ message: result });
 });
 
