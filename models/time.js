@@ -225,3 +225,43 @@ exports.restEnd = async (restEndPoint, studyStartPoint, user) => {
     throw new Error("데이터가 없습니다.");
   }
 };
+
+/**
+ * @param {*} user 
+ * @returns "시간 초기화 완료"
+ * time db에서 오늘 날짜와 user를 검색하여 기록된 시간들을 초기화
+ */
+exports.resetPoint = async (user) => {
+  let today = moment();
+  if (today.hours() < 2) {
+    today = today.add(-1, "days");
+  }
+  const todayStart = moment(today).startOf("day").add(2, "hours");
+  const todayEnd = moment(today).endOf("day").add(2, "hours");
+  const existedTime = await Time.findOne({
+    $and: [
+      {
+        createdAt: {
+          $gte: todayStart.toDate(),
+          $lte: todayEnd.toDate(),
+        },
+      },
+      {
+        userId: user._id,
+      },
+    ],
+  });
+
+  if (existedTime) {
+    existedTime.studyStartPoint = 0;
+    existedTime.studyEndPoint = 0;
+    existedTime.restStartPoint = 0;
+    existedTime.restEndPoint = 0;
+    existedTime.savedStudyTime = 0;
+    existedTime.savedRestTime = 0;
+    await existedTime.save();
+    return "시간 초기화 완료";
+  } else {
+    throw new Error("데이터가 없습니다.");
+  }
+};

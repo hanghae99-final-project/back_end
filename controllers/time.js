@@ -64,3 +64,10 @@ exports.restEnd = asyncWrapper(async (req, res) => {
   const result = await time.restEnd(restEndPoint, studyStartPoint, user);
   res.status(200).json({ message: result });
 });
+
+// 모든 시간 초기화 함수
+exports.resetPoint = asyncWrapper(async (req, res) => {
+  const user = req.locals;
+  const result = await time.resetPoint(user);
+  res.status(200).json({ message: result });
+});
