@@ -14,6 +14,13 @@ router.route("/restEnd").post(TimeController.restEnd);
  * commit -m "시간 초기화 api 추가"
  */
 router.route("/reset").put(TimeController.resetPoint);
+/**
+ * 날짜 : 2022.9.12 pm 4:45
+ * 이름 : targetTime(목표시간) 입력 api
+ * 내용 : user의 하루 공부 목표시간을 저장하는 api
+ * commit -m "targetTime 입력 api 추가"
+ */
+router.route("/targetTime").post(TimeController.postTargetTime);
 
 
 module.exports = router;
