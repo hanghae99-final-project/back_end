@@ -8,6 +8,8 @@ const MyPage = require("./myPage");
 const Profile = require("./profile");
 const NickCheck = require("./nickCheck");
 const Studying = require("./studying");
+const Forum = require("./forum");
+const Bookmark = require("./bookmark");
 const authMiddleware = require("../middleware/userAuth");
 const scheduleMiddleware = require("../middleware/scheduler");
 
@@ -22,5 +24,7 @@ router.use("/mypage", authMiddleware, MyPage);
 router.use("/profile",authMiddleware, Profile);
 router.use("/check",authMiddleware, NickCheck);
 router.use("/studying",authMiddleware, Studying);
+router.use("/forum", authMiddleware, Forum);
+router.use("/bookmark",authMiddleware, Bookmark);
 
 module.exports = router;

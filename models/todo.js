@@ -82,16 +82,17 @@ exports.putTodo = async (todoId, work, color, user) => {
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
       if (todo._id.equals(todoId)) {
-        todoArrIdx = idx;
-        existedTodo.todoArr[todoArrIdx].work = work;
-        existedTodo.todoArr[todoArrIdx].color = color;
+        console.log(todoId)
+        todoArrIdx = idx.toString();
+        existedTodo.todoArr[idx].work = work;
+        existedTodo.todoArr[idx].color = color;
       }
     });
     if(!todoArrIdx){
       throw new Error("todo id가 없거나 일치하지 않습니다.");
     }
     const result = await existedTodo.save();
-    return result.todoArr[todoArrIdx];
+    return result.todoArr[Number(todoArrIdx)];
   } else {
     throw new Error("todo에 데이터가 없습니다.");
   }
@@ -121,15 +122,15 @@ exports.isDoneTodo = async (todoId, isDone, user) => {
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
       if (todo._id.equals(todoId)) {
-        todoArrIdx = idx;
-        existedTodo.todoArr[todoArrIdx].isDone = isDone;
+        todoArrIdx = idx.toString();
+        existedTodo.todoArr[idx].isDone = isDone;
       }
     });
     if(!todoArrIdx){
       throw new Error("todo id가 없거나 일치하지 않습니다.");
     }
     const result = await existedTodo.save();
-    return result.todoArr[todoArrIdx];
+    return result.todoArr[Number(todoArrIdx)];
   } else {
     throw new Error("todo에 데이터가 없습니다.");
   }
@@ -159,8 +160,8 @@ exports.deleteTodo = async (todoId, user) => {
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
       if (todo._id.equals(todoId)) {
-        todoArrIdx = idx;
-        existedTodo.todoArr.splice(todoArrIdx, 1);
+        todoArrIdx = idx.toString();
+        existedTodo.todoArr.splice(idx, 1);
       }
     });
     if(!todoArrIdx){
