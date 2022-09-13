@@ -261,7 +261,7 @@ exports.restEnd = async (restEndPoint, studyStartPoint, user) => {
     }
 
     // 휴식을 종료를 하자마자 공부가 다시 시작됨
-    // 따라서 공부 시작 시각(studyStartPoint)을 0에서 받아온 시각으로 바꿔줌 
+    // 따라서 휴식 시작 시각(studyStartPoint)을 0에서 받아온 시각으로 바꿔줌 
     // 휴식 누적 시간(savedRestTime) = 휴식 종료 시각(restEndPoint) - 휴식 시작 시각(restStartPoint)
     // (studyStartPoint=0 : 휴식 시작했을 시 공부 시간 누적하고 공부 시작 시각을 초기화해줬으므로...)
     existedTime.studyStartPoint = studyStartPoint;
