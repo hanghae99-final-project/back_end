@@ -47,11 +47,11 @@ exports.putSpec = async (user, specId, education, career, year, experience) => {
   if (myProfile) {
     myProfile.spec.map((element, idx) => {
       if (element._id.equals(specId)) {
-        specArrIdx = idx;
-        myProfile.spec[specArrIdx].education = education;
-        myProfile.spec[specArrIdx].career = career;
-        myProfile.spec[specArrIdx].year = year;
-        myProfile.spec[specArrIdx].experience = experience;
+        specArrIdx = idx.toString();
+        myProfile.spec[idx].education = education;
+        myProfile.spec[idx].career = career;
+        myProfile.spec[idx].year = year;
+        myProfile.spec[idx].experience = experience;
       }
     });
     if(!specArrIdx){
@@ -70,8 +70,8 @@ exports.deleteSpec = async (user, specId) => {
   if (myProfile) {
     myProfile.spec.map((element, idx) => {
       if (element._id.equals(specId)) {
-        specArrIdx = idx;
-        myProfile.spec.splice(specArrIdx, 1);
+        specArrIdx = idx.toString();
+        myProfile.spec.splice(idx, 1);
       }
     });
     if(!specArrIdx){
@@ -109,9 +109,9 @@ exports.putDday = async (user, ddayId, deadline, content) => {
   if (myProfile) {
     myProfile.dDay.map((element, idx) => {
       if (element._id.equals(ddayId)) {
-        ddayArrIdx = idx;
-        myProfile.dDay[ddayArrIdx].deadline = deadline;
-        myProfile.dDay[ddayArrIdx].content = content;
+        ddayArrIdx = idx.toString();
+        myProfile.dDay[idx].deadline = deadline;
+        myProfile.dDay[idx].content = content;
       }
     });
     if (!ddayArrIdx){
@@ -130,8 +130,8 @@ exports.deleteDday = async (user, ddayId) => {
   if (myProfile) {
     myProfile.dDay.map((element, idx) => {
       if (element._id.equals(ddayId)) {
-        ddayArrIdx = idx;
-        myProfile.dDay.splice(ddayArrIdx, 1);
+        ddayArrIdx = idx.toString();
+        myProfile.dDay.splice(idx, 1);
       }  
     });
     if(!ddayArrIdx){
