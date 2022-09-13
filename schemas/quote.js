@@ -6,6 +6,9 @@ const quotesSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    number: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

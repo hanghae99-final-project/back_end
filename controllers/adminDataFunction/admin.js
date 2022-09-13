@@ -1,4 +1,4 @@
-const Quote = require("../../schemas/quote");
+const Quote = require("../../models/quotes");
 const { StatusCodes } = require("http-status-codes");
 
 exports.addObject = (req, res) => {
@@ -10,9 +10,9 @@ exports.addObject = (req, res) => {
 exports.insQuote = async (req, res) => {
   const quote = req.body.quote;
   //quote.length만큼 입력을 받는다.
-  for (let i = 0; i < quote.length; i++) {
-    await Quote.create({ title: quote[i] });
-  }
+
+  const result = await Quote.create(quote);
+  console.log(result);
 
   res.status(StatusCodes.OK).render("alert/successAlert", {
     message: "입력성공.",
@@ -22,9 +22,8 @@ exports.insQuote = async (req, res) => {
 
 exports.deleteCheckedQuotes = async (req, res) => {
   const quote = req.body.quoteId;
-  for (let i = 0; i < quote.length; i++) {
-    await Quote.findOneAndDelete({ _id: quote[i] });
-  }
 
-  res.send({ message: "success" });
+  const result = await Quote.checkedDelete(quote);
+
+  res.send({ message: result });
 };
