@@ -23,7 +23,7 @@ exports.insQuote = async (req, res) => {
 exports.deleteCheckedQuotes = async (req, res) => {
   const quote = req.body.quoteId;
   for (let i = 0; i < quote.length; i++) {
-    await Quote.findOneAndDelete({ _id: quote });
+    await Quote.findOneAndDelete({ _id: quote[i] });
   }
 
   res.send({ message: "success" });
