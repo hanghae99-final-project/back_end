@@ -1,35 +1,97 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=0" />
 
-        <title>관리자 로그인</title>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=0" />
+  <title>관리자 로그인</title>
+  <link rel="stylesheet" type="text/css" href="/css/common.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+</head>
 
-        <link rel="stylesheet" type="text/css" href="/css/common.css">
-        <link rel="stylesheet" type="text/css" href="/css/style.css">
-    </head>
-    <body>
+<body>
+  <!-- 로그인 뒷배경 -->
+  <main class="login_back">
+    <!-- 로그인 box 시작 -->
+    <section class="login_box">
+      <h1>Login</h1>
+      <form method="post" action="/login" onsubmit="formCheck(this); return false;">
+        <!-- 로그인 group 시작 -->
+        <div class="login_group">
+          <input type="email" id="admin" name="adminEmail" maxlength="100" placeholder="EMAIL" required />
+          <input type="password" id="password" name="password" autocomplete placeholder="Password" required />
+          <!-- <input type="text" id="authNumber" name="authNumber" placeholder="인증번호" required /> -->
+          <button class="btn_login">Login</button>
+        </div>
+        <!-- 로그인 group 끝 -->
+      </form>
+    </section>
+    <!-- 로그인 box 끝 -->
+  </main>
+</body>
 
-        <!-- 로그인 뒷배경 -->
-        <main class="login_back">
-            <!-- 로그인 box 시작 -->
-            <section class="login_box">
-                <h1>Login</h1>
-                <form method="post" action="/login">
-                    
-                    <!-- 로그인 group 시작 -->
-                    <div class="login_group">
-                        <input type="email" name="adminEmail" maxlength="100" placeholder="ID">
-                        <input type="password" name="password" autocomplete placeholder="Password" >
-                        <button type="submit" class="btn_login">Login</button>  
-                    </div>
-                    <!-- 로그인 group 끝 -->
-                </form>
-            </section>
-            <!-- 로그인 box 끝 -->
-        </main>
-
-    </body>
 </html>
+
+<script>
+  // function sendCode(email) {
+  //   let $id = email;
+  //   if (!$id) {
+  //     alert("이메일을 입력해주세요.");
+  //     return false;
+  //   } else {
+  //     let data = {
+  //       id: $id
+  //     };
+  //     $.ajax({
+  //       dataType: 'json',
+  //       url: '/sendCode',
+  //       data: data,
+  //       type: 'POST',
+  //       success: function (data) {
+
+  //       }
+  //     })
+  //   }
+  // }
+  // function checkCode() {
+  //   let $id = $('#admin').val()
+  //   let $pwd = $('#password').val()
+  //   let $code = $("#authNumber").val();
+  //   let data = {
+  //     id: $id,
+  //     code: $code
+  //   };
+  //   $.ajax({
+  //     dataType: 'json',
+  //     data: data,
+  //     url: '/checkCode',
+  //     type: 'POST',
+  //     success: function (data) {
+
+  //     }
+  //   })
+  // }
+  function formCheck(obj) {
+
+
+    let $id = $('#admin').val()
+    let $pwd = $('#password').val()
+    // let $code = $("#authNumber").val();
+    if (!$id) {
+      alert('아이디를 입력해주세요.')
+      return false
+    } else if (!$pwd) {
+      alert('비밀번호를 입력해주세요.')
+      return false;
+    } else {
+      // sendCode($("#admin").val());
+      obj.submit();
+
+    }
+    // obj.submit();
+  }
+</script>

@@ -1,0 +1,100 @@
+<%- include("../partials/header"); -%>
+    <main class="main">
+        <section class="card">
+            <div class="container">
+                <div>
+                    <h3>현재 명언</h3>
+                </div>
+                <button onclick="deleteQuotes();">명언 삭제하기</button>
+                <% if(data){data.forEach((element)=> {%>
+                    <div>
+                        <label>
+                            <input type="checkbox" class="checkRow" name="color" value="<%=element._id%>">
+                            <%=element.title%>&nbsp&nbsp<%=element.createdAt.toString().substring(0, 15)%>
+                        </label>
+                    </div>
+                    <%})}%>
+            </div>
+            <div class="card_header">
+                <h1>명언 추가</h1>
+            </div>
+
+            <form action="/insQuote" method="post">
+                <div class="input_row">
+                    <p class="quote">명언</p>
+                    <input type="text" name="quote[]">
+                </div>
+                <button type="button" class="btn_common"
+                    onclick="addContent('main/addInput/addQuotes', '#addQuote');">추가</button>
+
+                <div id="addQuote">
+                </div>
+                <button type="submit">입력하기</button>
+            </form>
+        </section>
+    </main>
+    <script>
+        //추가 버튼을 누르면 ajax로 입력칸을 불러온다.
+        function addContent(view, addArea) {
+            $.ajax({
+                dataType: 'text',
+                url: '/addObject',
+                data: {
+                    page: view
+                },
+                type: 'POST',
+                success: function (data) {
+                    //id=addArea에 생성
+                    $(addArea).append(data);
+                },
+                error: function () {
+                    alert("데이터 오류");
+                    return false;
+                }
+            });
+        }
+        //추가된 input 지우기
+        function delAddContents(obj) {
+            $(obj).closest(".addedInput").remove();
+        }
+
+        function deleteQuotes() {
+            var $checkCnt = $(".checkRow:checked").length;
+            var quoteId = [];
+
+            if ($checkCnt === 0) {
+                alert("삭제할 명언을 선택하세요.");
+                return false;
+            } else {
+                var answer = confirm("선택한 명언을 삭제하시겠습니까?");
+                if (answer === true) {
+                    $(".checkRow").each(function () {
+                        if ($(this).is(":checked")) {
+                            quoteId.push($(this).val());
+                        }
+                    });
+                    var data = {
+                        quoteId: quoteId,
+                    };
+
+                    $.ajax({
+                        dataType: 'json',
+                        url: '/deleteCheckedQuotes',
+                        data: data,
+                        type: 'DELETE',
+                        success: function (data) {
+                            if(data.message === "success"){
+                                alert("삭제되었습니다.");
+                                location.reload();
+                            }
+                        }, error: function (request, status, error) {
+                            alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                            location.reload();
+                            return false;
+                        }
+                    });
+                }
+            }
+        }
+    </script>
+    <%- include("../partials/footer"); -%>

@@ -12,6 +12,7 @@ module.exports = function (passport) {
       },
       // 카카오에서는 인증 수 callbakcURL 에 적힌 주소로 accessToken, refreshToken, profile 보냄
       async (accessToken, refreshToken, profile, done) => {
+        console.log(refreshToken);
         // console.log("kakao profile: ", profile);
         const newUser = {
           kakaoId: profile.id,

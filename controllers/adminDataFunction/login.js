@@ -37,6 +37,8 @@ exports.create = async (req, res) => {
   const admin = await Admin.create({ ...req.body });
   res.status(StatusCodes.OK).send({ message: "계정이 생성 되었습니다." });
 };
+
+//admin login
 exports.login = async (req, res) => {
   const { adminEmail, password } = req.body;
   if (!adminEmail) {
@@ -56,6 +58,7 @@ exports.login = async (req, res) => {
       .status(StatusCodes.BAD_REQUEST)
       .render("alert/alert", { error: "비밀번호 또는 아이디가 틀립니다." });
   }
+  //check password
   const checkPassword = await adminModel.comparePassword(
     password,
     admin.password
@@ -65,17 +68,32 @@ exports.login = async (req, res) => {
       .status(StatusCodes.BAD_REQUEST)
       .render("alert/alert", { error: "비밀번호 또는 아이디가 틀립니다." });
   }
+
   // req.session.admin = admin._id;
+  //creating jwt
   const token = loginModel.createJWT(admin);
+  //creating refresh token
+  const refreshToken = loginModel.createRefresh(admin);
 
-  const expires = new Date();
-  expires.setMinutes(expires.getMinutes() + 60);
+  //refreshToken db에 저장
+  await Admin.findOneAndUpdate({ adminEmail }, { refreshToken });
 
-  res.cookie(process.env.COOKIE_NAME, `Bearer ${token}`, {
-    expires: expires,
+  res.cookie(process.env.COOKIE_NAME, `Bearer ${refreshToken}`, {
+    httpOnly: true,
+    secure: false,
   });
+
   res.status(StatusCodes.OK).redirect("main");
 };
+
+exports.sendCode = async (req, res) => {
+  console.log(req.body.id);
+};
+
+exports.checkCode = async (req, res) => {
+  console.log(req.body);
+};
+
 exports.logout = async (req, res) => {
   res.clearCookie(process.env.COOKIE_NAME);
 

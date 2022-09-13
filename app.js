@@ -40,7 +40,6 @@ app.use(
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
-    cookie: { httpOnly: true, secure: false, maxAge: 3.6e6 * 24 },
   })
 );
 require("./passport/kakao")(passport);
