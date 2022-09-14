@@ -12,7 +12,6 @@ const timeSchema = mongoose.Schema(
     },
     studyStartPoint: {
       type: Number,
-      required: true,
       default: 0,
     },
     studyEndPoint: {

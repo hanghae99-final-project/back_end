@@ -5,7 +5,7 @@ exports.getStudyTime = async (user, firstDay, lastDay) => {
   const totalStudyTime = await Time.find({
     $and: [
       {
-        createdAt: {
+        insDate: {
           $gte: firstDay,
           $lte: lastDay,
         },
@@ -21,7 +21,7 @@ exports.getStudyTime = async (user, firstDay, lastDay) => {
   if (totalStudyTime.length > 0) {
     totalStudyTime.forEach((element) => {
       monthlyData.push({
-        studyDate: moment(element.createdAt).format("YYYY-MM-DD"),
+        studyDate: moment(element.insDate).format("YYYY-MM-DD"),
         studyTime: element.savedStudyTime,
       });
     });
@@ -35,7 +35,7 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
   const weeklyStudy = await Time.find({
     $and: [
       {
-        createdAt: {
+        insDate: {
           $gte: startWeek,
           $lte: endWeek,
         },
@@ -50,7 +50,7 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
   if (weeklyStudy.length > 0) {
     weeklyStudy.forEach((element) => {
       weeklyData.push({
-        studyDate: moment(element.createdAt).format("YYYY-MM-DD"),
+        studyDate: moment(element.insDate).format("YYYY-MM-DD"),
         studyTime: element.savedStudyTime,
       });
     });
