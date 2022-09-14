@@ -63,6 +63,7 @@ exports.getAllRank = async (period) => {
             email: "$userId.email",
             nickname: "$userId.nickname",
             ageGroup: "$userId.ageGroup",
+            specialty: "$userId.specialty"
           },
         },
       ]);
@@ -132,6 +133,7 @@ exports.getGenerationRank = async (period, category) => {
             email: "$userId.email",
             nickname: "$userId.nickname",
             ageGroup: "$userId.ageGroup",
+            specialty: "$userId.specialty"
           },
         },
         {
