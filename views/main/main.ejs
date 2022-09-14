@@ -4,6 +4,11 @@
     <div class="card_header">
         <h1>회원 상황</h1>
     </div>
+<form action="/main" method="GET">
+    <input type="text" name="where" value="<%=where%>">
+    <button type="submit">검색</button>
+    </form>
+
 <table>    
 <thead>
     <tr>
@@ -19,7 +24,7 @@
         <div>
                 <tbody>
                     <tr>
-                        <td><%=element.nickname %></td>
+                        <td><a href="user/<%=element._id%>"><%=element.nickname %></a></td>
                         <td><%=element.email%></td>
                         <td><%=element.ageGroup%></td>
                         <td><%=element.specialty ? '' : '미선택'%></td>

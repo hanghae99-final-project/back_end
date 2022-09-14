@@ -17,7 +17,7 @@ exports.createJWT = function (userinfo) {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: process.env.JWT_LIFETIME,
+        expiresIn: process.env.JWT_REFRESH_TIME,
       }
     );
   } else if (!userinfo.kakaoId) {
@@ -25,9 +25,9 @@ exports.createJWT = function (userinfo) {
       {
         userId: userinfo.adminEmail,
       },
-      process.env.JWT_LIFETIME,
+      process.env.JWT_SECRET,
       {
-        expiresIn: process.env.JWT_REFRESH_TIME,
+        expiresIn: process.env.JWT_LIFETIME,
       }
     );
   }

@@ -2,15 +2,16 @@ const mongoose = require("mongoose");
 const moment = require("moment-timezone");
 const dateKorea = moment().tz("Asia/Seoul").format();
 
-const forumSchema = mongoose.Schema(
+const commentSchema = mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
       required: true,
     },
-    title: {
-      type: String,
+    fourmId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Fourm",
       required: true,
     },
     content: {
@@ -22,4 +23,4 @@ const forumSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Fourm", forumSchema);
+module.exports = mongoose.model("Comment", commentSchema);

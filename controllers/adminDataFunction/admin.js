@@ -1,4 +1,5 @@
 const Quote = require("../../models/quotes");
+const Search = require("../../models/search.js");
 const { StatusCodes } = require("http-status-codes");
 
 exports.addObject = (req, res) => {
@@ -27,3 +28,11 @@ exports.deleteCheckedQuotes = async (req, res) => {
 
   res.send({ message: result });
 };
+// exports.search = async (req, res) => {
+//   const { where } = req.query;
+//   const result = await Search.findSearch(where);
+
+//   res
+//     .status(StatusCodes.OK)
+//     .render("main/main", { data: result, where: where });
+// };
