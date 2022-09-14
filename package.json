@@ -24,6 +24,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.37",
     "mongoose": "^6.5.3",
     "morgan": "^1.10.0",
     "node-schedule": "^2.1.0",

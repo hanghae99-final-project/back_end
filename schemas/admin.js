@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const moment = require("moment-timezone");
+const dateKorea = moment().tz("Asia/Seoul").format();
 
 const adminSchema = mongoose.Schema(
   {
@@ -16,6 +18,7 @@ const adminSchema = mongoose.Schema(
     refreshToken: {
       type: String,
     },
+    insDate: { type: String, default: dateKorea },
   },
   { timestamps: true }
 );

@@ -1,3 +1,5 @@
+const moment = require("moment-timezone");
+const dateKorea = moment().tz("Asia/Seoul").format();
 const mongoose = require("mongoose");
 
 const quotesSchema = mongoose.Schema(
@@ -9,7 +11,8 @@ const quotesSchema = mongoose.Schema(
     number: {
       type: Number,
     },
+    insDate: { type: String, default: dateKorea },
   },
-  { timestamps: true }
+  { timestamps: false }
 );
 module.exports = mongoose.model("Quotes", quotesSchema);

@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
+const moment = require("moment-timezone");
+const dateKorea = moment().tz("Asia/Seoul").format();
 
 const forumSchema = mongoose.Schema(
   {
-    userId : {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
-      required: true
+      required: true,
     },
     content: {
       type: String,
       required: true,
     },
+    insDate: { type: String, default: dateKorea },
   },
   { timestamps: true }
 );

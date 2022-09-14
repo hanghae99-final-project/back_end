@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
 const Users = require("./user");
+const moment = require("moment-timezone");
+const dateKorea = moment().tz("Asia/Seoul").format();
 
 const timeSchema = mongoose.Schema(
   {
-    userId : {
-      type: mongoose.Schema.Types.ObjectId, 
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
-      required: true
+      required: true,
     },
     studyStartPoint: {
       type: Number,
@@ -38,6 +40,7 @@ const timeSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
+    insDate: { type: String, default: dateKorea },
   },
   { timestamps: true }
 );

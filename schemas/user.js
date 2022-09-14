@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
+const moment = require("moment-timezone");
+const dateKorea = moment().tz("Asia/Seoul").format();
 
 const specListSchema = mongoose.Schema({
-  education: { type:String, enum: ["학력","경력"] },
-  career: {type: String},
+  education: { type: String, enum: ["학력", "경력"] },
+  career: { type: String },
   year: { type: String, maxlength: 4 },
   experience: { type: String, maxlength: 100 },
 });
@@ -56,15 +58,16 @@ const usersSchema = mongoose.Schema(
       ],
     },
     /* 이전 : targetTime(목표시간)은 time, completed로 구성되었음
-     * 현재 : targetTime(목표시간)은 시간에 대한 ms 숫자로 구성 
-    **/ 
+     * 현재 : targetTime(목표시간)은 시간에 대한 ms 숫자로 구성
+     **/
     targetTime: {
       type: Number,
-      default : 0
+      default: 0,
     },
 
     spec: [specListSchema],
     dDay: [dDaySchema],
+    insDate: { type: String, default: dateKorea },
   },
   { timestamps: true }
 );
