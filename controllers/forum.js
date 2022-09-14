@@ -25,6 +25,9 @@ exports.detailForum = async (req, res) => {
 exports.postForum = async (req, res) => {
   const user = req.locals;
   const {content} = req.body;
+  if(!content){
+    throw new Error("글의 내용이 없습니다.");
+  }
   const result = await Forum.postForum(content, user);
 
   return res.status(StatusCodes.OK).json({result});
@@ -35,6 +38,12 @@ exports.putForum = async (req, res) => {
   const {id} = req.params;
   const user = req.locals;
   const {content} = req.body;
+  if(!content){
+    throw new Error("글의 내용이 없습니다.");
+  }
+  if(!id){
+    throw new Error("글의 id가 없습니다.");
+  }
   const result = await Forum.putForum(id, content, user);
 
   return res.status(StatusCodes.OK).json({ result });
@@ -44,6 +53,9 @@ exports.putForum = async (req, res) => {
 exports.deleteForum = async (req, res) => {
   const {id} = req.params;
   const user = req.locals;
+  if(!id){
+    throw new Error("글의 id가 없습니다.");
+  }
   const result = await Forum.deleteForum(id, user);
 
   return res.status(StatusCodes.OK).json({ result });

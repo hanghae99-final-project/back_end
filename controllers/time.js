@@ -6,7 +6,6 @@ const e = require("express");
 // 오늘 공부 기록 정보를 불러오는 함수
 exports.getTime = asyncWrapper(async (req, res) => {
   const user = req.locals;
-  console.log(user);
   let yesterdayStudyTime = 0;
   let targetTime = user.targetTime; // targetTime 수정
   let savedStudyTime = 0;
@@ -47,7 +46,7 @@ exports.studyStart = asyncWrapper(async (req, res) => {
   const user = req.locals;
   const { studyStartPoint } = req.body;
   if (!studyStartPoint) {
-    res.status(StatusCodes.BAD_REQUEST).json({ message: "에러입니다" });
+    throw new Error("공부 시작 시각을 받아오지 않습니다.");
   }
 
   // models/time의 studyStart 함수의 결과값을 res로 반환해줌
@@ -64,7 +63,7 @@ exports.studyEnd = asyncWrapper(async (req, res) => {
   let result;
 
   if (req.body.studyEndPoint && req.body.restEndPoint) {
-    throw new Error("오류입니다.");
+    throw new Error("공부 시작 시각과 휴식 시작 시각은 같이 올 수 없습니다.");
   }
 
   // user가 공부 중일 때는 studyEndPoint를 req.body로 받는다.
@@ -74,7 +73,7 @@ exports.studyEnd = asyncWrapper(async (req, res) => {
   } else if (req.body.restEndPoint) {
     result = await time.studyEnd(0, req.body.restEndPoint, user);
   } else {
-    throw new Error("오류입니다.");
+    throw new Error("공부 시작 시각 또는 휴식 시작 시각이 없습니다.");
   }
 
   res.status(200).json({ message: result });
@@ -88,6 +87,9 @@ exports.restStart = asyncWrapper(async (req, res) => {
   // 휴식 시작과 동시에 공부 시간은 멈춰야 하므로,
   // studyEndPoint(공부종료시각), restStartPoint(휴식시작시각)을 받아야함
   const { studyEndPoint, restStartPoint } = req.body;
+  if (!studyEndPoint || !restStartPoint){
+    throw new Error("공부 종료 시각이나 휴식 시작 시각이 없습니다.");
+  }
   const result = await time.restStart(studyEndPoint, restStartPoint, user);
   res.status(200).json({ message: result });
 });
@@ -99,6 +101,9 @@ exports.restEnd = asyncWrapper(async (req, res) => {
   // 휴식 종료와 동시에 공부가 시작되므로,
   // restEndPont(휴식종료시각), studyStartPoint(공부시작시각)을 받아야함
   const { restEndPoint, studyStartPoint } = req.body;
+  if(!restEndPoint || !studyStartPoint){
+    throw new Error("휴식 종료 시각이나 공부 시작 시각이 없습니다.");
+  }
   const result = await time.restEnd(restEndPoint, studyStartPoint, user);
   res.status(200).json({ message: result });
 });
@@ -115,6 +120,9 @@ exports.postTargetTime = asyncWrapper(async (req, res) => {
   const user = req.locals;
   // user가 설정한 targetTime을 req.body로 받는다.
   const { targetTime } = req.body;
+  if (!targetTime) {
+    throw new Error("목표 시간이 없습니다.");
+  }
   const result = await time.postTargetTime(targetTime, user);
   res.status(200).json({ message: result });
 });

@@ -4,7 +4,6 @@ const asyncWrapper = require("../middleware/async");
 
 exports.getRank = asyncWrapper(async (req, res) => {
   const user = req.locals;
-  console.log(user)
   const period = req.query.period; //day, week, month
   const category = req.query.category; // all, twenty, thirty
   const myRanking= {rank: 0, savedStudyTime:0};
@@ -17,7 +16,6 @@ exports.getRank = asyncWrapper(async (req, res) => {
   } else {
     throw new Error("설정된 category가 아닙니다.");
   }
-  console.log(ranking)
 
   const studyingPerson = await studying.getStudying();
 
