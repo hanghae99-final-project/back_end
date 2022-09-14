@@ -7,6 +7,7 @@ const cors = require("cors");
 const passport = require("passport");
 const connectDB = require("./db/connect");
 const bodyParser = require("body-parser");
+
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
@@ -45,6 +46,10 @@ app.use(
 require("./passport/kakao")(passport);
 
 app.use("/", route);
+
+app.use((req, res) => {
+  res.status(404).send("not found");
+});
 
 const port = process.env.PORT || 3000;
 
