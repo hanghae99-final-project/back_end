@@ -34,7 +34,8 @@ exports.getRank = asyncWrapper(async (req, res) => {
 
     const nickname = element.nickname;
     const savedStudyTime = element.savedStudyTime;
-    return { nickname, savedStudyTime, studying };
+    const specialty = element.specialty;
+    return { nickname, specialty, savedStudyTime, studying };
   });
 
   if (ranking.length > 20) {
