@@ -47,7 +47,7 @@ exports.studyStart = asyncWrapper(async (req, res) => {
   const user = req.locals;
   const { studyStartPoint } = req.body;
   if (!studyStartPoint) {
-    res.status(StatusCodes.BAD_REQUEST).json({ message: "에러입니다" });
+    throw new Error("오류입니다");
   }
 
   // models/time의 studyStart 함수의 결과값을 res로 반환해줌
