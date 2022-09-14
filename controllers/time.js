@@ -1,5 +1,7 @@
+const { StatusCodes } = require("http-status-codes");
 const time = require("../models/time");
 const asyncWrapper = require("../middleware/async");
+const e = require("express");
 
 // 오늘 공부 기록 정보를 불러오는 함수
 exports.getTime = asyncWrapper(async (req, res) => {
@@ -44,6 +46,9 @@ exports.getTime = asyncWrapper(async (req, res) => {
 exports.studyStart = asyncWrapper(async (req, res) => {
   const user = req.locals;
   const { studyStartPoint } = req.body;
+  if (!studyStartPoint) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: "에러입니다" });
+  }
 
   // models/time의 studyStart 함수의 결과값을 res로 반환해줌
   const result = await time.studyStart(studyStartPoint, user);
@@ -56,16 +61,22 @@ exports.studyStart = asyncWrapper(async (req, res) => {
 // 공부 중일 때 : 공부 종료 시각 - 공부 시작 시각 = 공부 누적 시간(db에 저장) , 그 후 공부 시작, 공부 시각 초기화
 exports.studyEnd = asyncWrapper(async (req, res) => {
   const user = req.locals;
-  let result = undefined;
+  let result;
+
+  if (req.body.studyEndPoint && req.body.restEndPoint) {
+    throw new Error("오류입니다.");
+  }
 
   // user가 공부 중일 때는 studyEndPoint를 req.body로 받는다.
   if (req.body.studyEndPoint) {
     result = await time.studyEnd(req.body.studyEndPoint, 0, user);
-
-  // user가 휴식 중일 때는 restEndPoint를 req.body로 받는다.
+    // user가 휴식 중일 때는 restEndPoint를 req.body로 받는다.
   } else if (req.body.restEndPoint) {
     result = await time.studyEnd(0, req.body.restEndPoint, user);
+  } else {
+    throw new Error("오류입니다.");
   }
+
   res.status(200).json({ message: result });
 });
 
@@ -74,7 +85,7 @@ exports.restStart = asyncWrapper(async (req, res) => {
   const user = req.locals;
 
   // 휴식을 클릭할 수 있는 건 공부 중일 때만 가능함
-  // 휴식 시작과 동시에 공부 시간은 멈춰야 하므로, 
+  // 휴식 시작과 동시에 공부 시간은 멈춰야 하므로,
   // studyEndPoint(공부종료시각), restStartPoint(휴식시작시각)을 받아야함
   const { studyEndPoint, restStartPoint } = req.body;
   const result = await time.restStart(studyEndPoint, restStartPoint, user);
