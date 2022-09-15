@@ -1,80 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=0" />
-  <title>관리자 로그인</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
   <link rel="stylesheet" type="text/css" href="/css/common.css" />
-
+  <link rel="stylesheet" type="text/css" href="/css/login.css" />
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
     integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 </head>
 
-<body>
-  <!-- 로그인 뒷배경 -->
-  <main class="login_back">
-    <!-- 로그인 box 시작 -->
-    <section class="login_box">
-      <h1>Login</h1>
-      <form method="post" action="/login" onsubmit="formCheck(this); return false;">
-        <!-- 로그인 group 시작 -->
-        <div class="login_group">
-          <input type="email" id="admin" name="adminEmail" maxlength="100" placeholder="EMAIL" required />
-          <input type="password" id="password" name="password" autocomplete placeholder="Password" required />
-          <!-- <input type="text" id="authNumber" name="authNumber" placeholder="인증번호" required /> -->
-          <button class="btn_login">Login</button>
-        </div>
-        <!-- 로그인 group 끝 -->
-      </form>
-    </section>
-    <!-- 로그인 box 끝 -->
-  </main>
-</body>
+</head>
 
+<body>
+  <form method="post" action="/login" onsubmit="formCheck(this); return false;"class="login-wrap">
+    <div class="login-html">
+      <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+      <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
+      <div class="login-form">
+        <div class="sign-in-htm">
+          <div class="group">
+            <label for="user" class="label">Username</label>
+            <input type="email" class="input" id="admin" name="adminEmail" maxlength="100" placeholder="EMAIL" required>
+          </div>
+          <div class="group">
+            <label for="pass" class="label">Password</label>
+            <input type="password"  class="input" id="password" name="password" autocomplete placeholder="PASSWORD" required >
+          </div>
+          <div class="group">
+            <label for="pass" class="label">code</label>
+            <input id="pass" class="input" id="code" name="code" maxlength="100" placeholder="CODE" required>
+          </div>
+          <div class="group">
+            <button type="button" onclick="sendCode()" class="button">인증번호</button>
+          </div>
+          <div class="group">
+            <button type="submit" class="button">로그인</button>
+          </div>
+        </div>
+      </div>
+    </div> 
+</form>
+</body>
 </html>
 
 <script>
-  // function sendCode(email) {
-  //   let $id = email;
-  //   if (!$id) {
-  //     alert("이메일을 입력해주세요.");
-  //     return false;
-  //   } else {
-  //     let data = {
-  //       id: $id
-  //     };
-  //     $.ajax({
-  //       dataType: 'json',
-  //       url: '/sendCode',
-  //       data: data,
-  //       type: 'POST',
-  //       success: function (data) {
+  function sendCode() {
+    let $id = $('#admin').val();
+    if (!$id) {
+      alert("이메일을 입력해주세요.");
+      return false;
+    } else {
+      let data = {
+        id: $id
+      };
+      $.ajax({
+        dataType: 'json',
+        url: '/sendCode',
+        data: data,
+        type: 'POST',
+        success: function (data) {
 
-  //       }
-  //     })
-  //   }
-  // }
-  // function checkCode() {
-  //   let $id = $('#admin').val()
-  //   let $pwd = $('#password').val()
-  //   let $code = $("#authNumber").val();
-  //   let data = {
-  //     id: $id,
-  //     code: $code
-  //   };
-  //   $.ajax({
-  //     dataType: 'json',
-  //     data: data,
-  //     url: '/checkCode',
-  //     type: 'POST',
-  //     success: function (data) {
+        }
+      })
+    }
+  }
 
-  //     }
-  //   })
-  // }
   function formCheck(obj) {
 
 

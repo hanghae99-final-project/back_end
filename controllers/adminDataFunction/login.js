@@ -2,6 +2,7 @@ const Admin = require("../../schemas/admin");
 const adminModel = require("../../models/adminLogin");
 const Joi = require("joi");
 const loginModel = require("../../models/login");
+const nodemailer = require("../../models/mail");
 const { StatusCodes } = require("http-status-codes");
 
 exports.loginPage = (req, res) => {
@@ -87,7 +88,14 @@ exports.login = async (req, res) => {
 };
 
 exports.sendCode = async (req, res) => {
-  console.log(req.body.id);
+  const mailOptions = {
+    from: process.env.GOOGLE_MAIL,
+    to: req.body.id,
+    subject: "인증번호",
+    text: "random 번호",
+  };
+  const r = await nodemailer.send(mailOptions);
+  console.log(r);
 };
 
 exports.checkCode = async (req, res) => {
