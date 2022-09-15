@@ -41,7 +41,7 @@ exports.create = async (req, res) => {
 
 //admin login
 exports.login = async (req, res) => {
-  const { adminEmail, password } = req.body;
+  const { adminEmail, password, confirmCode, auth_yn } = req.body;
   if (!adminEmail) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -51,6 +51,28 @@ exports.login = async (req, res) => {
     return res
       .status(StatusCodes.BAD_REQUEST)
       .render("alert/alert", { error: "비밀번호를 입력해주세요." });
+  }
+  if (!confirmCode) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .render("alert/alert", { error: "인증코드를 입력해주세요." });
+  }
+  //auth_yn가 Y이면
+  if (auth_yn === "Y") {
+    //checkCode double check를 한다.
+    const result = await nodemailer.checkCode(confirmCode, adminEmail);
+    if (result !== "success") {
+      return res
+        .status(StatusCodes.OK)
+        .render("alert/alert", { error: "이메일 인증을 해주세요." });
+    }
+    //모든게 성공적이면 인증코드를 삭제
+    const deleteResult = await nodemailer.deleteCode(confirmCode, adminEmail);
+    if (deleteResult !== "success") {
+      return res
+        .status(StatusCodes.OK)
+        .render("alert/alert", { error: "다시 시도해 주세요." });
+    }
   }
   // find admin
   const admin = await Admin.findOne({ adminEmail });
@@ -87,19 +109,53 @@ exports.login = async (req, res) => {
   res.status(StatusCodes.OK).redirect("main");
 };
 
+//인증코드 보내는 function
 exports.sendCode = async (req, res) => {
+  let message = "success";
+  const result = await Admin.findOne({ adminEmail: req.body.id });
+  if (!result) {
+    message = "failed";
+    return res.status(StatusCodes.OK).send({ message });
+  }
+  //random번호 설정
+  const randomNumber = Math.floor(Math.random() * 999999);
+
+  //메일 옵션.
   const mailOptions = {
-    from: process.env.GOOGLE_MAIL,
     to: req.body.id,
     subject: "인증번호",
-    text: "random 번호",
+    text: `${randomNumber}`,
   };
-  const r = await nodemailer.send(mailOptions);
-  console.log(r);
+
+  await nodemailer.sendEmailCode(req.body.id, randomNumber);
+  //이메일 보내기
+  await nodemailer.send(mailOptions);
+  return res.status(StatusCodes.OK).send({ message });
 };
 
+//인증코드를 확인하는 function
 exports.checkCode = async (req, res) => {
-  console.log(req.body);
+  let message = "SUCCESS";
+  const { code, email } = req.body;
+  //없으면 return
+  if (!code) {
+    message = "CODE";
+    return res.status(StatusCodes.OK).send({ message });
+  } else if (!email) {
+    message = "EMAIL";
+    return res.status(StatusCodes.OK).send({ message });
+  }
+
+  //인증번호 확인
+  const result = await nodemailer.checkCode(code, email);
+
+  //ajax하는 부분
+  if (result === "NO DATA") {
+    message = "INCORRECT";
+    return res.status(StatusCodes.OK).send({ message });
+  } else if (result === "success") {
+    return res.status(StatusCodes.OK).send({ message });
+  }
 };
 
 exports.logout = async (req, res) => {

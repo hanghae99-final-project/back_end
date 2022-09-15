@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  <form method="post" action="/login" onsubmit="formCheck(this); return false;"class="login-wrap">
+  <form method="post" action="/login" onsubmit="formCheck(this); return false;" class="login-wrap">
     <div class="login-html">
       <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
       <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
@@ -24,32 +24,36 @@
         <div class="sign-in-htm">
           <div class="group">
             <label for="user" class="label">Username</label>
-            <input type="email" class="input" id="admin" name="adminEmail" maxlength="100" placeholder="EMAIL" required>
+            <input type="email" class="input" id="adminEmail" name="adminEmail" maxlength="100" placeholder="EMAIL">
           </div>
           <div class="group">
             <label for="pass" class="label">Password</label>
-            <input type="password"  class="input" id="password" name="password" autocomplete placeholder="PASSWORD" required >
+            <input type="password" class="input" id="password" name="password" autocomplete placeholder="PASSWORD">
           </div>
           <div class="group">
             <label for="pass" class="label">code</label>
-            <input id="pass" class="input" id="code" name="code" maxlength="100" placeholder="CODE" required>
+            <input class="input" id="confirmCode" name="confirmCode" maxlength="100" placeholder="CODE">
           </div>
           <div class="group">
-            <button type="button" onclick="sendCode()" class="button">인증번호</button>
+            <button type="button" id="sendCodeBtn" onclick="sendCode()" class="button">인증번호</button>
+            <input type="hidden" name="auth_yn" id="auth_yn" value="N">
+          </div>
+          <div class="group" id="sendCode">
           </div>
           <div class="group">
             <button type="submit" class="button">로그인</button>
           </div>
         </div>
       </div>
-    </div> 
-</form>
+    </div>
+  </form>
 </body>
+
 </html>
 
 <script>
-  function sendCode() {
-    let $id = $('#admin').val();
+  function sendCode(id) {
+    let $id = $('#adminEmail').val();
     if (!$id) {
       alert("이메일을 입력해주세요.");
       return false;
@@ -63,23 +67,77 @@
         data: data,
         type: 'POST',
         success: function (data) {
-
+          if (data.message === 'failed') {
+            alert("등록되지 않은 이메일");
+          } else if (data.message === "success") {
+            $("#adminEmail").prop('readonly', true);
+            alert("인증번호가 발송 되었습니다.");
+            $('#sendCodeBtn').remove();
+            $('#sendCode').append(' <button type="button" onclick="checkCode()" class="button">인증번호 확인</button>');
+          }
         }
       })
     }
   }
 
+  function checkCode() {
+    let $id = $('#adminEmail').val()
+    let $code = $('#confirmCode').val()
+    if (!$code) {
+      alert("인증번호를 입력해주세요.");
+      return false;
+    } else if (!$id) {
+      alert("이메일을 입력해주세요.");
+      return false;
+    } else {
+      var data = {
+        code: $code, email: $id
+      };
+      $.ajax({
+        dataType: 'json',
+        url: '/checkCode',
+        data: data,
+        type: 'POST',
+        success: function (data) {
+          if (data.message === 'INCORRECT') {
+            alert("인증번호가 일지하지 않습니다.");
+            return false;
+          } else if (data.message === 'SUCCESS') {
+            alert("인증이 되었습니다.");
+            $("#confirmCode").prop('readonly', true);
+            $('#sendCode').remove();
+            $("#auth_yn").val("Y");
+            return "success";
+          } else if (data.message === "CODE") {
+            alert("코드를 입력해주세요.");
+            return false;
+          } else if (data.message === "EMAIL") {
+            alert("이메일을 입력해주세요.");
+            return false;
+          }
+        }, error: function (request, status, error) {
+          alert("데이터 처리오류!!");
+          location.reload();
+          return false;
+        }
+      });
+    }
+  }
+
   function formCheck(obj) {
-
-
-    let $id = $('#admin').val()
+    let $id = $('#adminEmail').val()
     let $pwd = $('#password').val()
-    // let $code = $("#authNumber").val();
+    let $code = $('#confirmCode').val()
+    var $auth_yn = $("#auth_yn").val();
+
     if (!$id) {
       alert('아이디를 입력해주세요.')
       return false
     } else if (!$pwd) {
       alert('비밀번호를 입력해주세요.')
+      return false;
+    } else if ($auth_yn !== 'Y') {
+      alert("이메일 인증을 완료해주세요.");
       return false;
     } else {
       // sendCode($("#admin").val());
