@@ -6,7 +6,7 @@ exports.getRank = asyncWrapper(async (req, res) => {
   const user = req.locals;
   const period = req.query.period; //day, week, month
   const category = req.query.category; // all, twenty, thirty
-  const myRanking= {rank: 0, savedStudyTime:0};
+  const myRanking= {nickname:user.nickname, rank: 0, specialty:user.specialty, savedStudyTime:0, studying:false};
   let ranking = undefined;
 
   if (category === "all") {
@@ -20,21 +20,23 @@ exports.getRank = asyncWrapper(async (req, res) => {
   const studyingPerson = await studying.getStudying();
 
   ranking = ranking.map((element, index) => {
-    let studying = false;
+    let studyingDefault = false;
     studyingPerson.find((people) => {
       if (people.kakaoId === element.kakaoId) {
-        studying = true;
+        studyingDefault = true;
       }
     });
 
     if(element.kakaoId === user.kakaoId){
         myRanking.rank=index+1;
         myRanking.savedStudyTime=element.savedStudyTime;
+        myRanking.studying=studyingDefault;
     }
 
     const nickname = element.nickname;
     const savedStudyTime = element.savedStudyTime;
     const specialty = element.specialty;
+    const studying = studyingDefault;
     return { nickname, specialty, savedStudyTime, studying };
   });
 
