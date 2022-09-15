@@ -24,8 +24,9 @@
         <div class="login_group">
           <input type="email" id="admin" name="adminEmail" maxlength="100" placeholder="EMAIL" required />
           <input type="password" id="password" name="password" autocomplete placeholder="Password" required />
-          <!-- <input type="text" id="authNumber" name="authNumber" placeholder="인증번호" required /> -->
+          <input type="text" id="authNumber" name="authNumber" placeholder="인증번호" required />
           <button class="btn_login">Login</button>
+          <button type="button" onclick="sendCode();">인증번호</button>
         </div>
         <!-- 로그인 group 끝 -->
       </form>
@@ -37,26 +38,26 @@
 </html>
 
 <script>
-  // function sendCode(email) {
-  //   let $id = email;
-  //   if (!$id) {
-  //     alert("이메일을 입력해주세요.");
-  //     return false;
-  //   } else {
-  //     let data = {
-  //       id: $id
-  //     };
-  //     $.ajax({
-  //       dataType: 'json',
-  //       url: '/sendCode',
-  //       data: data,
-  //       type: 'POST',
-  //       success: function (data) {
+  function sendCode() {
+    let $id = $('#admin').val();
+    if (!$id) {
+      alert("이메일을 입력해주세요.");
+      return false;
+    } else {
+      let data = {
+        id: $id
+      };
+      $.ajax({
+        dataType: 'json',
+        url: '/sendCode',
+        data: data,
+        type: 'POST',
+        success: function (data) {
 
-  //       }
-  //     })
-  //   }
-  // }
+        }
+      })
+    }
+  }
   // function checkCode() {
   //   let $id = $('#admin').val()
   //   let $pwd = $('#password').val()
