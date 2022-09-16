@@ -9,5 +9,6 @@ router.route("/dailyTodo/:day").get(asyncWrapper(MyPage.getMyDailyTodo));
 router
   .route("/weeklyStudy/:startWeek/:endWeek")
   .get(asyncWrapper(MyPage.getMyWeekly));
+router.route("/getTotalStudyTime").get(asyncWrapper(MyPage.getTotalStudyTime));
 
 module.exports = router;

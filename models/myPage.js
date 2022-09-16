@@ -59,3 +59,13 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
   }
   return weeklyData;
 };
+
+//누적시간 가져오기
+exports.getTotalStudyTime = async (userId) => {
+  const result = await Time.find({ userId });
+  let totals = 0;
+  result.forEach((element) => {
+    totals += element.savedStudyTime;
+  });
+  return totals;
+};

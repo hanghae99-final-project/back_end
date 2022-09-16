@@ -36,11 +36,16 @@ exports.getMyWeekly = async (req, res) => {
 };
 // return res.status(StatusCodes.OK).json({ monthlyData, todoData, weeklyData });
 
-exports.getMyDailyTodo = async (req, res, err) => {
+exports.getMyDailyTodo = async (req, res) => {
   const user = req.locals;
   //To-do
   const day = req.params.day;
   let todoData = await todo.getTodo(day, user);
 
   return res.status(StatusCodes.OK).json({ todoData });
+};
+exports.getTotalStudyTime = async (req, res) => {
+  const user = req.locals;
+  const totalStudyTime = await myPageModel.getTotalStudyTime(user._id);
+  return res.status(StatusCodes.OK).json({ totalStudyTime });
 };
