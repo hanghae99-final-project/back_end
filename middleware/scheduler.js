@@ -1,5 +1,6 @@
 const schedule = require("node-schedule");
 const Time = require("../schemas/time");
+const Studying = require("../schemas/studying");
 const moment = require("moment");
 
 const scheduler = (req, res, next) => {
@@ -33,6 +34,7 @@ const scheduler = (req, res, next) => {
             throw new Error("포인트 에러");
         }
     })
+    await Studying.deleteMany({});
   });
   next();
 };
