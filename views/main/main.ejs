@@ -1,42 +1,76 @@
 <%- include("../partials/header"); -%>
-<main class="main">
-<section class="card">
-    <div class="card_header">
-        <h1>회원 상황</h1>
-    </div>
-<form action="/main" method="GET">
-    <input type="text" name="where" value="<%=where%>">
-    <button type="submit">검색</button>
-    </form>
+<div class="content">
+  <div class="container">
+    <h2 class="mb-5">회원관리</h2>
 
-<table>    
-<thead>
-    <tr>
-        <th>닉네임</th>
-        <th>이메일</th>
-        <th>연령대</th>
-        <th>관심분야</th>
-        <th>가입날짜</th>
-    </tr>
-    </thead>
-<%if(data){data.forEach((element) => {%>
-    <div>
-        <div>
-                <tbody>
-                    <tr>
-                        <td><a href="user/<%=element._id%>"><%=element.nickname %></a></td>
-                        <td><%=element.email%></td>
-                        <td><%=element.ageGroup%></td>
-                        <td><%=element.specialty ? '' : '미선택'%></td>
-                        <td><%= element.createdAt.toString().substring(0, 15) %></td>
-                    </tr>
-                </tbody>
-        </div>
-        </div>
-    <%})}else {%>
-        <h1>가입한 회원이 없습니다.</h1>
-        <%}%>
-</table>
-</section>
-</main>
-        <%- include("../partials/footer"); -%>
+    <div class="table-responsive">
+      <table class="table table-striped custom-table">
+        <thead>
+          <tr>
+            <!-- <th scope="col">
+                <label class="control control--checkbox">
+                  <input type="checkbox"  class="js-check-all"/>
+                  <div class="control__indicator"></div>
+                </label>
+              </th> -->
+            <th scope="col">카카오아이디</th>
+            <th scope="col">닉네임</th>
+            <th scope="col">연령대</th>
+            <th scope="col">관심분야</th>
+            <th scope="col">가입일</th>
+            <!-- <th scope="col">
+                <label class="custom-control ios-switch" style="position: relative; top: 10px;">
+                  <input type="checkbox" class="ios-switch-control-input js-ios-switch-all">
+                  <span class="ios-switch-control-indicator"></span>
+                  </label>
+              </th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <%if(data){data.forEach((element)=> {%>
+          <tr>
+            <!-- <td>
+                <label class="control control--checkbox">
+                <input type="checkbox" />
+                <div class="control__indicator"></div>
+                </label>
+              </td> -->
+            <td>
+              <%=element.kakaoId %>
+            </td>
+            <td class="pl-0">
+              <div class="d-flex align-items-center">
+                <a href="user/<%=element._id%>" class="name">
+                  <%=element.nickname %>
+                </a>
+              </div>
+            </td>
+            <td>
+              <%=element.email%>
+              <small class="d-block">
+                <%=element.ageGroup%>
+              </small>
+            </td>
+            <td>
+              <%=element.specialty %>
+            </td>
+            <td>
+              <%= element.createdAt.toString().substring(0, 15) %>
+            </td>
+            <!-- <td>
+                <label class="custom-control ios-switch">
+                  <input type="checkbox" class="ios-switch-control-input" checked="">
+                  <span class="ios-switch-control-indicator"></span>
+                  </label>
+              </td> -->
+          </tr>
+          <%})}else {%>
+          <h1>가입한 회원이 없습니다.</h1>
+          <%}%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include("../partials/footer"); -%>

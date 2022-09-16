@@ -14,7 +14,5 @@ exports.mainPage = async (req, res) => {
 };
 exports.insQuotePage = async (req, res) => {
   const quotes = await Quotes.find({});
-  console.log(dateKorea);
-
   res.status(StatusCodes.OK).render("main/insQuotePage", { data: quotes });
 };
