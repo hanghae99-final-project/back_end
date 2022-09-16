@@ -14,13 +14,13 @@ router.route("/logout").get(admin.logout);
 router.route("/addObject").post(asyncWrapper(adminData.addObject));
 router
   .route("/deleteCheckedQuotes")
-  .delete(asyncWrapper(adminData.deleteCheckedQuotes));
+  .delete(ensureAuth, asyncWrapper(adminData.deleteCheckedQuotes));
 router.route("/sendCode").post(asyncWrapper(admin.sendCode));
 router.route("/checkCode").post(asyncWrapper(admin.checkCode));
 router.route("/main").get(ensureAuth, adminPage.mainPage);
 // //검색
 // router.route("/search").get(ensureAuth, adminData.search);
-router.route("/insQuote").get(ensureAuth, adminPage.insQuotePage);
-router.route("/insQuote").post(ensureAuth, adminData.insQuote);
+router.route("/insQuote").get(ensureAuth, asyncWrapper(adminPage.insQuotePage));
+router.route("/insQuote").post(ensureAuth, asyncWrapper(adminData.insQuote));
 
 module.exports = router;

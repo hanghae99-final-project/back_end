@@ -17,7 +17,7 @@ exports.insQuote = async (req, res) => {
 
   res.status(StatusCodes.OK).render("alert/successAlert", {
     message: "입력성공.",
-    page: "main",
+    page: "insQuote",
   });
 };
 

@@ -27,7 +27,7 @@ const requestMiddleWare = (req, res, next) => {
 //     next();
 // };
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
