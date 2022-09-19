@@ -29,7 +29,8 @@ const requestMiddleWare = (req, res, next) => {
 
 // app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
 app.use(cors());
-
+require("./passport/kakao")(passport);
+require("./passport/localKakao")(passport);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -44,7 +45,6 @@ app.use(
     secret: process.env.SESSION_SECRET,
   })
 );
-require("./passport/kakao")(passport);
 
 app.use("/", route);
 
