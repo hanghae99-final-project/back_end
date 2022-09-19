@@ -2,28 +2,20 @@
 <div class="content">
   <div class="container">
     <h2 class="mb-5">회원관리</h2>
+<form action="/main" method="GET">
+  <input type="text" name="where" value="<%=where%>">
+  <button type="submit">검색</button>
+  </form>
 
     <div class="table-responsive">
       <table class="table table-striped custom-table">
         <thead>
           <tr>
-            <!-- <th scope="col">
-                <label class="control control--checkbox">
-                  <input type="checkbox"  class="js-check-all"/>
-                  <div class="control__indicator"></div>
-                </label>
-              </th> -->
             <th scope="col">카카오아이디</th>
             <th scope="col">닉네임</th>
             <th scope="col">연령대</th>
             <th scope="col">관심분야</th>
             <th scope="col">가입일</th>
-            <!-- <th scope="col">
-                <label class="custom-control ios-switch" style="position: relative; top: 10px;">
-                  <input type="checkbox" class="ios-switch-control-input js-ios-switch-all">
-                  <span class="ios-switch-control-indicator"></span>
-                  </label>
-              </th> -->
           </tr>
         </thead>
         <tbody>
