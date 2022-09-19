@@ -27,7 +27,8 @@ const requestMiddleWare = (req, res, next) => {
 //     next();
 // };
 
-app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
+// app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
