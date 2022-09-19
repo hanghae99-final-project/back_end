@@ -28,5 +28,9 @@ router.route("/main").get(ensureAuth, adminPage.mainPage);
 router.route("/insQuote").get(ensureAuth, asyncWrapper(adminPage.insQuotePage));
 //명언 추가
 router.route("/insQuote").post(ensureAuth, asyncWrapper(adminData.insQuote));
+//유저 정보 보기
+router
+  .route("/user/:userId")
+  .get(ensureAuth, asyncWrapper(adminPage.getUserInfoPage));
 
 module.exports = router;

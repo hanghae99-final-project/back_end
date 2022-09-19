@@ -1,0 +1,63 @@
+<%- include("../partials/header"); -%>
+<div class="content">
+  <div class="container">
+    <h2 class="mb-5">회원정보</h2>
+
+    <div class="table-responsive">
+      <table class="table table-striped custom-table">
+        <thead>
+          <tr>
+            <th scope="col">카카오아이디</th>
+            <th scope="col">닉네임</th>
+            <th scope="col">이메일</th>
+            <th scope="col">연령대</th>
+            <th scope="col">관심분야</th>
+            <th scope="col">가입일</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <!-- <td>
+                <label class="control control--checkbox">
+                <input type="checkbox" />
+                <div class="control__indicator"></div>
+                </label>
+              </td> -->
+            <td>
+              <%=data.kakaoId %>
+            </td>
+            <td class="pl-0">
+              <div class="d-flex align-items-center">
+                
+                  <%=data.nickname %>
+                
+              </div>
+            </td>
+            <td>
+              <%=data.email%>
+              <small class="d-block">
+                <%=data.ageGroup%>
+              </small>
+            </td>
+            <td>
+              <%=data.specialty %>
+            </td>
+            <td>
+              <%= data.createdAt.toString().substring(0, 15) %>
+            </td>
+            <!-- <td>
+                <label class="custom-control ios-switch">
+                  <input type="checkbox" class="ios-switch-control-input" checked="">
+                  <span class="ios-switch-control-indicator"></span>
+                  </label>
+              </td> -->
+          </tr>
+          <h1>가입한 회원이 없습니다.</h1>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include("../partials/footer"); -%>
