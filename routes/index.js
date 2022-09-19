@@ -10,7 +10,6 @@ const NickCheck = require("./nickCheck");
 const Studying = require("./studying");
 const Quote = require("./quote");
 const authMiddleware = require("../middleware/userAuth");
-const scheduleMiddleware = require("../middleware/scheduler");
 
 // const Forum = require("./forum");
 // const Bookmark = require("./bookmark");
@@ -20,7 +19,7 @@ const router = express.Router();
 router.use("/", Admin);
 router.use("/users", Users);
 router.use("/todo", authMiddleware, Todo);
-router.use("/time", authMiddleware, scheduleMiddleware, Time);
+router.use("/time", authMiddleware, Time);
 router.use("/rank", authMiddleware, Rank);
 router.use("/mypage", authMiddleware, MyPage);
 router.use("/profile",authMiddleware, Profile);

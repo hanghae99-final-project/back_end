@@ -11,6 +11,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
+const scheduler = require('./scheduler');
+
 const ejs = require("ejs");
 
 const requestMiddleWare = (req, res, next) => {
@@ -59,6 +61,7 @@ const start = async () => {
     //connect DB
     await connectDB.connectDB(process.env.MONGO_URI);
     app.listen(port, console.log(`Server is listening port ${port}....`));
+    scheduler.scheduler();
   } catch (error) {
     console.log(error);
   }

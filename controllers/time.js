@@ -1,7 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const time = require("../models/time");
 const asyncWrapper = require("../middleware/async");
-const e = require("express");
 
 // 오늘 공부 기록 정보를 불러오는 함수
 exports.getTime = asyncWrapper(async (req, res) => {
