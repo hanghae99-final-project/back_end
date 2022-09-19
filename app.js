@@ -11,7 +11,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
-const scheduler = require('./config/scheduler');
+const scheduler = require("./config/scheduler");
 
 const ejs = require("ejs");
 
@@ -32,7 +32,6 @@ const requestMiddleWare = (req, res, next) => {
 // app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
 app.use(cors());
 require("./passport/kakao")(passport);
-require("./passport/localKakao")(passport);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
