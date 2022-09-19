@@ -22,7 +22,7 @@ const requestMiddleWare = (req, res, next) => {
   if (url[3] === "callback") {
     console.log("hjkasdfglkajshdgkljashdgkl;jashd;gkjh");
     require("./passport/kakaoLocal")(passport);
-  } else {
+  } else if (url[3] === "finish") {
     require("./passport/kakao")(passport);
   }
   console.log("request URL: ", url[3], " - ", new Date());

@@ -1,6 +1,7 @@
 const passport = require("passport");
 const KakaoStrategy = require("passport-kakao").Strategy;
 const User = require("../schemas/user");
+console.log(process.env.KAKAO_REDIRECT_URI_LOCAL);
 //카카오 로그인
 module.exports = function (passport) {
   passport.use(
