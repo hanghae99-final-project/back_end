@@ -6,6 +6,7 @@ const User = require("../controllers/user");
 const asyncWrapper = require("../middleware/async");
 
 router.route("/kakao/finish").get(User.kakaoCallback);
+router.route("/kakao/callback").get(User.kakaoCallbackLocal);
 router
   .route("/modProfile")
   .patch(authMiddleware, asyncWrapper(User.modProfile));
