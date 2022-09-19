@@ -16,9 +16,11 @@ const scheduler = require("./config/scheduler");
 const ejs = require("ejs");
 const passport = require("passport");
 const requestMiddleWare = (req, res, next) => {
-  if (req.originalUrl === "/users/kakao/finish") {
+  let url = req.originalUrl.split("/");
+
+  if (url[3] === "finish") {
     require("./passport/kakao")(passport);
-  } else if (req.originalUrl === "/users/kakao/callback") {
+  } else if (url[3] === "callback") {
     require("./passport/kakaoLocal")(passport);
   }
   console.log("request URL: ", req.originalUrl, " - ", new Date());
