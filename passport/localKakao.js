@@ -8,7 +8,7 @@ module.exports = function (passport) {
     new KakaoStrategy(
       {
         clientID: process.env.KAKAO_REST_API,
-        callbackURL: "http://localhost:3000/users/kakao/finish",
+        callbackURL: "http://localhost:3000/users/kakao/callback",
       },
       // 카카오에서는 인증 수 callbakcURL 에 적힌 주소로 accessToken, refreshToken, profile 보냄
       async (accessToken, refreshToken, profile, done) => {
