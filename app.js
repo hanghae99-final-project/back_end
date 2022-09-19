@@ -4,6 +4,7 @@ const app = express();
 const route = require("./routes/index");
 const morgan = require("morgan");
 const cors = require("cors");
+const passport = require("passport");
 
 const connectDB = require("./config/connect");
 const bodyParser = require("body-parser");
@@ -14,16 +15,9 @@ const session = require("express-session");
 const scheduler = require("./config/scheduler");
 
 const ejs = require("ejs");
-const passport = require("passport");
 
 const requestMiddleWare = (req, res, next) => {
-  let url = req.originalUrl.split("/");
-
-  if (url[3] === "callback") {
-    console.log(url[3]);
-    require("./passport/kakaoLocal")(passport);
-  }
-  // console.log("request URL: ", url[3], " - ", new Date());
+  console.log("request URL: ", req.originalUrl, " - ", new Date());
   next();
 };
 // const schedule = require("node-schedule");
@@ -45,7 +39,7 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(requestMiddleWare);
-
+require("./passport/kakaoLocal")(passport);
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
