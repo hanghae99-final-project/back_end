@@ -5,13 +5,13 @@ const route = require("./routes/index");
 const morgan = require("morgan");
 const cors = require("cors");
 const passport = require("passport");
-const connectDB = require("./db/connect");
+const connectDB = require("./config/connect");
 const bodyParser = require("body-parser");
 
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
-const scheduler = require('./scheduler');
+const scheduler = require('./config/scheduler');
 
 const ejs = require("ejs");
 

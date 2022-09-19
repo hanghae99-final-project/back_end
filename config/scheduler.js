@@ -1,6 +1,6 @@
 const schedule = require("node-schedule");
-const Time = require("./schemas/time");
-const Studying = require("./schemas/studying");
+const Time = require("../schemas/time");
+const Studying = require("../schemas/studying");
 const moment = require("moment");
 
 exports.scheduler = () => {
