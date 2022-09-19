@@ -20,13 +20,10 @@ const requestMiddleWare = (req, res, next) => {
   let url = req.originalUrl.split("/");
 
   if (url[3] === "callback") {
-    console.log("hjkasdfglkajshdgkljashdgkl;jashd;gkjh");
+    console.log(url[3]);
     require("./passport/kakaoLocal")(passport);
-  } else if (url[3] === "finish") {
-    require("./passport/kakao")(passport);
   }
-  console.log("request URL: ", url[3], " - ", new Date());
-
+  // console.log("request URL: ", url[3], " - ", new Date());
   next();
 };
 // const schedule = require("node-schedule");
