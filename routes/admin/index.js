@@ -7,7 +7,10 @@ const { ensureAuth, ensureGuest } = require("../../middleware/auth");
 
 const asyncWrapper = require("../../middleware/async");
 //로그인 페이지
-router.route("/").get(ensureGuest, asyncWrapper(admin.loginPage)); //   .post(asyncWrapper(admin.create));
+router
+  .route("/")
+  .get(ensureGuest, asyncWrapper(admin.loginPage))
+  .post(asyncWrapper(admin.create));
 //로그인
 router.route("/login").post(asyncWrapper(admin.login));
 //로그아웃
