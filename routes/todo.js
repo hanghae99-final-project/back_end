@@ -1,18 +1,15 @@
 const express = require("express");
 const router = express.Router();
-
+const asyncWrapper = require("../middleware/async");
 const TodoController = require("../controllers/todo");
 
-// userId와 날짜를 받아올지
 router
   .route("/")
-  .post(TodoController.createTodo);
-  
+  .post(asyncWrapper(TodoController.createTodo));
 router.route("/:day")
-  .get(TodoController.getTodo);
-
+  .get(asyncWrapper(TodoController.getTodo));
 router.route("/:id")
-  .put(TodoController.putTodo)
-  .delete(TodoController.deleteTodo);
+  .put(asyncWrapper(TodoController.putTodo))
+  .delete(asyncWrapper(TodoController.deleteTodo));
 
 module.exports = router;
