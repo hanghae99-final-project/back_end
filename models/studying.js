@@ -1,8 +1,14 @@
 const Studying = require("../schemas/studying");
-// const User = require("../schemas/user");
 
 exports.getStudying = async () => {
     const existedStudying = await Studying.find({});
-    //const result = await Detail.countDocuments({});
     return existedStudying;
 };
+
+exports.startStudying = async(user) =>{
+    await Studying.create({ kakaoId: user.kakaoId, nickname: user.nickname });
+}
+
+exports.endStudying = async(user) =>{
+    await Studying.deleteMany({ kakaoId: user.kakaoId });
+}
