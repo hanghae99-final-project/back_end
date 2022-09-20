@@ -1,6 +1,5 @@
-const Quote = require("../../models/quotes");
-const Search = require("../../models/search.js");
 const { StatusCodes } = require("http-status-codes");
+const adminService = require("../../service/adminService/adminService");
 
 exports.addObject = (req, res) => {
   const page = req.body.page;
@@ -9,30 +8,24 @@ exports.addObject = (req, res) => {
   res.status(StatusCodes.OK).render(page, data);
 };
 exports.insQuote = async (req, res) => {
-  const quote = req.body.quote;
   //quote.length만큼 입력을 받는다.
+  const quote = req.body.quote;
+  const result = await adminService.create(quote);
 
-  const result = await Quote.create(quote);
-  console.log(result);
-
-  res.status(StatusCodes.OK).render("alert/successAlert", {
-    message: "입력성공.",
-    page: "insQuote",
-  });
+  if (!result) {
+    res.status(StatusCodes.BAD_REQUEST).render("alert/alert", {
+      error: "명언을 입력해주세요.",
+    });
+  } else {
+    res.status(StatusCodes.OK).render("alert/successAlert", {
+      message: "입력성공.",
+      page: "insQuote",
+    });
+  }
 };
 
 exports.deleteCheckedQuotes = async (req, res) => {
   const quote = req.body.quoteId;
-
-  const result = await Quote.checkedDelete(quote);
-
+  const result = await adminService.checkedDelete(quote);
   res.send({ message: result });
 };
-// exports.search = async (req, res) => {
-//   const { where } = req.query;
-//   const result = await Search.findSearch(where);
-
-//   res
-//     .status(StatusCodes.OK)
-//     .render("main/main", { data: result, where: where });
-// };
