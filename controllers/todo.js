@@ -1,54 +1,62 @@
-const todo = require("../models/todo");
-const asyncWrapper= require("../middleware/async");
+const todo = require("../service/todo");
 
-exports.createTodo = asyncWrapper(async (req, res) => {
+// todo 가져오기 함수
+exports.getTodo = async (req, res) => {
+  const user = req.locals;
+  const day = req.params.day;
+  const regex = /\d{4}-\d{2}-\d{2}/;
+  if (!regex.test(day)) {
+    throw new Error("날짜 형식이 틀립니다.");
+  }
+  const result = await todo.getTodo(day, user); //userId
+  res.status(200).json({ todoArr: result });
+};
+
+// todo 생성 함수
+exports.createTodo = async (req, res) => {
   const user = req.locals;
   const { work, isDone, color } = req.body;
-  if(!work || !color || typeof isDone !== "boolean"){
+  if (!work || !color || typeof isDone !== "boolean") {
     throw new Error("입력 값이 없습니다.");
   }
   const result = await todo.createTodo(work, isDone, color, user);
   res.status(200).json(result);
-});
+};
 
-exports.getTodo = asyncWrapper(async (req, res) => {
+// todo 수정하기
+exports.putTodo = async (req, res) => {
   const user = req.locals;
-  const day = req.params.day;
-  const result = await todo.getTodo(day, user); //userId
-  res.status(200).json({ todoArr: result.todoArr });
-});
-
-exports.putTodo = asyncWrapper(async (req, res) => {
-  const user = req.locals;
-  if (req.body.isDone === true || req.body.isDone === false) {
-    const todoId = req.params.id;
-    const { isDone } = req.body;
-    if(typeof isDone !== "boolean"){
-      throw new Error("isDone이 없습니다.");
+  const todoId = req.params.id;
+  const { work, color, isDone } = req.body;
+  let result = undefined;
+  if (!todoId) {
+    throw new Error("todo Id가 없습니다.");
+  }
+  if (typeof isDone !== "undefined") {
+    if (typeof isDone === "boolean") {
+      result = await todo.isDoneTodo(todoId, isDone, user);
+    } else {
+      throw new Error("isDone이 boolean 값이 아닙니다.");
     }
-    const result = await todo.isDoneTodo(todoId, isDone, user);
-    res.status(200).json(result);
   } else {
-    const todoId = req.params.id;
-    const { work, color } = req.body;
-    if(!work || !color){
+    if (!work || !color) {
       throw new Error("입력 값이 없습니다.");
+    } else if (typeof(work) !== "string" || typeof(color) !== "string") {
+      throw new Error("work, color가 문자열이 아닙니다.");
+    } else {
+      result = await todo.putTodo(todoId, work, color, user);
     }
-    const result = await todo.putTodo(todoId, work, color, user);
-    res.status(200).json(result);
   }
-});
+  res.status(200).json(result);
+};
 
-exports.deleteTodo = asyncWrapper(async (req, res) => {
-  try {
-    const user = req.locals;
-    const todoId = req.params.id;
-    if( !todoId){
-      throw new Error("todo Id가 없습니다.");
-    }
-    const result = await todo.deleteTodo(todoId, user); //userId
-    res.status(200).json({ success: result });
-  } catch (err) {
-    res.status(400).json({ errMessage: err });
+//todo 삭제하기
+exports.deleteTodo = async (req, res) => {
+  const user = req.locals;
+  const todoId = req.params.id;
+  if (!todoId) {
+    throw new Error("todo Id가 없습니다.");
   }
-});
+  const result = await todo.deleteTodo(todoId, user); //userId
+  res.status(200).json({ success: result });
+};
