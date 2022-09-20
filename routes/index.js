@@ -6,7 +6,6 @@ const Time = require("./time");
 const Rank = require("./rank");
 const MyPage = require("./myPage");
 const Profile = require("./profile");
-const NickCheck = require("./nickCheck");
 const Studying = require("./studying");
 const Quote = require("./quote");
 const authMiddleware = require("../middleware/userAuth");
@@ -23,7 +22,6 @@ router.use("/time", authMiddleware, Time);
 router.use("/rank", authMiddleware, Rank);
 router.use("/mypage", authMiddleware, MyPage);
 router.use("/profile", authMiddleware, Profile);
-router.use("/check", authMiddleware, NickCheck);
 router.use("/quote", authMiddleware, Quote);
 router.use("/studying", authMiddleware, Studying);
 

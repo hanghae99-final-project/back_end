@@ -23,5 +23,6 @@ router
   .route("/dday/:id")
   .put(asyncWrapper(Profile.putDday))
   .delete(asyncWrapper(Profile.deleteDday));
+router.route("/nick/:nickname").get(asyncWrapper(Profile.getNickCheck));
 
 module.exports = router;
