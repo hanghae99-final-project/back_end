@@ -1,11 +1,7 @@
 <%- include("../partials/header"); -%>
 <div class="content">
   <div class="container">
-    <h2 class="mb-5">회원관리</h2>
-<form action="/main" method="GET">
-  <input type="text" name="where" value="<%=where%>">
-  <button type="submit">검색</button>
-  </form>
+    <h2 class="mb-5">회원정보</h2>
 
     <div class="table-responsive">
       <table class="table table-striped custom-table">
@@ -13,13 +9,14 @@
           <tr>
             <th scope="col">카카오아이디</th>
             <th scope="col">닉네임</th>
+            <th scope="col">이메일</th>
             <th scope="col">연령대</th>
             <th scope="col">관심분야</th>
             <th scope="col">가입일</th>
           </tr>
         </thead>
         <tbody>
-          <%if(data){data.forEach((element)=> {%>
+          
           <tr>
             <!-- <td>
                 <label class="control control--checkbox">
@@ -28,26 +25,26 @@
                 </label>
               </td> -->
             <td>
-              <%=element.kakaoId %>
+              <%=data.kakaoId %>
             </td>
             <td class="pl-0">
               <div class="d-flex align-items-center">
-                <a href="user/<%=element._id%>" class="name">
-                  <%=element.nickname %>
-                </a>
+                
+                  <%=data.nickname %>
+                
               </div>
             </td>
             <td>
-              <%=element.email%>
+              <%=data.email%>
               <small class="d-block">
-                <%=element.ageGroup%>
+                <%=data.ageGroup%>
               </small>
             </td>
             <td>
-              <%=element.specialty %>
+              <%=data.specialty %>
             </td>
             <td>
-              <%= element.createdAt.toString().substring(0, 15) %>
+              <%= data.createdAt.toString().substring(0, 15) %>
             </td>
             <!-- <td>
                 <label class="custom-control ios-switch">
@@ -56,9 +53,7 @@
                   </label>
               </td> -->
           </tr>
-          <%})}else {%>
           <h1>가입한 회원이 없습니다.</h1>
-          <%}%>
         </tbody>
       </table>
     </div>
