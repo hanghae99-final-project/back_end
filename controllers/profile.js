@@ -159,3 +159,15 @@ exports.deleteDday = async (req, res) => {
   const result = await Profile.deleteDday(user, ddayId);
   return res.status(StatusCodes.OK).json({ success: result });
 };
+
+
+exports.getNickCheck = async (req, res) => {
+  const user = req.locals;
+  const {nickname} = req.params;
+  if (typeof(nickname) !== "string"){
+    throw new Error("nickname 형식이 맞지 않습니다.");
+  }
+
+  const result = await Profile.getNickCheck(user, nickname);
+  return res.status(StatusCodes.OK).json({ ok: result });
+};

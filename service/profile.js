@@ -1,5 +1,5 @@
 const Profile = require("../models/profile");
-const { profileSchema } = require("../models/userValidation");
+const { profileSchema, nicknameSchema } = require("../models/userValidation");
 
 exports.getProfile = async (user) => {
   let myProfile = {};
@@ -157,5 +157,15 @@ exports.deleteDday = async (user, ddayId) => {
     return true;
   } else {
     throw new Error("프로필이 존재하지 않습니다.");
+  }
+};
+
+exports.getNickCheck = async (user, nickname) => {
+  await nicknameSchema.validateAsync({ nickname });
+  const result = await Profile.sameNickCheck(user, nickname);
+  if (result) {
+    return false;
+  } else {
+    return true;
   }
 };
