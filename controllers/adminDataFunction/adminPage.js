@@ -20,6 +20,5 @@ exports.insQuotePage = async (req, res) => {
 exports.getUserInfoPage = async (req, res) => {
   const { userId } = req.params;
   const data = await adminService.getUserInfo(userId);
-  console.log(data);
   res.status(StatusCodes.OK).render("main/user", { data });
 };
