@@ -32,14 +32,14 @@ const requestMiddleWare = (req, res, next) => {
 
 // app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
 
-app.use(cors({ origin: process.env.FRONT_SERVER_URL, credentials: true }));
+app.use(cors({ credentials: true }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(requestMiddleWare);
-require("./passport/kakao")(passport);
+require("./passport/kakaoLocal")(passport);
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(

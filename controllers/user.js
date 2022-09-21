@@ -12,9 +12,9 @@ exports.kakaoCallback = (req, res, next) => {
       if (err) return next(err);
 
       const { kakaoId } = user;
-      const userInfo = await userService.findUser(kakaoId);
-      const token = userService.createJWT(userInfo);
+      const userInfo = await User.findOne({ kakaoId });
 
+      const token = userModel.createJWT(userInfo);
       res.status(StatusCodes.OK).json({ token });
     }
   )(req, res, next);
