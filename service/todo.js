@@ -7,7 +7,7 @@ exports.getTodo = async (day, user) => {
   if (existedTodo) {
     return existedTodo.todoArr;
   } else {
-    return `${day} 에 저장된 할일 리스트가 없습니다.`;
+    return [];
   }
 };
 
