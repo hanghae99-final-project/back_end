@@ -1,5 +1,4 @@
 const Time = require("../schemas/time");
-const Todo = require("../schemas/todo");
 const moment = require("moment");
 exports.getStudyTime = async (user, firstDay, lastDay) => {
   const totalStudyTime = await Time.find({
