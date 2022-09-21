@@ -1,5 +1,4 @@
 const profileModels = require("../models/profile");
-const userModels = require("../models/userValidation");
 
 exports.getProfile = async (user) => {
   let myProfile = {};
