@@ -1,10 +1,10 @@
 const { StatusCodes } = require("http-status-codes");
-const time = require("../service/time");
+const timeService = require("../service/time");
 
 // 오늘 공부 기록 정보를 불러오는 함수
 exports.getTime = async (req, res) => {
   const user = req.locals;
-  const result = await time.getTime(user);
+  const result = await timeService.getTime(user);
 
   res.status(200).json(result);
 };
@@ -17,7 +17,7 @@ exports.studyStart = async (req, res) => {
     throw new Error("공부 시작 시각을 받아오지 않습니다.");
   }
 
-  const result = await time.studyStart(studyStartPoint, user);
+  const result = await timeService.studyStart(studyStartPoint, user);
   res.status(200).json({ message: result });
 };
 
@@ -32,10 +32,10 @@ exports.studyEnd = async (req, res) => {
 
   // user가 공부 중일 때는 studyEndPoint를 req.body로 받는다.
   if (req.body.studyEndPoint) {
-    result = await time.studyEnd(req.body.studyEndPoint, user);
+    result = await timeService.studyEnd(req.body.studyEndPoint, user);
     // user가 휴식 중일 때는 restEndPoint를 req.body로 받는다.
   } else if (req.body.restEndPoint) {
-    result = await time.restEnd(0, req.body.restEndPoint, user);
+    result = await timeService.restEnd(0, req.body.restEndPoint, user);
   } else {
     throw new Error("공부 시작 시각 또는 휴식 시작 시각이 없습니다.");
   }
@@ -50,7 +50,7 @@ exports.restStart = async (req, res) => {
   if (!studyEndPoint || !restStartPoint) {
     throw new Error("공부 종료 시각이나 휴식 시작 시각이 없습니다.");
   }
-  const result = await time.restStart(studyEndPoint, restStartPoint, user);
+  const result = await timeService.restStart(studyEndPoint, restStartPoint, user);
   res.status(200).json({ message: result });
 };
 
@@ -61,7 +61,7 @@ exports.restEnd = async (req, res) => {
   if (!restEndPoint || !studyStartPoint) {
     throw new Error("휴식 종료 시각이나 공부 시작 시각이 없습니다.");
   }
-  const result = await time.restEnd(studyStartPoint, restEndPoint, user);
+  const result = await timeService.restEnd(studyStartPoint, restEndPoint, user);
   res.status(200).json({ message: result });
 };
 
@@ -73,13 +73,13 @@ exports.postTargetTime = async (req, res) => {
   if (!targetTime) {
     throw new Error("목표 시간이 없습니다.");
   }
-  const result = await time.postTargetTime(targetTime, user);
+  const result = await timeService.postTargetTime(targetTime, user);
   res.status(200).json({ message: result });
 };
 
 // 오늘 자 공부 기록 시간 초기화 함수
 exports.resetPoint = async (req, res) => {
   const user = req.locals;
-  const result = await time.resetPoint(user);
+  const result = await timeService.resetPoint(user);
   res.status(200).json({ message: result });
 };

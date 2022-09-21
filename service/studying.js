@@ -1,6 +1,6 @@
-const Studying = require("../models/studying");
+const studyingModels = require("../models/studying");
 
 exports.getStudyingCount = async () => {
-    const getStudyingPeople = await Studying.getStudying();
+    const getStudyingPeople = await studyingModels.getStudying();
     return getStudyingPeople.length;
   };
