@@ -1,9 +1,9 @@
-const Profile = require("../models/profile");
+const profileModels = require("../models/profile");
 const { profileSchema, nicknameSchema } = require("../models/userValidation");
 
 exports.getProfile = async (user) => {
   let myProfile = {};
-  const profile = await Profile.getProfile(user);
+  const profile = await profileModels.getProfile(user);
 
   if (profile) {
     myProfile = {
@@ -20,12 +20,12 @@ exports.getProfile = async (user) => {
 
 exports.putProfile = async (user, nickname, ageGroup, specialty) => {
   await profileSchema.validateAsync({ nickname, ageGroup, specialty });
-  const existedSameNickname = await Profile.sameNickCheck(user, nickname);
+  const existedSameNickname = await profileModels.sameNickCheck(user, nickname);
 
   if (existedSameNickname) {
     return false;
   } else {
-    const result = await Profile.putProfile(
+    const result = await profileModels.putProfile(
       user,
       nickname,
       ageGroup,
@@ -36,11 +36,11 @@ exports.putProfile = async (user, nickname, ageGroup, specialty) => {
 };
 
 exports.postSpec = async (user, education, career, year, experience) => {
-  const myProfile = await Profile.getProfile(user);
+  const myProfile = await profileModels.getProfile(user);
 
   if (myProfile) {
     myProfile.spec.push({ education, career, year, experience });
-    const result = await Profile.saveProfile(myProfile);
+    const result = await profileModels.saveProfile(myProfile);
     return result.spec[result.spec.length - 1];
   } else {
     throw new Error("프로필이 존재하지 않습니다.");
@@ -49,7 +49,7 @@ exports.postSpec = async (user, education, career, year, experience) => {
 
 exports.putSpec = async (user, specId, education, career, year, experience) => {
   let specArrIdx = false;
-  const myProfile = await Profile.getProfile(user);
+  const myProfile = await profileModels.getProfile(user);
 
   if (myProfile) {
     myProfile.spec.map((element, idx) => {
@@ -64,7 +64,7 @@ exports.putSpec = async (user, specId, education, career, year, experience) => {
     if (!specArrIdx) {
       throw new Error("spec id가 존재하지 않습니다.");
     }
-    await Profile.saveProfile(myProfile);
+    await profileModels.saveProfile(myProfile);
     return true;
   } else {
     throw new Error("프로필이 존재하지 않습니다.");
@@ -73,7 +73,7 @@ exports.putSpec = async (user, specId, education, career, year, experience) => {
 
 exports.deleteSpec = async (user, specId) => {
   let specArrIdx = false;
-  const myProfile = await Profile.getProfile(user);
+  const myProfile = await profileModels.getProfile(user);
 
   if (myProfile) {
     myProfile.spec.map((element, idx) => {
@@ -85,7 +85,7 @@ exports.deleteSpec = async (user, specId) => {
     if (!specArrIdx) {
       throw new Error("spec id가 존재하지 않습니다.");
     }
-    await Profile.saveProfile(myProfile);
+    await profileModels.saveProfile(myProfile);
     return true;
   } else {
     throw new Error("프로필이 존재하지 않습니다.");
@@ -93,7 +93,7 @@ exports.deleteSpec = async (user, specId) => {
 };
 
 exports.getDday = async (user) => {
-  const myProfile = await Profile.getProfile(user);
+  const myProfile = await profileModels.getProfile(user);
 
   if (myProfile) {
     const myDday = myProfile.dDay;
@@ -106,11 +106,11 @@ exports.getDday = async (user) => {
 };
 
 exports.postDday = async (user, deadline, content) => {
-  const myProfile = await Profile.getProfile(user);
+  const myProfile = await profileModels.getProfile(user);
 
   if (myProfile) {
     myProfile.dDay.push({ deadline, content });
-    const result = await Profile.saveProfile(myProfile);
+    const result = await profileModels.saveProfile(myProfile);
     return result.dDay[result.dDay.length - 1];
   } else {
     throw new Error("프로필이 존재하지 않습니다.");
@@ -119,7 +119,7 @@ exports.postDday = async (user, deadline, content) => {
 
 exports.putDday = async (user, ddayId, deadline, content) => {
   let ddayArrIdx = false;
-  const myProfile = await Profile.getProfile(user);
+  const myProfile = await profileModels.getProfile(user);
 
   if (myProfile) {
     myProfile.dDay.map((element, idx) => {
@@ -132,7 +132,7 @@ exports.putDday = async (user, ddayId, deadline, content) => {
     if (!ddayArrIdx) {
       throw new Error("D-day id가 존재하지 않습니다.");
     }
-    await Profile.saveProfile(myProfile);
+    await profileModels.saveProfile(myProfile);
     return true;
   } else {
     throw new Error("프로필이 존재하지 않습니다.");
@@ -141,7 +141,7 @@ exports.putDday = async (user, ddayId, deadline, content) => {
 
 exports.deleteDday = async (user, ddayId) => {
   let ddayArrIdx = false;
-  const myProfile = await Profile.getProfile(user);
+  const myProfile = await profileModels.getProfile(user);
 
   if (myProfile) {
     myProfile.dDay.map((element, idx) => {
@@ -153,7 +153,7 @@ exports.deleteDday = async (user, ddayId) => {
     if (!ddayArrIdx) {
       throw new Error("D-day id가 존재하지 않습니다.");
     }
-    await Profile.saveProfile(myProfile);
+    await profileModels.saveProfile(myProfile);
     return true;
   } else {
     throw new Error("프로필이 존재하지 않습니다.");
@@ -162,7 +162,7 @@ exports.deleteDday = async (user, ddayId) => {
 
 exports.getNickCheck = async (user, nickname) => {
   await nicknameSchema.validateAsync({ nickname });
-  const result = await Profile.sameNickCheck(user, nickname);
+  const result = await profileModels.sameNickCheck(user, nickname);
   if (result) {
     return false;
   } else {
