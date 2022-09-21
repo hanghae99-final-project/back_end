@@ -25,11 +25,7 @@ exports.getMyDailyTodo = async (req, res) => {
   const user = req.locals;
   //To-do
   const day = req.params.day;
-  const todoData = [];
-  const result = await myPageService.getTodo(day, user);
-  if (result) {
-    todoData.push(result);
-  }
+  const todoData = await myPageService.getTodo(day, user);
 
   return res.status(StatusCodes.OK).json({ todoData });
 };

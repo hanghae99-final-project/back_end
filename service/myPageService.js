@@ -1,6 +1,6 @@
 const moment = require("moment");
 const myPageModel = require("../models/myPage");
-const todo = require("../models/todo");
+const todoModels = require("../models/todo");
 
 exports.getStudyTime = async (user, month) => {
   if (month.length < 2) {
@@ -22,7 +22,7 @@ exports.getTodo = async (day, user) => {
   if (!day) {
     throw new Error("날짜를 입력해주세요.");
   }
-  return await todo.getTodo(day, user);
+  return await todoModels.getTodo(day, user);
 };
 exports.getTotalStudyTime = async (userId) => {
   if (!userId) {
