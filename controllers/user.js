@@ -1,8 +1,8 @@
 const passport = require("passport");
+const userService = require("../service/user");
 const { StatusCodes } = require("http-status-codes");
 const User = require("../schemas/user");
 const userModel = require("../models/login");
-const { profileSchema, checkNickname } = require("../models/userValidation");
 
 exports.kakaoCallback = (req, res, next) => {
   passport.authenticate(
@@ -12,9 +12,9 @@ exports.kakaoCallback = (req, res, next) => {
       if (err) return next(err);
 
       const { kakaoId } = user;
-      const userInfo = await User.findOne({ kakaoId });
+      const userInfo = await userService.findUser(kakaoId);
+      const token = userService.createJWT(userInfo);
 
-      const token = userModel.createJWT(userInfo);
       res.status(StatusCodes.OK).json({ token });
     }
   )(req, res, next);
@@ -39,11 +39,18 @@ exports.kakaoCallbackLocal = (req, res, next) => {
 exports.modProfile = async (req, res) => {
   const user = req.locals;
   //닉네임, 연령별, 전문분야 선택 필수 입력.
-  const { nickname, ageGroup, specialty } = await profileSchema.validateAsync(
-    req.body
-  );
+  const { nickname, ageGroup, specialty } = req.body;
+  await userService.nicknameCheck(nickname);
+  await userService.ageGroupCheck(ageGroup);
+  await userService.specialtyCheck(specialty);
+
   //닉네임 저장
-  const check = await checkNickname(user._id, nickname, ageGroup, specialty);
+  const check = await userService.checkNickname(
+    user._id,
+    nickname,
+    ageGroup,
+    specialty
+  );
 
   if (check) {
     return res
