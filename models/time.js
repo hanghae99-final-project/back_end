@@ -64,15 +64,11 @@ exports.yesterdayTime = async (user) => {
 
 // 시간 data 생성 함수
 exports.createTime = async (studyStartPoint, user) => {
-  // 현재 공부 중인 사람을 체크하기 위해 Studying db에 user 정보를 넣음
-  // await Studying.create({ kakaoId: user.kakaoId, nickname: user.nickname });
   await Time.create({ studyStartPoint, userId: user._id });
 };
 
 // 시간 저장 함수
 exports.saveTime = async (todayTime, user) => {
-  // 현재 공부 중인 사람을 체크하기 위해 Studying db에 user 정보를 넣음
-  // await Studying.create({ kakaoId: user.kakaoId, nickname: user.nickname });
   await todayTime.save().then(() => {});
 };
 

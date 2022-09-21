@@ -1,4 +1,5 @@
 const time = require("../models/time");
+const Studying = require("../models/Studying");
 
 // 오늘, 어제 공부 기록 정보를 불러오는 함수
 exports.getTime = async (user) => {
@@ -34,6 +35,9 @@ exports.getTime = async (user) => {
 
 // 공부 시작 시각을 기록하는 함수
 exports.studyStart = async (studyStartPoint, user) => {
+  // 현재 공부 중인 사람을 체크하기 위해 Studying db에 user 정보를 넣음
+  await Studying.startStudying(user);
+  
   const todayTime = await time.todayTime(user);
   // 오늘 공부한 기록이 있을 경우 studyStartPoint를 갱신
   if (todayTime) {
@@ -53,7 +57,8 @@ exports.studyStart = async (studyStartPoint, user) => {
 
 // 공부 종료 시각을 받아와 Time db에 누적 시간 계산 후 저장하는 함수
 exports.studyEnd = async (studyEndPoint, user) => {
-  // await Studying.deleteMany({ kakaoId: user.kakaoId });
+  await Studying.endStudying(user);
+  // 현재 공부 중인 사람을 체크하기 위해 Studying db에서 user 정보를 뺌
   const todayTime = await time.todayTime(user);
 
   if (todayTime) {
@@ -111,7 +116,6 @@ exports.restStart = async (studyEndPoint, restStartPoint, user) => {
 
 // 휴식 종료 시각을 받아와 Time db에 누적 시간 계산 후 저장하는 함수
 exports.restEnd = async (studyStartPoint, restEndPoint, user) => {
-  // await Studying.deleteMany({ kakaoId: user.kakaoId });
   const todayTime = await time.todayTime(user);
 
   if (todayTime) {
