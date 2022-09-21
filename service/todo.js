@@ -1,9 +1,9 @@
-const todo = require("../models/todo");
+const todoModels = require("../models/todo");
 const moment = require("moment");
 
 // todo 가져오기
 exports.getTodo = async (day, user) => {
-  const existedTodo = await todo.getTodo(day, user); //userId
+  const existedTodo = await todoModels.getTodo(day, user); //userId
   if (existedTodo) {
     return existedTodo.todoArr;
   } else {
@@ -15,13 +15,13 @@ exports.getTodo = async (day, user) => {
 exports.createTodo = async (work, isDone, color, user) => {
   const today = moment();
   let result = {};
-  const existedTodo = await todo.getTodo(today, user);
+  const existedTodo = await todoModels.getTodo(today, user);
 
   if (existedTodo) {
     existedTodo.todoArr.push({ work, isDone, color });
-    result = await todo.saveTodo(existedTodo);
+    result = await todoModels.saveTodo(existedTodo);
   } else {
-    result = await todo.createTodo(work, isDone, color, user);
+    result = await todoModels.createTodo(work, isDone, color, user);
   }
   return result.todoArr[result.todoArr.length - 1];
 };
@@ -30,7 +30,7 @@ exports.createTodo = async (work, isDone, color, user) => {
 exports.isDoneTodo = async (todoId, isDone, user) => {
   const today = moment();
   let todoArrIdx = false;
-  const existedTodo = await todo.getTodo(today, user);
+  const existedTodo = await todoModels.getTodo(today, user);
 
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
@@ -42,7 +42,7 @@ exports.isDoneTodo = async (todoId, isDone, user) => {
     if (!todoArrIdx) {
       throw new Error("todo id가 없거나 일치하지 않습니다.");
     }
-    const result = await todo.saveTodo(existedTodo);
+    const result = await todoModels.saveTodo(existedTodo);
     return result.todoArr[Number(todoArrIdx)];
   } else {
     throw new Error("todo에 데이터가 없습니다.");
@@ -53,7 +53,7 @@ exports.isDoneTodo = async (todoId, isDone, user) => {
 exports.putTodo = async (todoId, work, color, user) => {
   const today = moment();
   let todoArrIdx = false;
-  const existedTodo = await todo.getTodo(today, user);
+  const existedTodo = await todoModels.getTodo(today, user);
 
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
@@ -67,7 +67,7 @@ exports.putTodo = async (todoId, work, color, user) => {
     if (!todoArrIdx) {
       throw new Error("todo id가 없거나 일치하지 않습니다.");
     }
-    const result = await todo.saveTodo(existedTodo);
+    const result = await todoModels.saveTodo(existedTodo);
     return result.todoArr[Number(todoArrIdx)];
   } else {
     throw new Error("todo에 데이터가 없습니다.");
@@ -78,7 +78,7 @@ exports.putTodo = async (todoId, work, color, user) => {
 exports.deleteTodo = async (todoId, user) => {
   const today = moment();
   let todoArrIdx = false;
-  const existedTodo = await todo.getTodo(today, user);
+  const existedTodo = await todoModels.getTodo(today, user);
 
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
@@ -90,7 +90,7 @@ exports.deleteTodo = async (todoId, user) => {
     if (!todoArrIdx) {
       throw new Error("todo id가 없거나 일치하지 않습니다.");
     }
-    await todo.saveTodo(existedTodo);
+    await todoModels.saveTodo(existedTodo);
     return true;
   } else {
     throw new Error("todo에 데이터가 없습니다.");

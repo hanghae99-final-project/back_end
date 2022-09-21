@@ -1,5 +1,5 @@
-const rank = require("../models/rank");
-const studying = require("../models/studying");
+const rankModels = require("../models/rank");
+const studyingModels = require("../models/studying");
 const moment = require("moment");
 
 exports.getAllRank = async (user, period, category) => {
@@ -33,12 +33,12 @@ exports.getAllRank = async (user, period, category) => {
     else if (category === "thirty"){
         category="30대"
     }
-    ranking = await rank.getGenerationRank(periodStart, periodEnd, category);
+    ranking = await rankModels.getGenerationRank(periodStart, periodEnd, category);
   }else{
-    ranking = await rank.getAllRank(periodStart, periodEnd);
+    ranking = await rankModels.getAllRank(periodStart, periodEnd);
   }
 
-  const studyingPerson = await studying.getStudying();
+  const studyingPerson = await studyingModels.getStudying();
 
   ranking = ranking.map((element, index) => {
     let studyingDefault = false;

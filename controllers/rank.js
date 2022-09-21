@@ -1,4 +1,4 @@
-const rank = require("../service/rank");
+const rankService = require("../service/rank");
 
 exports.getRank = async (req, res) => {
   const user = req.locals;
@@ -10,12 +10,12 @@ exports.getRank = async (req, res) => {
     if(period !== "day" && period !== "week" && period !== "month"){
       throw new Error("설정된 period가 아닙니다.")
     }
-    result = await rank.getAllRank(user, period, false);
+    result = await rankService.getAllRank(user, period, false);
   } else if (category === "twenty" || category === "thirty") {
     if(period !== "day" && period !== "week" && period !== "month"){
       throw new Error("설정된 period가 아닙니다.")
     }
-    result = await rank.getAllRank(user, period, category);
+    result = await rankService.getAllRank(user, period, category);
   } else {
     throw new Error("설정된 category가 아닙니다.");
   }

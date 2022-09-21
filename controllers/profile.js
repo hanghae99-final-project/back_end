@@ -1,9 +1,9 @@
-const Profile = require("../service/profile");
+const profileService = require("../service/profile");
 const { StatusCodes } = require("http-status-codes");
 
 exports.getProfile = async (req, res) => {
   const user = req.locals;
-  const myProfile = await Profile.getProfile(user);
+  const myProfile = await profileService.getProfile(user);
   return res.status(StatusCodes.OK).json(myProfile);
 };
 
@@ -23,7 +23,7 @@ exports.putProfile = async (req, res) => {
     throw new Error("specialty 형식에 맞지 않습니다.");
   }
 
-  const check = await Profile.putProfile(user, nickname, ageGroup, specialty);
+  const check = await profileService.putProfile(user, nickname, ageGroup, specialty);
   if (check) {
     return res.status(StatusCodes.OK).json({ success: check });
   } else {
@@ -52,7 +52,7 @@ exports.postSpec = async (req, res) => {
     throw new Error("year가 형식에 맞지 않습니다.");
   }
   
-  const createdSpec = await Profile.postSpec(
+  const createdSpec = await profileService.postSpec(
     user,
     education,
     career,
@@ -86,7 +86,7 @@ exports.putSpec = async (req, res) => {
     throw new Error("year가 형식에 맞지 않습니다.");
   }
 
-  const result = await Profile.putSpec(
+  const result = await profileService.putSpec(
     user,
     specId,
     education,
@@ -105,13 +105,13 @@ exports.deleteSpec = async (req, res) => {
     throw new Error("specId가 없습니다.");
   }
 
-  const result = await Profile.deleteSpec(user, specId);
+  const result = await profileService.deleteSpec(user, specId);
   return res.status(StatusCodes.OK).json({ success: result });
 };
 
 exports.getDday = async (req, res) => {
   const user = req.locals;
-  const myDday = await Profile.getDday(user);
+  const myDday = await profileService.getDday(user);
   return res.status(StatusCodes.OK).json({myDday});
 };
 
@@ -126,7 +126,7 @@ exports.postDday = async (req, res) => {
     throw new Error("날짜 형식이 틀립니다.");
   }
 
-  const createdDday = await Profile.postDday(user, deadline, content);
+  const createdDday = await profileService.postDday(user, deadline, content);
   return res.status(StatusCodes.OK).json(createdDday);
 };
 
@@ -145,7 +145,7 @@ exports.putDday = async (req, res) => {
     throw new Error("날짜 형식이 틀립니다.");
   }
 
-  const result = await Profile.putDday(user, ddayId, deadline, content);
+  const result = await profileService.putDday(user, ddayId, deadline, content);
   return res.status(StatusCodes.OK).json({success: result});
 };
 
@@ -156,7 +156,7 @@ exports.deleteDday = async (req, res) => {
     throw new Error("dday Id가 없습니다.");
   }
 
-  const result = await Profile.deleteDday(user, ddayId);
+  const result = await profileService.deleteDday(user, ddayId);
   return res.status(StatusCodes.OK).json({ success: result });
 };
 
@@ -168,6 +168,6 @@ exports.getNickCheck = async (req, res) => {
     throw new Error("nickname 형식이 맞지 않습니다.");
   }
 
-  const result = await Profile.getNickCheck(user, nickname);
+  const result = await profileService.getNickCheck(user, nickname);
   return res.status(StatusCodes.OK).json({ ok: result });
 };

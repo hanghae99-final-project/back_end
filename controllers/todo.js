@@ -1,4 +1,4 @@
-const todo = require("../service/todo");
+const todoService = require("../service/todo");
 
 // todo 가져오기 함수
 exports.getTodo = async (req, res) => {
@@ -8,7 +8,7 @@ exports.getTodo = async (req, res) => {
   if (!regex.test(day)) {
     throw new Error("날짜 형식이 틀립니다.");
   }
-  const result = await todo.getTodo(day, user); //userId
+  const result = await todoService.getTodo(day, user); //userId
   res.status(200).json({ todoArr: result });
 };
 
@@ -19,7 +19,7 @@ exports.createTodo = async (req, res) => {
   if (!work || !color || typeof isDone !== "boolean") {
     throw new Error("입력 값이 없습니다.");
   }
-  const result = await todo.createTodo(work, isDone, color, user);
+  const result = await todoService.createTodo(work, isDone, color, user);
   res.status(200).json(result);
 };
 
@@ -34,7 +34,7 @@ exports.putTodo = async (req, res) => {
   }
   if (typeof isDone !== "undefined") {
     if (typeof isDone === "boolean") {
-      result = await todo.isDoneTodo(todoId, isDone, user);
+      result = await todoService.isDoneTodo(todoId, isDone, user);
     } else {
       throw new Error("isDone이 boolean 값이 아닙니다.");
     }
@@ -44,7 +44,7 @@ exports.putTodo = async (req, res) => {
     } else if (typeof(work) !== "string" || typeof(color) !== "string") {
       throw new Error("work, color가 문자열이 아닙니다.");
     } else {
-      result = await todo.putTodo(todoId, work, color, user);
+      result = await todoService.putTodo(todoId, work, color, user);
     }
   }
   res.status(200).json(result);
@@ -57,6 +57,6 @@ exports.deleteTodo = async (req, res) => {
   if (!todoId) {
     throw new Error("todo Id가 없습니다.");
   }
-  const result = await todo.deleteTodo(todoId, user); //userId
+  const result = await todoService.deleteTodo(todoId, user); //userId
   res.status(200).json({ success: result });
 };
