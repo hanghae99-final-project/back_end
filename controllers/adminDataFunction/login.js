@@ -1,8 +1,3 @@
-const Admin = require("../../schemas/admin");
-const adminModel = require("../../models/adminLogin");
-const Joi = require("joi");
-const loginModel = require("../../models/login");
-const nodemailer = require("../../models/mail");
 const { StatusCodes } = require("http-status-codes");
 const adminLoginService = require("../../service/adminService/adminLoginService");
 

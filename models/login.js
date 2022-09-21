@@ -1,6 +1,10 @@
 const jwt = require("jsonwebtoken");
 const user = require("../schemas/user");
 
+exports.findUser = async (kakaoId) => {
+  return user.findOne({ kakaoId });
+};
+
 exports.createJWT = function (userinfo) {
   //Send JWT access token
   // console.log(userinfo.kakaoId);

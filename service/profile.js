@@ -1,5 +1,4 @@
 const profileModels = require("../models/profile");
-const { profileSchema, nicknameSchema } = require("../models/userValidation");
 
 exports.getProfile = async (user) => {
   let myProfile = {};
@@ -19,7 +18,10 @@ exports.getProfile = async (user) => {
 };
 
 exports.putProfile = async (user, nickname, ageGroup, specialty) => {
-  await profileSchema.validateAsync({ nickname, ageGroup, specialty });
+  // await profileSchema.validateAsync({ nickname, ageGroup, specialty });
+  // await userModels.nicknameCheck(nickname);
+  // await userModels.ageGroupCheck(ageGroup);
+  // await userModels.specialtyCheck(specialty);
   const existedSameNickname = await profileModels.sameNickCheck(user, nickname);
 
   if (existedSameNickname) {
