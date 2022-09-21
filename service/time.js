@@ -1,5 +1,5 @@
 const timeModels = require("../models/time");
-const studyingModels = require("../models/Studying");
+const studyingModels = require("../models/studying");
 
 // 오늘, 어제 공부 기록 정보를 불러오는 함수
 exports.getTime = async (user) => {
