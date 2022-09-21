@@ -39,7 +39,7 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(requestMiddleWare);
-require("./passport/kakaoLocal")(passport);
+require("./passport/kakao")(passport);
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
