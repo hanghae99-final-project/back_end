@@ -1,6 +1,7 @@
 const rankModels = require("../models/rank");
 const studyingModels = require("../models/studying");
 const moment = require("moment");
+const boom = require("@hapi/boom");
 
 exports.getAllRank = async (user, period, category) => {
   const myRanking= {nickname:user.nickname, rank: 0, specialty:user.specialty, savedStudyTime:0, studying:false};
@@ -24,7 +25,7 @@ exports.getAllRank = async (user, period, category) => {
     periodStart = moment(today).startOf("month").add(2, "hours");
     periodEnd = moment(today).endOf("month").add(2, "hours");
   } else {
-    throw new Error("설정된 period가 아닙니다.");
+    throw boom.badRequest("설정된 period가 아닙니다.");
   }
   if(category){
     if (category === "twenty"){
