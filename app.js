@@ -16,24 +16,13 @@ const scheduler = require("./config/scheduler");
 
 const ejs = require("ejs");
 
-const errorHandlerMiddleware = require("./middleware/errorHandler");
+const {errorHandlerMiddleware} = require("./middleware/errorHandler");
 
 const requestMiddleWare = (req, res, next) => {
   console.log("request URL: ", req.originalUrl, " - ", new Date());
   next();
 };
-// const schedule = require("node-schedule");
-// const scheduler =(req, res, next) => {
-//   //check header
-
-//       schedule.scheduleJob("20 * * * * *", async() =>{
-//           console.log("1분마다 스케쥴러가 작동돼!");
-//       })
-//     next();
-// };
-
 // app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
-
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -53,7 +42,7 @@ app.use(
 );
 
 app.use("/", route);
-//app.use(errorHandlerMiddleware);
+app.use(errorHandlerMiddleware);
 
 app.use((req, res) => {
   res.status(404).send("not found");

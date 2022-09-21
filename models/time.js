@@ -2,6 +2,8 @@ const Time = require("../schemas/time");
 const User = require("../schemas/user");
 const Studying = require("../schemas/studying");
 const moment = require("moment");
+const { bool } = require("joi");
+const { Boom } = require("@hapi/boom");
 
 // 오늘 공부 기록 정보를 불러오는 함수
 exports.todayTime = async (user) => {
@@ -69,20 +71,16 @@ exports.createTime = async (studyStartPoint, user) => {
 
 // 시간 저장 함수
 exports.saveTime = async (todayTime, user) => {
-  await todayTime.save().then(() => {});
+  await todayTime.save();
 };
 
 // 목표 시간 설정 함수
-exports.postTargetTime = async (targetTime, user) => {
+exports.getTargetTime = async (targetTime, user) => {
   // targetTime은 Time db에 있지 않고 User db에 있으므로 User db에서 검색
   const userData = await User.findOne({ _id: user._id });
-
-  if (userData) {
-    // targetTime을 설정 후 저장
-    userData.targetTime = targetTime;
-    await userData.save();
-    return "목표시간 설정 완료";
-  } else {
-    throw new Error("데이터가 없습니다.");
-  }
+  return userData;
 };
+
+exports.saveTargetTime = async (userData) => {
+  await userData.save();
+}
