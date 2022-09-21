@@ -16,6 +16,8 @@ const scheduler = require("./config/scheduler");
 
 const ejs = require("ejs");
 
+const errorHandlerMiddleware = require("./middleware/errorHandler");
+
 const requestMiddleWare = (req, res, next) => {
   console.log("request URL: ", req.originalUrl, " - ", new Date());
   next();
@@ -51,6 +53,7 @@ app.use(
 );
 
 app.use("/", route);
+//app.use(errorHandlerMiddleware);
 
 app.use((req, res) => {
   res.status(404).send("not found");

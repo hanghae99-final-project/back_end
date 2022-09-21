@@ -4,8 +4,8 @@ const asyncWrapper = (fn) => {
       await fn(req, res, next);
     } catch (error) {
       //passing the next middleware.
-      //next(error); //우선 에러핸들러 미들웨어를 안만들어서 주석처리
-      res.status(400).json({errMessage: error.message});
+      next(error); //우선 에러핸들러 미들웨어를 안만들어서 주석처리
+      //res.status(400).json({errMessage: error.message});
     }
   };
 };

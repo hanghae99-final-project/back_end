@@ -1,5 +1,6 @@
 const todoModels = require("../models/todo");
 const moment = require("moment");
+const boom = require("@hapi/boom");
 
 // todo 가져오기
 exports.getTodo = async (day, user) => {
@@ -40,12 +41,12 @@ exports.isDoneTodo = async (todoId, isDone, user) => {
       }
     });
     if (!todoArrIdx) {
-      throw new Error("todo id가 없거나 일치하지 않습니다.");
+      throw boom.notFound("todo id가 없거나 일치하지 않습니다.");
     }
     const result = await todoModels.saveTodo(existedTodo);
     return result.todoArr[Number(todoArrIdx)];
   } else {
-    throw new Error("todo에 데이터가 없습니다.");
+    throw boom.notFound("todo에 데이터가 없습니다.");
   }
 };
 
@@ -65,12 +66,12 @@ exports.putTodo = async (todoId, work, color, user) => {
       }
     });
     if (!todoArrIdx) {
-      throw new Error("todo id가 없거나 일치하지 않습니다.");
+      throw boom.notFound("todo id가 없거나 일치하지 않습니다.");
     }
     const result = await todoModels.saveTodo(existedTodo);
     return result.todoArr[Number(todoArrIdx)];
   } else {
-    throw new Error("todo에 데이터가 없습니다.");
+    throw boom.notFound("todo에 데이터가 없습니다.");
   }
 };
 
@@ -88,11 +89,11 @@ exports.deleteTodo = async (todoId, user) => {
       }
     });
     if (!todoArrIdx) {
-      throw new Error("todo id가 없거나 일치하지 않습니다.");
+      throw boom.notFound("todo id가 없거나 일치하지 않습니다.");
     }
     await todoModels.saveTodo(existedTodo);
     return true;
   } else {
-    throw new Error("todo에 데이터가 없습니다.");
+    throw boom.notFound("todo에 데이터가 없습니다.");
   }
 };

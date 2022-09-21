@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/boom": "^10.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "connect-mongo": "^3.2.0",
