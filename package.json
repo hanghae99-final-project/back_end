@@ -32,6 +32,8 @@
     "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19",
     "passport": "^0.6.0",
-    "passport-kakao": "^1.0.1"
+    "passport-kakao": "^1.0.1",
+    "winston": "^3.8.2",
+    "winston-daily-rotate-file": "^4.7.1"
   }
 }

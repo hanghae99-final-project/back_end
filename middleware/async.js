@@ -1,11 +1,14 @@
+const logger = require("../config/logger");
 const asyncWrapper = (fn) => {
   return async (req, res, next) => {
     try {
+      const user = req.locals;
+      logger.info(`req : ${user.nickname}(${req.ip}), method: ${req.method}, api: ${req.url}`);
       await fn(req, res, next);
+      logger.info(`res : ${user.nickname}(${req.ip}), status: ${res.statusCode}(${res.statusMessage})`);
     } catch (error) {
       //passing the next middleware.
-      next(error); //우선 에러핸들러 미들웨어를 안만들어서 주석처리
-      //res.status(400).json({errMessage: error.message});
+      next(error);
     }
   };
 };
