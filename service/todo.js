@@ -59,7 +59,6 @@ exports.putTodo = async (todoId, work, color, user) => {
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
       if (todo._id.equals(todoId)) {
-        console.log(todoId);
         todoArrIdx = idx.toString();
         existedTodo.todoArr[idx].work = work;
         existedTodo.todoArr[idx].color = color;

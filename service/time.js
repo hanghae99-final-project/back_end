@@ -134,12 +134,10 @@ exports.restEnd = async (studyStartPoint, restEndPoint, user) => {
       todayTime.savedRestTime += restEndPoint - todayTime.restStartPoint;
       todayTime.restStartPoint = 0;
       todayTime.restEndPoint = 0;
-
       // 공부 시작 시각이 있을 시 휴식을 종료하고 공부를 시작함
       if (studyStartPoint !== 0) {
         todayTime.studyStartPoint = studyStartPoint;
       }
-
       await timeModels.saveTime(todayTime, user);
       return "Rest time has been accumulated.";
     }
@@ -150,14 +148,20 @@ exports.restEnd = async (studyStartPoint, restEndPoint, user) => {
 
 // targetTime(목표시간) 입력 함수
 exports.postTargetTime = async (targetTime, user) => {
-  const result = await timeModels.postTargetTime(targetTime, user);
-  return result;
+  const userData = await timeModels.getTargetTime(targetTime, user);
+  if (userData) {
+    // targetTime을 설정 후 저장
+    userData.targetTime = targetTime;
+    await timeModels.saveTargetTime(userData);
+    return "목표시간 설정 완료";
+  } else {
+    throw boom.notFound("데이터가 없습니다.");
+  }
 };
 
 // 오늘자 공부 기록 리셋 함수
 exports.resetPoint = async (user) => {
   const todayTime = await timeModels.todayTime(user);
-
   if (todayTime) {
     todayTime.studyStartPoint = 0;
     todayTime.studyEndPoint = 0;

@@ -17,11 +17,7 @@ exports.getTodo = async (dayData, user) => {
       },
     ],
   });
-  if (existedTodo) {
-    return existedTodo;
-  } else {
-    return `${dayData} 에 저장된 할일 리스트가 없습니다.`;
-  }
+  return existedTodo;
 };
 
 exports.createTodo = async (work, isDone, color, user) => {
