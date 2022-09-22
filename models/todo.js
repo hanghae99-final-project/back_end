@@ -2,7 +2,8 @@ const Todo = require("../schemas/todo");
 const moment = require("moment");
 
 exports.getTodo = async (dayData, user) => {
-  const dayStart = moment(dayData).startOf("day");
+  const day = new Date(dayData);
+  const dayStart = moment(day).startOf("day");
   const dayEnd = moment(dayStart).endOf("day");
   const existedTodo = await Todo.findOne({
     $and: [
