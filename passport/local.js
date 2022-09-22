@@ -1,13 +1,13 @@
 const passport = require("passport");
-const KakaoStrategy = require("passport-kakao").Strategy;
-const User = require("../schemas/user");
+const LocalStrategy = require("passport-local").Strategy;
+const admin = require("../schemas/admin");
 //카카오 로그인
 module.exports = function (passport) {
   passport.use(
-    new KakaoStrategy(
+    new L(
       {
         clientID: process.env.KAKAO_REST_API,
-        callbackURL: process.env.KAKAO_REDIRECT_URI_LOCAL,
+        callbackURL: process.env.KAKAO_REDIRECT_URI,
       },
       // 카카오에서는 인증 수 callbakcURL 에 적힌 주소로 accessToken, refreshToken, profile 보냄
       async (accessToken, refreshToken, profile, done) => {

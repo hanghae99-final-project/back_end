@@ -1,5 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const adminLoginService = require("../../service/adminService/adminLoginService");
+const passport = require("passport");
 
 exports.loginPage = (req, res) => {
   res.render("login");
@@ -10,29 +11,43 @@ exports.create = async (req, res) => {
   res.status(StatusCodes.OK).send({ message: "계정이 생성 되었습니다." });
 };
 
-//admin login
-exports.login = async (req, res) => {
-  const { adminEmail, password, confirmCode, auth_yn } = req.body;
-  const result = await adminLoginService.login(
-    adminEmail,
-    password,
-    confirmCode,
-    auth_yn
-  );
+// //admin login
+// exports.login = async (req, res) => {
+//   const { adminEmail, password, confirmCode, auth_yn } = req.body;
+//   const result = await adminLoginService.login(
+//     adminEmail,
+//     password,
+//     confirmCode,
+//     auth_yn
+//   );
 
-  if (result != true) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .render("alert/alert", { error: result });
-  }
-  //creating jwt
-  const refreshToken = await adminLoginService.createJWT(adminEmail);
-  //creating refresh token
-  res.cookie("HangHae99", `Bearer ${refreshToken}`, {
-    httpOnly: true,
-    secure: false,
+//   if (result != true) {
+//     return res
+//       .status(StatusCodes.BAD_REQUEST)
+//       .render("alert/alert", { error: result });
+//   }
+//   //creating jwt
+//   const refreshToken = await adminLoginService.createJWT(adminEmail);
+//   //creating refresh token
+//   res.cookie("HangHae99", `Bearer ${refreshToken}`, {
+//     httpOnly: true,
+//     secure: false,
+//   });
+//   res.status(StatusCodes.OK).redirect("main");
+// };
+//admin login via passport
+exports.login = async (req, res, next) => {
+  passport.authenticate("local", (authError, user, info) => {
+    if (authError) {
+      console.error(authError);
+      return next(authError);
+    }
+    if (!user) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .render("alert/alert", { error: result });
+    }
   });
-  res.status(StatusCodes.OK).redirect("main");
 };
 
 //인증코드 보내는 function
