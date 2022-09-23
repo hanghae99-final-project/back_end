@@ -7,10 +7,7 @@ const { isLoggedIn, isNotLoggedIn } = require("../../middleware/auth");
 
 const asyncWrapper = require("../../middleware/async");
 //로그인 페이지
-router
-  .route("/")
-  .get(isNotLoggedIn, asyncWrapper(admin.loginPage))
-  .post(asyncWrapper(admin.create));
+router.route("/").get(isNotLoggedIn, admin.loginPage).post(admin.create);
 //로그인
 router.route("/login").post(asyncWrapper(admin.login));
 //로그아웃
