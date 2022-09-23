@@ -1,16 +1,15 @@
 const Todo = require("../schemas/todo");
-const moment = require("moment");
+const { DateTime } = require('luxon');
 
-exports.getTodo = async (dayData, user) => {
-  const day = new Date(dayData);
-  const dayStart = moment(day).startOf("day");
-  const dayEnd = moment(dayStart).endOf("day");
+exports.getTodo = async (day, user) => {
+  const dayStart = new Date(day.startOf("days"));
+  const dayEnd = new Date(day.endOf("days"));
   const existedTodo = await Todo.findOne({
     $and: [
       {
         createdAt: {
-          $gte: dayStart.toDate(),
-          $lte: dayEnd.toDate(),
+          $gte: dayStart,
+          $lte: dayEnd,
         },
       },
       {
@@ -33,3 +32,7 @@ exports.saveTodo = async (existedTodo) => {
   const result = await existedTodo.save();
   return result;
 };
+
+exports.deleteTodo = async (existedTodo) => {
+  await Todo.deleteOne(existedTodo);
+}

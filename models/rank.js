@@ -1,12 +1,13 @@
 const Time = require("../schemas/time");
 
 exports.getAllRank = async (periodStart, periodEnd) => {
+  console.log("기간 :", periodStart);
   const periodRank = await Time.aggregate([
     {
       $match: {
         createdAt: {
-          $gte: periodStart.toDate(),
-          $lte: periodEnd.toDate(),
+          $gte: periodStart,
+          $lte: periodEnd,
         },
       },
     },
@@ -51,8 +52,8 @@ exports.getGenerationRank = async (periodStart, periodEnd, category) => {
     {
       $match: {
         createdAt: {
-          $gte: periodStart.toDate(),
-          $lte: periodEnd.toDate(),
+          $gte: periodStart,
+          $lte: periodEnd,
         },
       },
     },

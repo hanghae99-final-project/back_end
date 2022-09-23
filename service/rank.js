@@ -1,41 +1,50 @@
 const rankModels = require("../models/rank");
 const studyingModels = require("../models/studying");
-const moment = require("moment");
 const boom = require("@hapi/boom");
+const { DateTime } = require("luxon");
 
 exports.getAllRank = async (user, period, category) => {
-  const myRanking= {nickname:user.nickname, rank: 0, specialty:user.specialty, savedStudyTime:0, studying:false};
+  const myRanking = {
+    nickname: user.nickname,
+    rank: 0,
+    specialty: user.specialty,
+    savedStudyTime: 0,
+    studying: false,
+  };
   let periodStart = undefined;
   let periodEnd = undefined;
   let ranking = undefined;
-  let today = moment();
+  let today = DateTime.now();
 
-  
-  if (today.hours() < 2) {
-    today = today.add(-1, "days");
+  if (today.hour < 2) {
+    today = today.minus({ days: 1 });
   }
+
   if (period === "day") {
-    periodStart = moment(today).startOf("day").add(2, "hours");
-    periodEnd = moment(today).endOf("day").add(2, "hours");
+    periodStart = new Date(today.startOf("days").plus({ hours: 2 }));
+    periodEnd = new Date(today.endOf("days").plus({ hours: 2 }));
   } else if (period === "week") {
     //주의 시작은 월요일부터 (일요일부터 시작할 경우 moment(today).startOf("week"))
-    periodStart = moment(today).day(1).startOf("day").add(2, "hours");
-    periodEnd = moment(today).day(7).endOf("day").add(2, "hours");
+    periodStart = new Date(today.startOf("weeks").plus({ hours: 2 }));
+    periodEnd = new Date(today.endOf("weeks").plus({ hours: 2 }));
   } else if (period === "month") {
-    periodStart = moment(today).startOf("month").add(2, "hours");
-    periodEnd = moment(today).endOf("month").add(2, "hours");
+    periodStart = new Date(today.startOf("months").plus({ hours: 2 }));
+    periodEnd = new Date(today.endOf("months").plus({ hours: 2 }));
   } else {
     throw boom.badRequest("설정된 period가 아닙니다.");
   }
-  if(category){
-    if (category === "twenty"){
-        category="20대"
+  if (category) {
+    if (category === "twenty") {
+      category = "20대";
+    } else if (category === "thirty") {
+      category = "30대";
     }
-    else if (category === "thirty"){
-        category="30대"
-    }
-    ranking = await rankModels.getGenerationRank(periodStart, periodEnd, category);
-  }else{
+    ranking = await rankModels.getGenerationRank(
+      periodStart,
+      periodEnd,
+      category
+    );
+  } else {
     ranking = await rankModels.getAllRank(periodStart, periodEnd);
   }
 
@@ -48,10 +57,10 @@ exports.getAllRank = async (user, period, category) => {
         studyingDefault = true;
       }
     });
-    if(element.kakaoId === user.kakaoId){
-        myRanking.rank=index+1;
-        myRanking.savedStudyTime=element.savedStudyTime;
-        myRanking.studying=studyingDefault;
+    if (element.kakaoId === user.kakaoId) {
+      myRanking.rank = index + 1;
+      myRanking.savedStudyTime = element.savedStudyTime;
+      myRanking.studying = studyingDefault;
     }
     const nickname = element.nickname;
     const savedStudyTime = element.savedStudyTime;
@@ -63,5 +72,5 @@ exports.getAllRank = async (user, period, category) => {
   if (ranking.length > 20) {
     ranking = ranking.slice(0, 20);
   }
-  return {ranking, myRanking};
+  return { ranking, myRanking };
 };

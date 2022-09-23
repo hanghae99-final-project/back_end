@@ -148,7 +148,7 @@ exports.restEnd = async (studyStartPoint, restEndPoint, user) => {
 
 // targetTime(목표시간) 입력 함수
 exports.postTargetTime = async (targetTime, user) => {
-  const userData = await timeModels.getTargetTime(targetTime, user);
+  const userData = await timeModels.getTargetTime(user);
   if (userData) {
     // targetTime을 설정 후 저장
     userData.targetTime = targetTime;
