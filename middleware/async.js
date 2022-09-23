@@ -8,8 +8,9 @@ const asyncWrapper = (fn) => {
         await fn(req, res, next);
         logger.info(`res : ${user.nickname}(${req.ip}), status: ${res.statusCode}(${res.statusMessage})`);
       }
-      await fn(req, res, next);
-      
+      else{
+        await fn(req, res, next);
+      }
     } catch (error) {
       //passing the next middleware.
       next(error);

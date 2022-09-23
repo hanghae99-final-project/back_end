@@ -1,9 +1,10 @@
 const todoModels = require("../models/todo");
-const moment = require("moment");
 const boom = require("@hapi/boom");
+const { DateTime } = require("luxon");
 
 // todo 가져오기
-exports.getTodo = async (day, user) => {
+exports.getTodo = async (dayData, user) => {
+  day = DateTime.fromISO(dayData);
   const existedTodo = await todoModels.getTodo(day, user); //userId
   if (existedTodo) {
     return existedTodo.todoArr;
@@ -14,7 +15,7 @@ exports.getTodo = async (day, user) => {
 
 // todo 생성하기
 exports.createTodo = async (work, isDone, color, user) => {
-  const today = moment();
+  const today = DateTime.now();
   let result = {};
   const existedTodo = await todoModels.getTodo(today, user);
 
@@ -29,7 +30,7 @@ exports.createTodo = async (work, isDone, color, user) => {
 
 // todo 완료 유무 수정하기
 exports.isDoneTodo = async (todoId, isDone, user) => {
-  const today = moment();
+  const today = DateTime.now();
   let todoArrIdx = false;
   const existedTodo = await todoModels.getTodo(today, user);
 
@@ -52,7 +53,7 @@ exports.isDoneTodo = async (todoId, isDone, user) => {
 
 // todo 수정하기
 exports.putTodo = async (todoId, work, color, user) => {
-  const today = moment();
+  const today = DateTime.now();
   let todoArrIdx = false;
   const existedTodo = await todoModels.getTodo(today, user);
 
@@ -76,10 +77,9 @@ exports.putTodo = async (todoId, work, color, user) => {
 
 // todo 삭제하기
 exports.deleteTodo = async (todoId, user) => {
-  const today = moment();
+  const today = DateTime.now();
   let todoArrIdx = false;
   const existedTodo = await todoModels.getTodo(today, user);
-
   if (existedTodo) {
     existedTodo.todoArr.map((todo, idx) => {
       if (todo._id.equals(todoId)) {
@@ -91,6 +91,9 @@ exports.deleteTodo = async (todoId, user) => {
       throw boom.notFound("todo id가 없거나 일치하지 않습니다.");
     }
     await todoModels.saveTodo(existedTodo);
+    if(!existedTodo.todoArr.length){
+      await todoModels.deleteTodo(existedTodo);
+    }
     return true;
   } else {
     throw boom.notFound("todo에 데이터가 없습니다.");
