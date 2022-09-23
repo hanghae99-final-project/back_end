@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const adminLoginService = require("../../service/adminService/adminLoginService");
+const adminLoginService = require("../../service/adminService/adminLogin");
 const passport = require("passport");
 
 exports.loginPage = (req, res) => {
