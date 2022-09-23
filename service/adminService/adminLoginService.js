@@ -36,16 +36,9 @@ exports.checkValidation = async (value) => {
 exports.createAdmin = async (value) => {
   return await Admin.create({ ...value });
 };
-exports.login = async (adminEmail, password, confirmCode, auth_yn) => {
+exports.login = async (adminEmail, confirmCode, auth_yn) => {
   let message = true;
-  if (!adminEmail) {
-    message = "아이디를 입력해주세요";
-    return message;
-  }
-  if (!password) {
-    message = "비밀번호를 입력해주세요";
-    return message;
-  }
+
   if (!confirmCode) {
     message = "인증코드를 입력해주세요.";
     return message;
@@ -66,22 +59,6 @@ exports.login = async (adminEmail, password, confirmCode, auth_yn) => {
       return message;
     }
   }
-  // find admin
-  const admin = await Admin.findOne({ adminEmail });
-  if (!admin) {
-    message = "비밀번호 또는 아이디가 틀립니다.";
-    return message;
-  }
-  //check password
-  const checkPassword = await adminModel.comparePassword(
-    password,
-    admin.password
-  );
-  if (!checkPassword) {
-    message = "비밀번호 또는 아이디가 틀립니다.";
-    return message;
-  }
-
   return message;
 };
 exports.createJWT = async (adminEmail) => {
