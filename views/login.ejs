@@ -11,9 +11,7 @@
   <script src="js/jquery-3.3.1.min.js"></script>
     
 </head>
-
 </head>
-
 <body>
   <form method="post" action="/login" onsubmit="formCheck(this); return false;" class="login-wrap">
     <div class="login-html">
@@ -23,15 +21,15 @@
         <div class="sign-in-htm">
           <div class="group">
             <label for="user" class="label">Username</label>
-            <input type="email" class="input" id="adminEmail" name="adminEmail" maxlength="100" placeholder="EMAIL">
+            <input type="email" class="input" id="adminEmail" name="adminEmail" minlength="6" maxlength="100" placeholder="EMAIL" required>
           </div>
           <div class="group">
             <label for="pass" class="label">Password</label>
-            <input type="password" class="input" id="password" name="password" autocomplete placeholder="PASSWORD">
+            <input type="password" class="input" id="password" name="password" autocomplete placeholder="PASSWORD" required>
           </div>
           <div class="group">
             <label for="pass" class="label">code</label>
-            <input class="input" id="confirmCode" name="confirmCode" maxlength="100" placeholder="CODE">
+            <input class="input" id="confirmCode" name="confirmCode" maxlength="100" placeholder="CODE" required>
           </div>
           <div class="group">
             <button type="button" id="sendCodeBtn" onclick="sendCode()" class="button">인증번호</button>
@@ -51,8 +49,17 @@
 </html>
 
 <script>
-  function sendCode(id) {
+  function isEmail(email){
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+  }
+  function sendCode() {
     let $id = $('#adminEmail').val();
+    let result = isEmail($id);
+    if(!result){
+      alert("이메일 형식으로 입력해주세요.");
+      return false;
+    }
     if (!$id) {
       alert("이메일을 입력해주세요.");
       return false;

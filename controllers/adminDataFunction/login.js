@@ -37,17 +37,34 @@ exports.create = async (req, res) => {
 // };
 //admin login via passport
 exports.login = async (req, res, next) => {
-  passport.authenticate("local", (authError, user, info) => {
+  passport.authenticate("local", (authError, admin, info) => {
     if (authError) {
-      console.error(authError);
       return next(authError);
     }
-    if (!user) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .render("alert/alert", { error: result });
+    if (!admin) {
+      res.status(StatusCodes.BAD_REQUEST).render("alert/alert", {
+        error: info.message,
+      });
     }
-  });
+    const { adminEmail, confirmCode, auth_yn } = req.body;
+    const result = adminLoginService
+      .login(adminEmail, confirmCode, auth_yn)
+      .then((data) => {
+        if (data) {
+          return req.login(
+            admin,
+            (admin,
+            (loginError) => {
+              if (loginError) {
+                console.error(loginError);
+                return next(loginError);
+              }
+              return res.redirect("/main");
+            })
+          );
+        }
+      });
+  })(req, res, next);
 };
 
 //인증코드 보내는 function
@@ -67,7 +84,6 @@ exports.checkCode = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-  res.clearCookie(process.env.COOKIE_NAME);
-
+  req.session.destroy();
   res.status(StatusCodes.OK).redirect("/");
 };

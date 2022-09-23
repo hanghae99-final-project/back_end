@@ -5,6 +5,7 @@ const route = require("./routes/index");
 const morgan = require("morgan");
 const cors = require("cors");
 const passport = require("passport");
+const { local } = require("./passport");
 
 const connectDB = require("./config/connect");
 const bodyParser = require("body-parser");
@@ -23,14 +24,13 @@ const requestMiddleWare = (req, res, next) => {
   next();
 };
 // app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
-app.use(cors());
-
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
-app.use(express.static("public"));
 app.use(requestMiddleWare);
-require("./passport/kakaoLocal")(passport);
+
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
@@ -40,6 +40,10 @@ app.use(
     secret: process.env.SESSION_SECRET,
   })
 );
+
+local();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", route);
 app.use(errorHandlerMiddleware);

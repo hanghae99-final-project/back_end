@@ -1,42 +1,38 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const admin = require("../schemas/admin");
+const Admin = require("../schemas/admin");
+const adminModel = require("../models/adminLogin");
 //카카오 로그인
-module.exports = function (passport) {
+module.exports = () => {
   passport.use(
-    new L(
+    new LocalStrategy(
       {
-        clientID: process.env.KAKAO_REST_API,
-        callbackURL: process.env.KAKAO_REDIRECT_URI,
+        usernameField: "adminEmail",
+        passwordField: "password",
       },
-      // 카카오에서는 인증 수 callbakcURL 에 적힌 주소로 accessToken, refreshToken, profile 보냄
-      async (accessToken, refreshToken, profile, done) => {
-        console.log(refreshToken);
-        // console.log("kakao profile: ", profile);
-        const newUser = {
-          kakaoId: profile.id,
-          // nickname: profile.username.replace(/(\s*)/g, ""),
-          email: profile._json.kakao_account.email,
-        };
+      async (adminEmail, password, done) => {
         try {
-          let user = await User.findOne({ kakaoId: profile.id });
-          if (user) {
-            done(null, user);
+          const admin = await Admin.findOne({ adminEmail });
+
+          if (admin) {
+            const result = await adminModel.comparePassword(
+              password,
+              admin.password
+            );
+            console.log(result);
+            if (result) {
+              done(null, admin);
+            } else {
+              done(null, false, { message: "비밀번호 불일치" });
+            }
           } else {
-            user = await User.create(newUser);
-            done(null, user);
+            done(null, false, { message: "등록되지 않은 이메일입니다." });
           }
         } catch (error) {
-          console.log(error);
+          console.error(error);
           done(error);
         }
       }
     )
   );
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-  passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => done(err, user));
-  });
 };
