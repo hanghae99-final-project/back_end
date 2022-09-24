@@ -46,12 +46,12 @@ exports.scheduler = () => {
       times.forEach(async (time) => {
         if (time.studyStartPoint !== 0 && time.restStartPoint === 0) {
           time.savedStudyTime +=
-            yesterdayEnd.toDate().getTime() - time.studyStartPoint;
+            yesterdayEnd.getTime() - time.studyStartPoint;
           time.studyStartPoint = 0;
           await time.save();
         } else if (time.studyStartPoint === 0 && time.restStartPoint !== 0) {
           time.savedRestTime +=
-            yesterdayEnd.toDate().getTime() - time.restStartPoint;
+            yesterdayEnd.getTime() - time.restStartPoint;
           time.restStartPoint = 0;
           await time.save();
         } else {
