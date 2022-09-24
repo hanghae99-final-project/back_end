@@ -4,7 +4,7 @@ const MyPage = require("../controllers/myPage");
 
 const asyncWrapper = require("../middleware/async");
 
-router.route("/monthlyStudy/:month").get(asyncWrapper(MyPage.getMyPageMonthly));
+router.route("/monthlyStudy/:yearMonth").get(asyncWrapper(MyPage.getMyPageMonthly));
 router.route("/dailyTodo/:day").get(asyncWrapper(MyPage.getMyDailyTodo));
 router
   .route("/weeklyStudy/:startWeek/:endWeek")
