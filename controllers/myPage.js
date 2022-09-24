@@ -1,10 +1,10 @@
-const myPageService = require("../service/myPageService");
+const myPageService = require("../service/myPage");
 const { StatusCodes } = require("http-status-codes");
 
 exports.getMyPageMonthly = async (req, res) => {
   const user = req.locals;
-  const { month } = req.params;
-  const totalStudyTime = await myPageService.getStudyTime(user, month);
+  const { yearMonth } = req.params;
+  const totalStudyTime = await myPageService.getStudyTime(user, yearMonth);
   return res.status(StatusCodes.OK).json({ totalStudyTime });
 };
 
