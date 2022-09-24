@@ -17,7 +17,25 @@ exports.getStudyTime = async (user, yearMonth) => {
   );
   //const startOfMonth = moment().format(`${year}-${month}-01`);
   //const endOfMonth = moment().format(`${year}-${month}-`) + moment().daysInMonth();
-  return await myPageModel.getStudyTime(user, startOfMonth, endOfMonth);
+  const totalMonthTime =  await myPageModel.getStudyTime(user, startOfMonth, endOfMonth);
+
+  const monthlyData = [];
+  if (totalMonthTime.length > 0) {
+    totalMonthTime.forEach((element) => {
+      const day = DateTime.fromISO(element.createdAt.toISOString());
+      if(day.hour < 2){
+        day = day.minus({ days: 1 });
+      }
+      monthlyData.push({
+        studyDate: day.toISODate(),
+        studyTime: element.savedStudyTime,
+      });
+    });
+  } else {
+    monthlyData.push({ message: "해당 데이터 없음" });
+  }
+
+  return monthlyData;
 };
 
 exports.getWeeklyTime = async (user, startWeek, endWeek) => {
@@ -27,8 +45,30 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
   }
   const startOfWeek = new Date(DateTime.fromISO(startWeek).plus({ hours: 2 }));
   const endOfWeek = new Date(DateTime.fromISO(endWeek).plus({ hours: 2 }));
-  return await myPageModel.getWeeklyTime(user, startOfWeek, endOfWeek);
+
+  const totalWeekTime =  await myPageModel.getStudyTime(user, startOfWeek, endOfWeek);
+  
+  const weeklyData = [];
+  if (totalWeekTime.length > 0) {
+    totalWeekTime.forEach((element) => {
+      const day = DateTime.fromISO(element.createdAt.toISOString());
+      if(day.hour < 2){
+        day = day.minus({ days: 1 });
+      }
+      weeklyData.push({
+        studyDate: day.toISODate(),
+        studyTime: element.savedStudyTime,
+      });
+    });
+  } else {
+    weeklyData.push({ message: "해당 데이터 없음" });
+  }
+
+  return weeklyData;
 };
+
+
+
 exports.getTodo = async (day, user) => {
   if (!day) {
     throw new Error("날짜를 입력해주세요.");
