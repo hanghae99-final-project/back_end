@@ -15,7 +15,7 @@ exports.getProfile = async (user) => {
     };
     return myProfile;
   } else {
-    throw NotFoundError("프로필이 존재하지 않습니다.");
+    throw new NotFoundError("프로필이 존재하지 않습니다.");
   }
 };
 
@@ -47,7 +47,7 @@ exports.postSpec = async (user, education, career, year, experience) => {
     const result = await profileModels.saveProfile(myProfile);
     return result.spec[result.spec.length - 1];
   } else {
-    throw NotFoundError("프로필이 존재하지 않습니다.");
+    throw new NotFoundError("프로필이 존재하지 않습니다.");
   }
 };
 
@@ -66,12 +66,12 @@ exports.putSpec = async (user, specId, education, career, year, experience) => {
       }
     });
     if (!specArrIdx) {
-      throw NotFoundError("spec id가 존재하지 않습니다.");
+      throw new NotFoundError("spec id가 존재하지 않습니다.");
     }
     await profileModels.saveProfile(myProfile);
     return true;
   } else {
-    throw NotFoundError("프로필이 존재하지 않습니다.");
+    throw new NotFoundError("프로필이 존재하지 않습니다.");
   }
 };
 
@@ -87,12 +87,12 @@ exports.deleteSpec = async (user, specId) => {
       }
     });
     if (!specArrIdx) {
-      throw NotFoundError("spec id가 존재하지 않습니다.");
+      throw new NotFoundError("spec id가 존재하지 않습니다.");
     }
     await profileModels.saveProfile(myProfile);
     return true;
   } else {
-    throw NotFoundError("프로필이 존재하지 않습니다.");
+    throw new NotFoundError("프로필이 존재하지 않습니다.");
   }
 };
 
@@ -105,7 +105,7 @@ exports.getDday = async (user) => {
       (a, b) => new Date(b.deadline).getTime() - new Date(a.deadline).getTime()
     );
   } else {
-    throw NotFoundError("프로필이 존재하지 않습니다.");
+    throw new NotFoundError("프로필이 존재하지 않습니다.");
   }
 };
 
@@ -117,7 +117,7 @@ exports.postDday = async (user, deadline, content) => {
     const result = await profileModels.saveProfile(myProfile);
     return result.dDay[result.dDay.length - 1];
   } else {
-    throw NotFoundError("프로필이 존재하지 않습니다.");
+    throw new NotFoundError("프로필이 존재하지 않습니다.");
   }
 };
 
@@ -134,12 +134,12 @@ exports.putDday = async (user, ddayId, deadline, content) => {
       }
     });
     if (!ddayArrIdx) {
-      throw NotFoundError("D-day id가 존재하지 않습니다.");
+      throw new NotFoundError("D-day id가 존재하지 않습니다.");
     }
     await profileModels.saveProfile(myProfile);
     return true;
   } else {
-    throw NotFoundError("프로필이 존재하지 않습니다.");
+    throw new NotFoundError("프로필이 존재하지 않습니다.");
   }
 };
 
@@ -155,12 +155,12 @@ exports.deleteDday = async (user, ddayId) => {
       }
     });
     if (!ddayArrIdx) {
-      throw NotFoundError("D-day id가 존재하지 않습니다.");
+      throw new NotFoundError("D-day id가 존재하지 않습니다.");
     }
     await profileModels.saveProfile(myProfile);
     return true;
   } else {
-    throw NotFoundError("프로필이 존재하지 않습니다.");
+    throw new NotFoundError("프로필이 존재하지 않습니다.");
   }
 };
 

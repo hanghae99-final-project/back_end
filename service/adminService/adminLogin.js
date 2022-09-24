@@ -3,19 +3,20 @@ const Admin = require("../../schemas/admin");
 const adminModel = require("../../models/adminLogin");
 const loginModel = require("../../models/login");
 const nodemailer = require("../../models/mail");
+const { BadRequestError } = require("../../errors");
 
 exports.checkValidation = async (value) => {
   if (!value.adminEmail) {
-    throw new Error("이메일을 입력해주세요.");
+    throw new BadRequestError("이메일을 입력해주세요.");
   }
   if (!value.password) {
-    throw new Error("비밀번호를 입력해주세요.");
+    throw new BadRequestError("비밀번호를 입력해주세요.");
   }
   if (!value.confirm) {
-    throw new Error("비밀번호를 한번 더 입력해주세요.");
+    throw new BadRequestError("비밀번호를 한번 더 입력해주세요.");
   }
   if (value.password !== value.confirm) {
-    throw new Error("비밀번호 불일치.");
+    throw new BadRequestError("비밀번호 불일치.");
   }
 
   const adminSchema = Joi.object({

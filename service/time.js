@@ -1,6 +1,6 @@
 const timeModels = require("../models/time");
 const studyingModels = require("../models/studying");
-const boom = require("@hapi/boom");
+const { BadRequestError, ConflictError, NotFoundError } = require("../errors");
 
 // 오늘, 어제 공부 기록 정보를 불러오는 함수
 exports.getTime = async (user) => {
@@ -43,7 +43,7 @@ exports.studyStart = async (studyStartPoint, user) => {
   // 오늘 공부한 기록이 있을 경우 studyStartPoint를 갱신
   if (todayTime) {
     if (todayTime.studyStartPoint !== 0) {
-      throw boom.conflict("공부 시작 포인트가 이미 존재합니다.");
+      throw new ConflictError("공부 시작 포인트가 이미 존재합니다.");
     }
     todayTime.studyStartPoint = studyStartPoint;
     await timeModels.saveTime(todayTime, user);
@@ -64,13 +64,13 @@ exports.studyEnd = async (studyEndPoint, user) => {
 
   if (todayTime) {
     if (studyEndPoint === 0 || typeof studyEndPoint !== "number") {
-      throw boom.badRequest("공부 종료 시각이 0 or 숫자가 아닙니다.");
+      throw new BadRequestError("공부 종료 시각이 0 or 숫자가 아닙니다.");
     } else if (todayTime.restStartPoint !== 0) {
-      throw boom.conflict("휴식 시작 시각이 기록되어 있습니다.");
+      throw new ConflictError("휴식 시작 시각이 기록되어 있습니다.");
     } else if (todayTime.studyStartPoint === 0) {
-      throw boom.notFound("공부 시작 시각이 기록되어 있지 않습니다.");
+      throw new NotFoundError("공부 시작 시각이 기록되어 있지 않습니다.");
     } else if (todayTime.studyStartPoint >= studyEndPoint) {
-      throw boom.badRequest(
+      throw new BadRequestError(
         "공부 종료 시각이 공부 시작 시각보다 시간상 앞서 있습니다."
       );
     } else {
@@ -82,7 +82,7 @@ exports.studyEnd = async (studyEndPoint, user) => {
       return "Study time has been accumulated.";
     }
   } else {
-    throw boom.notFound("데이터가 없습니다.");
+    throw new NotFoundError("데이터가 없습니다.");
   }
 };
 
@@ -93,13 +93,13 @@ exports.restStart = async (studyEndPoint, restStartPoint, user) => {
   if (todayTime) {
     // 휴식 시작은 공부를 시작한 이후에 가능함
     if (todayTime.studyStartPoint === 0) {
-      throw boom.notFound(
+      throw new NotFoundError(
         "공부 시작 포인트가 없습니다. 휴식은 공부를 시작한 후에 가능합니다."
       );
     } else if (todayTime.restStartPoint !== 0) {
-      throw boom.conflict("휴식 시작 포인트가 이미 존재합니다.");
+      throw new ConflictError("휴식 시작 포인트가 이미 존재합니다.");
     } else if (todayTime.studyStartPoint >= studyEndPoint) {
-      throw boom.badRequest(
+      throw new BadRequestError(
         "공부 종료 시각이 공부 시작 시각보다 시간상 앞서 있습니다."
       );
     }
@@ -111,7 +111,7 @@ exports.restStart = async (studyEndPoint, restStartPoint, user) => {
     await timeModels.saveTime(todayTime, user);
     return "rest start success";
   } else {
-    throw boom.notFound("데이터가 없습니다.");
+    throw new NotFoundError("데이터가 없습니다.");
   }
 };
 
@@ -121,13 +121,13 @@ exports.restEnd = async (studyStartPoint, restEndPoint, user) => {
 
   if (todayTime) {
     if (restEndPoint === 0 || typeof restEndPoint !== "number") {
-      throw boom.badRequest("휴식 종료 시각이 0 or 숫자가 아닙니다.");
+      throw new BadRequestError("휴식 종료 시각이 0 or 숫자가 아닙니다.");
     } else if (todayTime.restStartPoint === 0) {
-      throw boom.notFound("휴식 시작 시각이 기록되어 있지 않습니다.");
+      throw new NotFoundError("휴식 시작 시각이 기록되어 있지 않습니다.");
     } else if (todayTime.studyStartPoint !== 0) {
-      throw boom.conflict("공부 시작 시각이 기록되어 있습니다.");
+      throw new ConflictError("공부 시작 시각이 기록되어 있습니다.");
     } else if (todayTime.restStartPoint >= restEndPoint) {
-      throw boom.badRequest(
+      throw new BadRequestError(
         "휴식 종료 시각이 휴식 시작 시각보다 시간상 앞서 있습니다."
       );
     } else {
@@ -142,7 +142,7 @@ exports.restEnd = async (studyStartPoint, restEndPoint, user) => {
       return "Rest time has been accumulated.";
     }
   } else {
-    throw boom.notFound("데이터가 없습니다.");
+    throw new NotFoundError("데이터가 없습니다.");
   }
 };
 
@@ -155,7 +155,7 @@ exports.postTargetTime = async (targetTime, user) => {
     await timeModels.saveTargetTime(userData);
     return "목표시간 설정 완료";
   } else {
-    throw boom.notFound("데이터가 없습니다.");
+    throw new NotFoundError("데이터가 없습니다.");
   }
 };
 
@@ -172,6 +172,6 @@ exports.resetPoint = async (user) => {
     await timeModels.saveTime(todayTime, user);
     return "시간 초기화 완료";
   } else {
-    throw boom.notFound("데이터가 없습니다.");
+    throw new NotFoundError("데이터가 없습니다.");
   }
 };

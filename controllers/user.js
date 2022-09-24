@@ -3,6 +3,7 @@ const userService = require("../service/user");
 const { StatusCodes } = require("http-status-codes");
 const User = require("../schemas/user");
 const userModel = require("../models/login");
+const { ConflictError } = require("../errors");
 
 // exports.kakaoCallback = (req, res, next) => {
 //   passport.authenticate(
@@ -57,6 +58,6 @@ exports.modProfile = async (req, res) => {
       .status(StatusCodes.OK)
       .json({ message: "회원가입이 완료되었습니다." });
   } else {
-    throw new Error("닉네임이 중복 됩니다.");
+    throw new ConflictError("닉네임이 중복 됩니다.");
   }
 };

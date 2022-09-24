@@ -100,7 +100,7 @@ exports.deleteSpec = async (req, res) => {
   const specId = req.params.id;
 
   if (!specId) {
-    throw BadRequestError("specId가 없습니다.");
+    throw new BadRequestError("specId가 없습니다.");
   }
 
   const result = await profileService.deleteSpec(user, specId);
@@ -118,10 +118,10 @@ exports.postDday = async (req, res) => {
   const { deadline, content } = req.body;
   const regex = /\d{4}-\d{2}-\d{2}/;
   if (!deadline || !content) {
-    throw BadRequestError("dday 또는 내용이 들어가 있지 않습니다.");
+    throw new BadRequestError("dday 또는 내용이 들어가 있지 않습니다.");
   }
   if (!regex.test(deadline)) {
-    throw BadRequestError("날짜 형식이 틀립니다.");
+    throw new BadRequestError("날짜 형식이 틀립니다.");
   }
 
   const createdDday = await profileService.postDday(user, deadline, content);
@@ -134,13 +134,13 @@ exports.putDday = async (req, res) => {
   const { deadline, content } = req.body;
   const regex = /\d{4}-\d{2}-\d{2}/;
   if (!ddayId) {
-    throw BadRequestError("dday Id가 없습니다.");
+    throw new BadRequestError("dday Id가 없습니다.");
   }
   if (!deadline || !content) {
-    throw BadRequestError("dday 또는 내용이 들어가 있지 않습니다.");
+    throw new BadRequestError("dday 또는 내용이 들어가 있지 않습니다.");
   }
   if (!regex.test(deadline)) {
-    throw BadRequestError("날짜 형식이 틀립니다.");
+    throw new BadRequestError("날짜 형식이 틀립니다.");
   }
 
   const result = await profileService.putDday(user, ddayId, deadline, content);
@@ -151,7 +151,7 @@ exports.deleteDday = async (req, res) => {
   const user = req.locals;
   const ddayId = req.params.id;
   if (!ddayId) {
-    throw BadRequestError("dday Id가 없습니다.");
+    throw new BadRequestError("dday Id가 없습니다.");
   }
 
   const result = await profileService.deleteDday(user, ddayId);
@@ -162,7 +162,7 @@ exports.getNickCheck = async (req, res) => {
   const user = req.locals;
   const { nickname } = req.params;
   if (typeof nickname !== "string") {
-    throw BadRequestError("nickname 형식이 맞지 않습니다.");
+    throw new BadRequestError("nickname 형식이 맞지 않습니다.");
   }
 
   const result = await profileService.getNickCheck(user, nickname);
