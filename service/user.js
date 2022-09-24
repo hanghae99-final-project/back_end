@@ -17,3 +17,6 @@ exports.ageGroupCheck = async (ageGroup) => {
 exports.specialtyCheck = async (specialty) => {
   await userModels.specialtySchema.validateAsync({ specialty });
 };
+exports.checkNickname = async (user, nickname, ageGroup, specialty) => {
+  return await userModels.checkNickname(user, nickname, ageGroup, specialty);
+};
