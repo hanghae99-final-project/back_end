@@ -1,10 +1,10 @@
 const Time = require("../schemas/time");
-const moment = require("moment");
+const { DateTime } = require("luxon");
 exports.getStudyTime = async (user, firstDay, lastDay) => {
   const totalStudyTime = await Time.find({
     $and: [
       {
-        insDate: {
+        createdAt: {
           $gte: firstDay,
           $lte: lastDay,
         },
@@ -19,8 +19,12 @@ exports.getStudyTime = async (user, firstDay, lastDay) => {
   const monthlyData = [];
   if (totalStudyTime.length > 0) {
     totalStudyTime.forEach((element) => {
+      const day = DateTime.fromISO(element.createdAt.toISOString());
+      if(day.hour < 2){
+        day = day.minus({ days: 1 });
+      }
       monthlyData.push({
-        studyDate: moment(element.insDate).format("YYYY-MM-DD"),
+        studyDate: day.toISODate(),
         studyTime: element.savedStudyTime,
       });
     });
@@ -34,7 +38,7 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
   const weeklyStudy = await Time.find({
     $and: [
       {
-        insDate: {
+        createdAt: {
           $gte: startWeek,
           $lte: endWeek,
         },
@@ -48,8 +52,12 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
   const weeklyData = [];
   if (weeklyStudy.length > 0) {
     weeklyStudy.forEach((element) => {
+      const day = DateTime.fromISO(element.createdAt.toISOString());
+      if(day.hour < 2){
+        day = day.minus({ days: 1 });
+      }
       weeklyData.push({
-        studyDate: moment(element.insDate).format("YYYY-MM-DD"),
+        studyDate: day.toISODate(),
         studyTime: element.savedStudyTime,
       });
     });
