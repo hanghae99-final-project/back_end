@@ -1,7 +1,7 @@
 const profileService = require("../service/profile");
 const userService = require("../service/user");
 const { StatusCodes } = require("http-status-codes");
-const boom = require("@hapi/boom");
+const { ConflictError, BadRequestError } = require("../errors");
 
 exports.getProfile = async (req, res) => {
   const user = req.locals;
@@ -26,7 +26,7 @@ exports.putProfile = async (req, res) => {
   if (check) {
     return res.status(StatusCodes.OK).json({ success: check });
   } else {
-    throw boom.conflict("닉네임이 중복 됩니다.");
+    throw new ConflictError("닉네임이 중복 됩니다.");
   }
 };
 
@@ -35,19 +35,19 @@ exports.postSpec = async (req, res) => {
   const { education, career, year, experience } = req.body;
 
   if (!career || !year || !experience || !education) {
-    throw boom.badRequest("입력 값이 없습니다.");
+    throw new BadRequestError("입력 값이 없습니다.");
   }
   if (education !== "학력" && education !== "경력") {
-    throw boom.badRequest("education 카테고리 입력 오류");
+    throw new BadRequestError("education 카테고리 입력 오류");
   }
   if (typeof career !== "string") {
-    throw boom.badRequest("career 값이 형식에 맞지 않습니다.");
+    throw new BadRequestError("career 값이 형식에 맞지 않습니다.");
   }
   if (typeof experience !== "string") {
-    throw boom.badRequest("expererience 값이 형식에 맞지 않습니다.");
+    throw new BadRequestError("expererience 값이 형식에 맞지 않습니다.");
   }
   if (typeof year !== "string") {
-    throw boom.badRequest("year가 형식에 맞지 않습니다.");
+    throw new BadRequestError("year가 형식에 맞지 않습니다.");
   }
 
   const createdSpec = await profileService.postSpec(
@@ -66,22 +66,22 @@ exports.putSpec = async (req, res) => {
   const { education, career, year, experience } = req.body;
 
   if (!specId) {
-    throw boom.badRequest("specId가 없습니다.");
+    throw new BadRequestError("specId가 없습니다.");
   }
   if (!career || !year || !experience || !education) {
-    throw boom.badRequest("입력 값이 없습니다.");
+    throw new BadRequestError("입력 값이 없습니다.");
   }
   if (education !== "학력" && education !== "경력") {
-    throw boom.badRequest("education 카테고리 입력 오류");
+    throw new BadRequestError("education 카테고리 입력 오류");
   }
   if (typeof career !== "string") {
-    throw boom.badRequest("career 값이 형식에 맞지 않습니다.");
+    throw new BadRequestError("career 값이 형식에 맞지 않습니다.");
   }
   if (typeof experience !== "string") {
-    throw boom.badRequest("expererience 값이 형식에 맞지 않습니다.");
+    throw new BadRequestError("expererience 값이 형식에 맞지 않습니다.");
   }
   if (typeof year !== "string") {
-    throw boom.badRequest("year가 형식에 맞지 않습니다.");
+    throw new BadRequestError("year가 형식에 맞지 않습니다.");
   }
 
   const result = await profileService.putSpec(
@@ -100,7 +100,7 @@ exports.deleteSpec = async (req, res) => {
   const specId = req.params.id;
 
   if (!specId) {
-    throw boom.badRequest("specId가 없습니다.");
+    throw BadRequestError("specId가 없습니다.");
   }
 
   const result = await profileService.deleteSpec(user, specId);
@@ -118,10 +118,10 @@ exports.postDday = async (req, res) => {
   const { deadline, content } = req.body;
   const regex = /\d{4}-\d{2}-\d{2}/;
   if (!deadline || !content) {
-    throw boom.badRequest("dday 또는 내용이 들어가 있지 않습니다.");
+    throw BadRequestError("dday 또는 내용이 들어가 있지 않습니다.");
   }
   if (!regex.test(deadline)) {
-    throw boom.badRequest("날짜 형식이 틀립니다.");
+    throw BadRequestError("날짜 형식이 틀립니다.");
   }
 
   const createdDday = await profileService.postDday(user, deadline, content);
@@ -134,13 +134,13 @@ exports.putDday = async (req, res) => {
   const { deadline, content } = req.body;
   const regex = /\d{4}-\d{2}-\d{2}/;
   if (!ddayId) {
-    throw boom.badRequest("dday Id가 없습니다.");
+    throw BadRequestError("dday Id가 없습니다.");
   }
   if (!deadline || !content) {
-    throw boom.badRequest("dday 또는 내용이 들어가 있지 않습니다.");
+    throw BadRequestError("dday 또는 내용이 들어가 있지 않습니다.");
   }
   if (!regex.test(deadline)) {
-    throw boom.badRequest("날짜 형식이 틀립니다.");
+    throw BadRequestError("날짜 형식이 틀립니다.");
   }
 
   const result = await profileService.putDday(user, ddayId, deadline, content);
@@ -151,7 +151,7 @@ exports.deleteDday = async (req, res) => {
   const user = req.locals;
   const ddayId = req.params.id;
   if (!ddayId) {
-    throw boom.badRequest("dday Id가 없습니다.");
+    throw BadRequestError("dday Id가 없습니다.");
   }
 
   const result = await profileService.deleteDday(user, ddayId);
@@ -162,7 +162,7 @@ exports.getNickCheck = async (req, res) => {
   const user = req.locals;
   const { nickname } = req.params;
   if (typeof nickname !== "string") {
-    throw boom.badRequest("nickname 형식이 맞지 않습니다.");
+    throw BadRequestError("nickname 형식이 맞지 않습니다.");
   }
 
   const result = await profileService.getNickCheck(user, nickname);
