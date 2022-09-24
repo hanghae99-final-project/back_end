@@ -1,4 +1,3 @@
-const e = require("express");
 const Joi = require("joi");
 
 const User = require("../schemas/user");
