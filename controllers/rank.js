@@ -1,6 +1,6 @@
 const rankService = require("../service/rank");
 const { StatusCodes } = require("http-status-codes");
-const boom = require("@hapi/boom");
+const { BadRequestError } = require("../errors");
 
 exports.getRank = async (req, res) => {
   const user = req.locals;
@@ -9,17 +9,17 @@ exports.getRank = async (req, res) => {
   let result = undefined;
 
   if (category === "all") {
-    if(period !== "day" && period !== "week" && period !== "month"){
-      throw boom.badRequest("설정된 period가 아닙니다.")
+    if (period !== "day" && period !== "week" && period !== "month") {
+      throw new BadRequestError("설정된 period가 아닙니다.");
     }
     result = await rankService.getAllRank(user, period, false);
   } else if (category === "twenty" || category === "thirty") {
-    if(period !== "day" && period !== "week" && period !== "month"){
-      throw boom.badRequest("설정된 period가 아닙니다.")
+    if (period !== "day" && period !== "week" && period !== "month") {
+      throw new BadRequestError("설정된 period가 아닙니다.");
     }
     result = await rankService.getAllRank(user, period, category);
   } else {
-    throw boom.badRequest("설정된 category가 아닙니다.");
+    throw new BadRequestError("설정된 category가 아닙니다.");
   }
   res.status(StatusCodes.OK).json(result);
 };

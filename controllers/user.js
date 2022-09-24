@@ -4,21 +4,21 @@ const { StatusCodes } = require("http-status-codes");
 const User = require("../schemas/user");
 const userModel = require("../models/login");
 
-exports.kakaoCallback = (req, res, next) => {
-  passport.authenticate(
-    "kakao",
-    { failureRedirect: "/" },
-    async (err, user) => {
-      if (err) return next(err);
+// exports.kakaoCallback = (req, res, next) => {
+//   passport.authenticate(
+//     "kakao",
+//     { failureRedirect: "/" },
+//     async (err, user) => {
+//       if (err) return next(err);
 
-      const { kakaoId } = user;
-      const userInfo = await User.findOne({ kakaoId });
+//       const { kakaoId } = user;
+//       const userInfo = await User.findOne({ kakaoId });
 
-      const token = userModel.createJWT(userInfo);
-      res.status(StatusCodes.OK).json({ token });
-    }
-  )(req, res, next);
-};
+//       const token = userModel.createJWT(userInfo);
+//       res.status(StatusCodes.OK).json({ token });
+//     }
+//   )(req, res, next);
+// };
 exports.kakaoCallbackLocal = (req, res, next) => {
   passport.authenticate(
     "kakao",
