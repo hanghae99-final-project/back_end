@@ -4,7 +4,7 @@ const asyncWrapper = (fn) => {
     try {
       if(req.locals){
         const user = req.locals;
-        logger.info(`req : ${user.nickname}(${req.ip}), method: ${req.method}, api: ${req.url}`);
+        logger.info(`req : ${user.nickname}(${req.ip}), method: ${req.method}, api: ${req.originalUrl}`);
         await fn(req, res, next);
         logger.info(`res : ${user.nickname}(${req.ip}), status: ${res.statusCode}(${res.statusMessage})`);
       }
