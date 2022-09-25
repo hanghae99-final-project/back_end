@@ -1,10 +1,11 @@
 const { DateTime } = require("luxon");
 const myPageModel = require("../models/myPage");
 const todoModels = require("../models/todo");
+const { BadRequestError } = require("../errors");
 
 exports.getStudyTime = async (user, yearMonth) => {
   if (yearMonth.length !== 7) {
-    throw new Error("날짜 형식이 틀립니다.");
+    throw new BadRequestError("날짜 형식이 틀립니다.");
   }
 
   const year = yearMonth.split("-")[0];
@@ -41,7 +42,7 @@ exports.getStudyTime = async (user, yearMonth) => {
 exports.getWeeklyTime = async (user, startWeek, endWeek) => {
   const regex = /\d{4}-\d{2}-\d{2}/;
   if (!regex.test(startWeek) || !regex.test(endWeek)) {
-    throw new Error("날짜 형식이 틀립니다.");
+    throw new BadRequestError("날짜 형식이 틀립니다.");
   }
   const startOfWeek = new Date(DateTime.fromISO(startWeek).plus({ hours: 2 }));
   const endOfWeek = new Date(DateTime.fromISO(endWeek).plus({ hours: 2 }));
@@ -71,13 +72,13 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
 
 exports.getTodo = async (day, user) => {
   if (!day) {
-    throw new Error("날짜를 입력해주세요.");
+    throw new BadRequestError("날짜를 입력해주세요.");
   }
   return await todoModels.getTodo(day, user);
 };
 exports.getTotalStudyTime = async (userId) => {
   if (!userId) {
-    throw new Error("로그인을 해주세요");
+    throw new BadRequestError("로그인을 해주세요");
   }
   return await myPageModel.getTotalStudyTime(userId);
 };
