@@ -176,7 +176,7 @@ exports.getNickCheck = async (user, nickname) => {
 };
 
 exports.getDdayOne = async (user) => {
-  const today = DateTime.now().toMillis();
+  const today = DateTime.now().minus({days:1}).toMillis();
   const myProfile = await profileModels.getProfile(user);
 
   if (myProfile) {
