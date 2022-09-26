@@ -14,7 +14,7 @@ exports.getStudyTime = async (user, yearMonth) => {
     DateTime.fromISO(`${year}-${month}-01`).startOf("months").plus({ hours: 2 })
   );
   const endOfMonth = new Date(
-    DateTime.fromISO(`${year}-${month}-01`).endOf("months").plus({ hours: 2 })
+    DateTime.fromISO(`${year}-${month}-01`).endOf("months").plus({days:1}).plus({ hours: 2 })
   );
   //const startOfMonth = moment().format(`${year}-${month}-01`);
   //const endOfMonth = moment().format(`${year}-${month}-`) + moment().daysInMonth();
@@ -45,10 +45,11 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
     throw new BadRequestError("날짜 형식이 틀립니다.");
   }
   const startOfWeek = new Date(DateTime.fromISO(startWeek).plus({ hours: 2 }));
-  const endOfWeek = new Date(DateTime.fromISO(endWeek).plus({ hours: 2 }));
+  const endOfWeek = new Date(DateTime.fromISO(endWeek).plus({days:1}).plus({ hours: 2 }));
 
+  console.log(endOfWeek)
   const totalWeekTime =  await myPageModel.getStudyTime(user, startOfWeek, endOfWeek);
-  
+  console.log(totalWeekTime);
   const weeklyData = [];
   if (totalWeekTime.length > 0) {
     totalWeekTime.forEach((element) => {

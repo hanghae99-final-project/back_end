@@ -1,6 +1,7 @@
 const profileModels = require("../models/profile");
 const userModels = require("../models/userValidation");
 const { NotFoundError } = require("../errors");
+const { DateTime } = require("luxon");
 
 exports.getProfile = async (user) => {
   let myProfile = {};
@@ -171,5 +172,29 @@ exports.getNickCheck = async (user, nickname) => {
     return false;
   } else {
     return true;
+  }
+};
+
+exports.getDdayOne = async (user) => {
+  const today = DateTime.now().minus({days:1}).toMillis();
+  const myProfile = await profileModels.getProfile(user);
+
+  if (myProfile) {
+    const myDday = myProfile.dDay;
+    const myDdayFilter = myDday.filter((dday)=>{
+      const day = DateTime.fromISO(dday.deadline).toMillis();
+      return today<day;
+    })
+    if(myDdayFilter.length){
+      return [myDdayFilter.sort(
+        (a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
+      )[0]];
+    }
+    else {
+      return [];
+    }
+
+  } else {
+    throw new NotFoundError("프로필이 존재하지 않습니다.");
   }
 };

@@ -19,6 +19,9 @@ router
   .route("/dday")
   .get(asyncWrapper(Profile.getDday))
   .post(asyncWrapper(Profile.postDday));
+  router
+  .route("/ddayOne")
+  .get(asyncWrapper(Profile.getDdayOne));
 router
   .route("/dday/:id")
   .put(asyncWrapper(Profile.putDday))
