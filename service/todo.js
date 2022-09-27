@@ -1,5 +1,4 @@
 const todoModels = require("../models/todo");
-const boom = require("@hapi/boom");
 const { DateTime } = require("luxon");
 const { notFoundError } = require("../errors");
 
@@ -92,7 +91,7 @@ exports.deleteTodo = async (todoId, user) => {
       throw new notFoundError("todo id가 없거나 일치하지 않습니다.");
     }
     await todoModels.saveTodo(existedTodo);
-    if(!existedTodo.todoArr.length){
+    if (!existedTodo.todoArr.length) {
       await todoModels.deleteTodo(existedTodo);
     }
     return true;
