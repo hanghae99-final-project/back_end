@@ -1,7 +1,5 @@
 const Joi = require("joi");
 const Admin = require("../../schemas/admin");
-const adminModel = require("../../models/adminLogin");
-const loginModel = require("../../models/login");
 const nodemailer = require("../../models/mail");
 const { BadRequestError } = require("../../errors");
 
@@ -62,17 +60,10 @@ exports.login = async (adminEmail, confirmCode, auth_yn) => {
   }
   return message;
 };
-exports.createJWT = async (adminEmail) => {
-  const admin = await Admin.findOne({ adminEmail });
-  await loginModel.createJWT(admin);
-  const refreshToken = await loginModel.createRefresh(admin);
-  await Admin.findOneAndUpdate({ adminEmail }, { refreshToken });
-  return refreshToken;
-};
 
 exports.checkAdminEmail = async (adminEmail) => {
   let message = "success";
-  const result = await Admin.findOne(adminEmail);
+  const result = await Admin.findOne(adminEmail).exec();
   if (!result) {
     message = "failed";
   }

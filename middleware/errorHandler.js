@@ -1,5 +1,4 @@
 const { StatusCodes } = require("http-status-codes");
-const { reset } = require("nodemon");
 const logger = require("../config/logger");
 exports.errorHandlerMiddleware = (err, req, res, next) => {
   //default 값
@@ -16,7 +15,7 @@ exports.errorHandlerMiddleware = (err, req, res, next) => {
           `res : ${user.nickname}(${req.ip}), ${StatusCodes.INTERNAL_SERVER_ERROR} : ${err.name} - ${err.message}`
         );
       }
-      console.log(err.message);
+
       //throw로 보내주는거.
       return res
         .status(customError.statusCode)

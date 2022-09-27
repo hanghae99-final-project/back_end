@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("express-async-errors");
+
 const express = require("express");
 const app = express();
 const route = require("./routes/index");
@@ -32,6 +33,7 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.use(requestMiddleWare);
 
+let maxAge = 60 * 1000;
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
@@ -39,6 +41,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
+    expires: new Date(Date.now() + 60 * 1000),
   })
 );
 
@@ -64,3 +67,5 @@ const start = async () => {
   }
 };
 start();
+
+module.exports = app;

@@ -19,7 +19,6 @@ module.exports = () => {
               password,
               admin.password
             );
-            console.log(result);
             if (result) {
               done(null, admin);
             } else {
@@ -29,7 +28,6 @@ module.exports = () => {
             done(null, false, { message: "등록되지 않은 이메일입니다." });
           }
         } catch (error) {
-          console.error(error);
           done(error);
         }
       }
