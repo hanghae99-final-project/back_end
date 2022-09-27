@@ -1,6 +1,4 @@
 module.exports = {
-  plugins: ["prettier"],
-  extends: ["eslint:recommended", "plugin:prettier/recommended"],
   env: {
     browser: true,
     commonjs: true,
@@ -8,9 +6,10 @@ module.exports = {
     node: true,
     jest: true,
   },
+  extends: "eslint:recommended",
   overrides: [],
   parserOptions: {
     ecmaVersion: "latest",
   },
-  rules: { "no-unused-vars": "off" },
+  rules: {},
 };
