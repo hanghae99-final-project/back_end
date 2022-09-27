@@ -38,7 +38,7 @@ exports.getTime = async (user) => {
 exports.studyStart = async (studyStartPoint, user) => {
   // 현재 공부 중인 사람을 체크하기 위해 Studying db에 user 정보를 넣음
   await studyingModels.startStudying(user);
-  
+
   const todayTime = await timeModels.todayTime(user);
   // 오늘 공부한 기록이 있을 경우 studyStartPoint를 갱신
   if (todayTime) {
