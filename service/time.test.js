@@ -1,8 +1,6 @@
 const Time = require("./time");
 const TimeModels = require("../models/time");
 const StudyingModels = require("../models/studying");
-const { BadRequestError, ConflictError, NotFoundError } = require("../errors");
-
 
 describe("login한 user", () => {
   const user = {
@@ -29,43 +27,42 @@ describe("login한 user", () => {
     const result = await Time.getTime(user);
 
     expect(result).toEqual({
-        yesterdayStudyTime: 120,
-        targetTime: 120,
-        savedStudyTime: 120,
-        savedRestTime: 120,
-        studyStartPoint : 60,
-        restStartPoint : 60,
+      yesterdayStudyTime: 120,
+      targetTime: 120,
+      savedStudyTime: 120,
+      savedRestTime: 120,
+      studyStartPoint: 60,
+      restStartPoint: 60,
     });
   });
 
-
   test("studyStart : 시작 시각 없을 때", async () => {
-    StudyingModels.startStudying = jest.fn(()=>{});
+    StudyingModels.startStudying = jest.fn(() => {});
     TimeModels.todayTime = jest.fn(() => {});
     TimeModels.createTime = jest.fn(() => {});
-    const result = await Time.studyStart(60,user);
+    const result = await Time.studyStart(60, user);
     expect(result).toEqual("study start data create success");
   });
 
   test("studyStart : 오늘 데이터가 있을 때", async () => {
-    StudyingModels.startStudying = jest.fn(()=>{});
+    StudyingModels.startStudying = jest.fn(() => {});
     TimeModels.todayTime = jest.fn(() => ({
-      studyStartPoint : 0,
+      studyStartPoint: 0,
     }));
     TimeModels.saveTime = jest.fn(() => {});
-    const result = await Time.studyStart(60,user);
+    const result = await Time.studyStart(60, user);
     expect(result).toEqual("study start point save success");
   });
 
   test("studyStart : 오늘 데이터가 있을 때 - 시작시각이 있을 때", async () => {
-    StudyingModels.startStudying = jest.fn(()=>{});
+    StudyingModels.startStudying = jest.fn(() => {});
     TimeModels.todayTime = jest.fn(() => ({
-      studyStartPoint : 60,
+      studyStartPoint: 60,
     }));
     TimeModels.saveTime = jest.fn(() => {});
-    try{
-      await Time.studyStart(60,user);
-    }catch(err){
+    try {
+      await Time.studyStart(60, user);
+    } catch (err) {
       expect(err.message).toEqual("공부 시작 포인트가 이미 존재합니다.");
     }
   });
