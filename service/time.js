@@ -62,6 +62,8 @@ exports.studyEnd = async (studyEndPoint, user) => {
   // 현재 공부 중인 사람을 체크하기 위해 Studying db에서 user 정보를 뺌
   const todayTime = await timeModels.todayTime(user);
 
+  // studyEndPoint를 service에서 검수하는 이유 :
+  // controller단의 studyEnd 함수에는 restEndPoint와 studyEndPoint 둘 중 하나를 받기에 service단에서 검수.
   if (todayTime) {
     if (studyEndPoint === 0 || typeof studyEndPoint !== "number") {
       throw new BadRequestError("공부 종료 시각이 0 or 숫자가 아닙니다.");
