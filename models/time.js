@@ -1,6 +1,6 @@
 const Time = require("../schemas/time");
 const User = require("../schemas/user");
-const { DateTime } = require('luxon');
+const { DateTime } = require("luxon");
 
 // 오늘 공부 기록 정보를 불러오는 함수
 exports.todayTime = async (user) => {
@@ -43,8 +43,12 @@ exports.yesterdayTime = async (user) => {
   if (today.hour < 2) {
     today = today.minus({ days: 1 });
   }
-  const yesterdayStart = new Date(today.minus({ days: 1 }).startOf("days").plus({ hours: 2 }));
-  const yesterdayEnd = new Date(today.minus({ days: 1 }).endOf("days").plus({hours: 2}));
+  const yesterdayStart = new Date(
+    today.minus({ days: 1 }).startOf("days").plus({ hours: 2 })
+  );
+  const yesterdayEnd = new Date(
+    today.minus({ days: 1 }).endOf("days").plus({ hours: 2 })
+  );
   const yesterdayTime = await Time.findOne({
     $and: [
       {
@@ -80,4 +84,4 @@ exports.getTargetTime = async (user) => {
 
 exports.saveTargetTime = async (userData) => {
   await userData.save();
-}
+};
