@@ -254,4 +254,23 @@ describe("login한 user", () => {
       );
     }
   });
+
+  test("postTargetTime : 목표 시간 설정할 때", async () => {
+    TimeModels.getTargetTime = jest.fn(() => ({
+      tartgetTime: 0,
+    }));
+    TimeModels.saveTargetTime = jest.fn(() => {});
+    const result = await Time.postTargetTime(60, user);
+    expect(result).toEqual("목표시간 설정 완료");
+  });
+
+  test("postTargetTime : user 데이터가 없을 때", async () => {
+    TimeModels.getTargetTime = jest.fn(() => {});
+    TimeModels.saveTargetTime = jest.fn(() => {});
+    try {
+      await Time.postTargetTime(60, user);
+    } catch (err) {
+      expect(err.message).toEqual("데이터가 없습니다.");
+    }
+  });
 });
