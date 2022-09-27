@@ -38,7 +38,6 @@ describe("login한 user", () => {
     });
   });
 
-
   test("studyStart : 시작 시각 없을 때", async () => {
     StudyingModels.startStudying = jest.fn(()=>{});
     TimeModels.todayTime = jest.fn(() => {});
