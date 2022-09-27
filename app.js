@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("express-async-errors");
+require("ejs");
 
 const express = require("express");
 const app = express();
@@ -17,8 +18,6 @@ const session = require("express-session");
 
 const scheduler = require("./config/scheduler");
 
-const ejs = require("ejs");
-
 const { errorHandlerMiddleware } = require("./middleware/errorHandler");
 
 const requestMiddleWare = (req, res, next) => {
@@ -26,14 +25,12 @@ const requestMiddleWare = (req, res, next) => {
   next();
 };
 app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
-// app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
 app.use(requestMiddleWare);
 
-let maxAge = 60 * 1000;
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
