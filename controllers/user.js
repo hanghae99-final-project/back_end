@@ -5,21 +5,6 @@ const User = require("../schemas/user");
 const userModel = require("../models/login");
 const { ConflictError } = require("../errors");
 
-// exports.kakaoCallback = (req, res, next) => {
-//   passport.authenticate(
-//     "kakao",
-//     { failureRedirect: "/" },
-//     async (err, user) => {
-//       if (err) return next(err);
-
-//       const { kakaoId } = user;
-//       const userInfo = await User.findOne({ kakaoId });
-
-//       const token = userModel.createJWT(userInfo);
-//       res.status(StatusCodes.OK).json({ token });
-//     }
-//   )(req, res, next);
-// };
 exports.kakaoCallbackLocal = (req, res, next) => {
   passport.authenticate(
     "kakao",
