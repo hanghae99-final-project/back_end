@@ -4,7 +4,7 @@ const { notFoundError } = require("../errors");
 
 // todo 가져오기
 exports.getTodo = async (dayData, user) => {
-  day = DateTime.fromISO(dayData);
+  let day = DateTime.fromISO(dayData);
   const existedTodo = await todoModels.getTodo(day, user); //userId
   if (existedTodo) {
     return existedTodo.todoArr;

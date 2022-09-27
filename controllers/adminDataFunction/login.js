@@ -11,31 +11,6 @@ exports.create = async (req, res) => {
   res.status(StatusCodes.OK).send({ message: "계정이 생성 되었습니다." });
 };
 
-// //admin login
-// exports.login = async (req, res) => {
-//   const { adminEmail, password, confirmCode, auth_yn } = req.body;
-//   const result = await adminLoginService.login(
-//     adminEmail,
-//     password,
-//     confirmCode,
-//     auth_yn
-//   );
-
-//   if (result != true) {
-//     return res
-//       .status(StatusCodes.BAD_REQUEST)
-//       .render("alert/alert", { error: result });
-//   }
-//   //creating jwt
-//   const refreshToken = await adminLoginService.createJWT(adminEmail);
-//   //creating refresh token
-//   res.cookie("HangHae99", `Bearer ${refreshToken}`, {
-//     httpOnly: true,
-//     secure: false,
-//   });
-//   res.status(StatusCodes.OK).redirect("main");
-// };
-//admin login via passport
 exports.login = async (req, res, next) => {
   passport.authenticate("local", (authError, admin, info) => {
     if (authError) {
@@ -47,23 +22,20 @@ exports.login = async (req, res, next) => {
       });
     }
     const { adminEmail, confirmCode, auth_yn } = req.body;
-    const result = adminLoginService
-      .login(adminEmail, confirmCode, auth_yn)
-      .then((data) => {
-        if (data) {
-          return req.login(
-            admin,
-            (admin,
-            (loginError) => {
-              if (loginError) {
-                console.error(loginError);
-                return next(loginError);
-              }
-              return res.redirect("/main");
-            })
-          );
-        }
-      });
+    adminLoginService.login(adminEmail, confirmCode, auth_yn).then((data) => {
+      if (data) {
+        return req.login(
+          admin,
+          (admin,
+          (loginError) => {
+            if (loginError) {
+              return next(loginError);
+            }
+            return res.redirect("/main");
+          })
+        );
+      }
+    });
   })(req, res, next);
 };
 
@@ -72,7 +44,10 @@ exports.sendCode = async (req, res) => {
   const result = await adminLoginService.checkAdminEmail({
     adminEmail: req.body.id,
   });
-  await adminLoginService.sendCode(req.body.id);
+  console.log(result);
+  if (result != "failed") {
+    await adminLoginService.sendCode(req.body.id);
+  }
   return res.status(StatusCodes.OK).send({ message: result });
 };
 
@@ -85,5 +60,8 @@ exports.checkCode = async (req, res) => {
 
 exports.logout = async (req, res) => {
   req.session.destroy();
-  res.status(StatusCodes.OK).redirect("/");
+  res.status(StatusCodes.OK).render("alert/successAlert", {
+    message: "로그아웃되었습니다..",
+    page: "",
+  });
 };

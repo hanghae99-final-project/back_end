@@ -75,6 +75,7 @@
         success: function (data) {
           if (data.message === 'failed') {
             alert("등록되지 않은 이메일");
+            return false;
           } else if (data.message === "success") {
             $("#adminEmail").prop('readonly', true);
             alert("인증번호가 발송 되었습니다.");
