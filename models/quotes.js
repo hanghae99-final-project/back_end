@@ -2,7 +2,7 @@ const Quote = require("../schemas/quote");
 
 exports.create = async (quote) => {
   const getAllQuotes = await Quote.find({});
-  for (i = 0; i < quote.length; i++) {
+  for (let i = 0; i < quote.length; i++) {
     await Quote.create({ title: quote[i], number: getAllQuotes.length++ });
   }
   return "success";

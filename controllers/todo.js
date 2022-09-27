@@ -43,7 +43,7 @@ exports.putTodo = async (req, res) => {
   } else {
     if (!work || !color) {
       throw new BadRequestError("입력 값이 없습니다.");
-    } else if (typeof(work) !== "string" || typeof(color) !== "string") {
+    } else if (typeof work !== "string" || typeof color !== "string") {
       throw new BadRequestError("work, color가 문자열이 아닙니다.");
     } else {
       result = await todoService.putTodo(todoId, work, color, user);

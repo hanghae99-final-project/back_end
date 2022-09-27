@@ -170,7 +170,6 @@ exports.getNickCheck = async (req, res) => {
   return res.status(StatusCodes.OK).json({ ok: result });
 };
 
-
 exports.getDdayOne = async (req, res) => {
   const user = req.locals;
   const myDday = await profileService.getDdayOne(user);
