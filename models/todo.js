@@ -1,5 +1,5 @@
 const Todo = require("../schemas/todo");
-const { DateTime } = require('luxon');
+const { DateTime } = require("luxon");
 
 exports.getTodo = async (day, user) => {
   const dayStart = new Date(day.startOf("days"));
@@ -35,4 +35,4 @@ exports.saveTodo = async (existedTodo) => {
 
 exports.deleteTodo = async (existedTodo) => {
   await Todo.deleteOne(existedTodo);
-}
+};
