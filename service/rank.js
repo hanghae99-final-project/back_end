@@ -1,7 +1,6 @@
 const rankModels = require("../models/rank");
 const studyingModels = require("../models/studying");
 const { DateTime } = require("luxon");
-const { BadRequestError } = require("../errors");
 
 exports.getAllRank = async (user, period, category) => {
   const myRanking = {
@@ -30,8 +29,6 @@ exports.getAllRank = async (user, period, category) => {
   } else if (period === "month") {
     periodStart = new Date(today.startOf("months").plus({ hours: 2 }));
     periodEnd = new Date(today.endOf("months").plus({ hours: 2 }));
-  } else {
-    throw new BadRequestError("설정된 period가 아닙니다.");
   }
   if (category) {
     if (category === "twenty") {
@@ -52,11 +49,13 @@ exports.getAllRank = async (user, period, category) => {
 
   ranking = ranking.map((element, index) => {
     let studyingDefault = false;
-    studyingPerson.find((people) => {
-      if (people.kakaoId === element.kakaoId) {
-        studyingDefault = true;
-      }
-    });
+    if (studyingPerson.length) {
+      studyingPerson.find((people) => {
+        if (people.kakaoId === element.kakaoId) {
+          studyingDefault = true;
+        }
+      });
+    }
     if (element.kakaoId === user.kakaoId) {
       myRanking.rank = index + 1;
       myRanking.savedStudyTime = element.savedStudyTime;
