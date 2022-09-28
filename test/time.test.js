@@ -231,6 +231,7 @@ describe("login한 user", () => {
       studyStartPoint: 60,
       savedRestTime: 0,
     }));
+
     TimeModels.saveTime = jest.fn(() => {});
     try {
       await Time.restEnd(120, 120, user);
