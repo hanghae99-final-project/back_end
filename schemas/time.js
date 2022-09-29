@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Users = require("./user");
 const moment = require("moment-timezone");
 const dateKorea = moment().tz("Asia/Seoul").format();
 

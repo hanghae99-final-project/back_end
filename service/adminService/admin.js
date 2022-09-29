@@ -25,3 +25,6 @@ exports.findSearch = async (where) => {
   }
   return await Search.findSearch(where);
 };
+exports.totalUser = async () => {
+  return await adminModel.getAllUsers();
+};

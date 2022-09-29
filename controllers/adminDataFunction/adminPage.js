@@ -4,7 +4,11 @@ const adminService = require("../../service/adminService/admin");
 exports.mainPage = async (req, res) => {
   let { where } = req.query;
   const result = await adminService.findSearch(where);
-  res.status(StatusCodes.OK).render("main/main", { data: result, where });
+  const totalUser = await adminService.totalUser();
+
+  res
+    .status(StatusCodes.OK)
+    .render("main/main", { data: result, where, totalUser: totalUser.length });
 };
 exports.insQuotePage = async (req, res) => {
   const quotes = await adminService.quoteFind({});

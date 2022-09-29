@@ -1,6 +1,6 @@
 const profileModels = require("../models/profile");
 const userModels = require("../models/userValidation");
-const { NotFoundError } = require("../errors");
+const { NotFoundError, BadRequestError } = require("../errors");
 const { DateTime } = require("luxon");
 
 exports.getProfile = async (user) => {
@@ -21,12 +21,20 @@ exports.getProfile = async (user) => {
 };
 
 exports.putProfile = async (user, nickname, ageGroup, specialty) => {
-  // await profileSchema.validateAsync({ nickname, ageGroup, specialty });
-  // await userModels.nicknameCheck(nickname);
-  // await userModels.ageGroupCheck(ageGroup);
-  // await userModels.specialtyCheck(specialty);
-  const existedSameNickname = await profileModels.sameNickCheck(user, nickname);
+  await userModels.nicknameSchema.validateAsync({ nickname }).catch((error) => {
+    throw new BadRequestError(error.message);
+  });
+  await userModels.ageGroupSchema.validateAsync({ ageGroup }).catch((error) => {
+    throw new BadRequestError(error.message);
+  });
+  await userModels.specialtySchema
+    .validateAsync({ specialty })
+    .catch((error) => {
+      throw new BadRequestError(error.message);
+    });
 
+  // console.log(existedSameNickname);
+  const existedSameNickname = await profileModels.sameNickCheck(user, nickname);
   if (existedSameNickname) {
     return false;
   } else {
