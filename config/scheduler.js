@@ -2,7 +2,6 @@ const schedule = require("node-schedule");
 const Time = require("../schemas/time");
 const Studying = require("../schemas/studying");
 const { DateTime } = require("luxon");
-const notify = require("../controllers/adminDataFunction/adminPage");
 exports.scheduler = () => {
   // 한국시각 새벽 2시 공부 시간 초기화 스케쥴 설정
   const rule = new schedule.RecurrenceRule();
