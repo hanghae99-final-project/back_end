@@ -15,9 +15,6 @@ const adminSchema = mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    refreshToken: {
-      type: String,
-    },
     insDate: { type: String, default: dateKorea },
   },
   { timestamps: true }
