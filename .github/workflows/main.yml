@@ -25,7 +25,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name : Install package
-      - run: npm ci
-      
-      # - run: npm test
-      # - run: npm run build
+        run: npm ci
+      - name: test Start
+        run: npm test
+      - name: build
+        run: npm run build
