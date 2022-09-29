@@ -10,6 +10,7 @@ const quotesSchema = mongoose.Schema(
     },
     number: {
       type: Number,
+      required: true,
     },
     insDate: { type: String, default: dateKorea },
   },
