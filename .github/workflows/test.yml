@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  test:
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
 
@@ -32,3 +32,25 @@ jobs:
         run: npm ci
       - name: test Start
         run: npm test
+        
+  AUTO_DEPLOY:
+
+    runs-on: ubuntu-20.04
+    needs: test
+    strategy:
+      matrix:
+        node-version: [16.13.1]
+
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.REMOTE_IP }}
+          username: ${{ secrets.REMOTE_SSH_ID }}
+          key: ${{ secrets.REMOTE_SSH_KEY }}
+          port: ${{ secrets.REMOTE_SSH_PORT }}
+          script: |
+                cd ${{ secrets.ubuntu_PATH }}
+                sudo git pull origin dev
+                npm i
+                pm2 restart app.js
