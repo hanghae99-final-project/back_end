@@ -24,12 +24,7 @@ const requestMiddleWare = (req, res, next) => {
   console.log("request URL: ", req.originalUrl, " - ", new Date());
   next();
 };
-app.use(
-  cors({
-    origin: [process.env.FRONT_URL, process.env.BASE_URL],
-    credentials: true,
-  })
-);
+app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
