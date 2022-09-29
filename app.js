@@ -26,6 +26,8 @@ const requestMiddleWare = (req, res, next) => {
 };
 app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
 app.use(express.static("public"));
+// app.use(express.static(path.join(__dirname, "client")));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");

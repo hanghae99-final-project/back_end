@@ -32,5 +32,7 @@ router.route("/insQuote").post(isLoggedIn, asyncWrapper(adminData.insQuote));
 router
   .route("/user/:userId")
   .get(isLoggedIn, asyncWrapper(adminPage.getUserInfoPage));
+//adminPage/webPush로 이동
+router.route("/webPush").get(adminPage.webPush).post(adminPage.webPushPost);
 
 module.exports = router;

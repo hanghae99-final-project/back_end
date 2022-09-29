@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Push Notifications Using Node</title>
+</head>
+
+<body>
+  <h1>Push Notifications Using Node</h1>
+
+
+
+
+  <!-- 스크립트 실행 -->
+  <script>
+    const publicVapidKey ="<%= data%>"
+// Check for service worker
+if ("serviceWorker" in navigator) {
+  send().catch(err => console.error(err));
+}
+
+// 서비스워커 등록, 푸쉬 등록, 푸쉬 보내기
+async function send() {
+  // worker.js에 서비스 워커 등록
+  console.log("Registering service worker...");
+  const register = await navigator.serviceWorker.register("./worker.js", {
+    scope: "/"
+  });
+  console.log("Service Worker Registered...");
+
+  // 푸시 등록
+  console.log("Registering Push...");
+  const subscription = await register.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+  });
+  console.log("Push Registered...");
+
+  // ajax랑 같은개념 routes/admin/index/webPush인데 method는 post 즉 controller adminPage의 webPushPost로 데이터 전송
+  console.log("Sending Push...");
+  await fetch("/webPush", {
+    method: "POST",
+    body: JSON.stringify(subscription),
+    headers: {
+      "content-type": "application/json"
+    }
+  });
+  //완료되면 console.log 푸시 보냄
+  console.log("Push Sent...");
+}
+
+// Vapid key를 안전하게 base64 스트링을 Unit8Array로 변환.. 그냥 하라고 하네요ㅋㅋㅋㅋ그럼 끝
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, "+")
+    .replace(/_/g, "/");
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+
+  </script>
+</body>
+
+</html>
