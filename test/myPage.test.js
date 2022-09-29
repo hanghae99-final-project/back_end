@@ -1,5 +1,6 @@
 const myPage = require("../service/myPage");
 const myPageModels = require("../models/myPage");
+const TimeModels = require("../models/time");
 
 describe("login한 user", () => {
   const user = {
@@ -11,24 +12,27 @@ describe("login한 user", () => {
     specialty: "의료",
     createdAt: "2022-09-26T10:53:05.501+00:00",
   };
+  TimeModels.todayTime = jest.fn(() => ({
+    savedStudyTime: 120,
+    savedRestTime: 120,
+    studyStartPoint: 60,
+    restStartPoint: 60,
+  }));
 
   test("getTime : 시간값 가져오기", async () => {
-    myPageModels.getStudyTime = jest.fn(() => ({
+    myPage.getStudyTime = jest.fn(() => ({
       savedStudyTime: 120,
+      savedRestTime: 120,
+      studyStartPoint: 60,
+      restStartPoint: 60,
     }));
-    try {
-      console.log(myPageModels.getStudyTime);
-      const result = await myPage.getStudyTime(user);
-    } catch (error) {
-      console.log(error);
-    }
-    // expect(result).toEqual({
-    //   yesterdayStudyTime: 120,
-    //   targetTime: 120,
-    //   savedStudyTime: 120,
-    //   savedRestTime: 120,
-    //   studyStartPoint: 60,
-    //   restStartPoint: 60,
-    // });
+    const result = await myPage.getStudyTime(user, "2022-10");
+
+    expect(result).toEqual({
+      savedStudyTime: 120,
+      savedRestTime: 120,
+      studyStartPoint: 60,
+      restStartPoint: 60,
+    });
   });
 });
