@@ -44,7 +44,6 @@ exports.sendCode = async (req, res) => {
   const result = await adminLoginService.checkAdminEmail({
     adminEmail: req.body.id,
   });
-  console.log(result);
   if (result != "failed") {
     await adminLoginService.sendCode(req.body.id);
   }

@@ -29,7 +29,9 @@ exports.checkValidation = async (value) => {
     confirm: Joi.ref("password"),
   });
 
-  return await adminSchema.validateAsync(value);
+  await adminSchema.validateAsync(value).catch((err) => {
+    throw new BadRequestError(err.message);
+  });
 };
 
 exports.createAdmin = async (value) => {
