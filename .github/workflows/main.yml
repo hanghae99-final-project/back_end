@@ -24,14 +24,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - name : Install package
       - run: npm ci
-#       - name: Use Node.js
-#       - uses: actions/setup-node@v3.5.0
-#         with:
-#           node-version: '16.x'
-          
-#       - name: Install dependencies
-#         run: npm install
-        
-#       - name: Run test
-#         run: npm test
+      
+      - name: Run test
+      - run: npm test
+      
+      - name: build
+      - run: npm run build
