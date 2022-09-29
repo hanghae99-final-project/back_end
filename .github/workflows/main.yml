@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: node.js CI
 
 # Controls when the workflow will run
 on:
@@ -24,13 +24,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: Use Node.js
-      - uses: actions/setup-node@v3.5.0
-        with:
-          node-version: '16.x'
+      - run: npm ci
+#       - name: Use Node.js
+#       - uses: actions/setup-node@v3.5.0
+#         with:
+#           node-version: '16.x'
           
-      - name: Install dependencies
-        run: npm install
+#       - name: Install dependencies
+#         run: npm install
         
-      - name: Run test
-        run: npm test
+#       - name: Run test
+#         run: npm test
