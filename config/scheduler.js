@@ -1,8 +1,8 @@
 const schedule = require("node-schedule");
 const Time = require("../schemas/time");
 const Studying = require("../schemas/studying");
-const { DateTime } = require('luxon');
-
+const { DateTime } = require("luxon");
+const notify = require("../controllers/adminDataFunction/adminPage");
 exports.scheduler = () => {
   // 한국시각 새벽 2시 공부 시간 초기화 스케쥴 설정
   const rule = new schedule.RecurrenceRule();
@@ -21,8 +21,12 @@ exports.scheduler = () => {
      * yesterdayEnd : 20XX.XX.20 새벽 1시 59분 59초
      * */
     const today = DateTime.now().startOf("days");
-    const yesterdayStart = new Date(today.minus({ days: 1}).plus({hours:2}));
-    const yesterdayEnd = new Date(today.minus({ days: 1}).endOf("days").plus({hours:2}));
+    const yesterdayStart = new Date(
+      today.minus({ days: 1 }).plus({ hours: 2 })
+    );
+    const yesterdayEnd = new Date(
+      today.minus({ days: 1 }).endOf("days").plus({ hours: 2 })
+    );
 
     // (어제일자) and (공부 시작 시각이 0이 아닐 때 or 휴식 시작 시각이 0이 아닐 때) 공부시간db 검색
     const times = await Time.find({
@@ -45,13 +49,11 @@ exports.scheduler = () => {
     if (times.length) {
       times.forEach(async (time) => {
         if (time.studyStartPoint !== 0 && time.restStartPoint === 0) {
-          time.savedStudyTime +=
-            yesterdayEnd.getTime() - time.studyStartPoint;
+          time.savedStudyTime += yesterdayEnd.getTime() - time.studyStartPoint;
           time.studyStartPoint = 0;
           await time.save();
         } else if (time.studyStartPoint === 0 && time.restStartPoint !== 0) {
-          time.savedRestTime +=
-            yesterdayEnd.getTime() - time.restStartPoint;
+          time.savedRestTime += yesterdayEnd.getTime() - time.restStartPoint;
           time.restStartPoint = 0;
           await time.save();
         } else {
