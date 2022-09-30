@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const admin = require("../../controllers/adminDataFunction/login");
-const adminData = require("../../controllers/adminDataFunction/admin");
-const adminPage = require("../../controllers/adminDataFunction/adminPage");
+const admin = require("../../controllers/adminDataFunction/login.controller");
+const adminData = require("../../controllers/adminDataFunction/admin.controller");
+const adminPage = require("../../controllers/adminDataFunction/adminPage.controller");
 const { isLoggedIn, isNotLoggedIn } = require("../../middleware/auth");
 
 const asyncWrapper = require("../../middleware/async");
