@@ -1,5 +1,5 @@
 const profileService = require("../service/profile");
-const userService = require("../service/user");
+const userService = require("../service/user.service");
 const { StatusCodes } = require("http-status-codes");
 const { ConflictError, BadRequestError } = require("../errors");
 

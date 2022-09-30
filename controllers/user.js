@@ -1,5 +1,5 @@
 const passport = require("passport");
-const userService = require("../service/user");
+const userService = require("../service/user.service");
 const { StatusCodes } = require("http-status-codes");
 const User = require("../schemas/user");
 const userModel = require("../models/login");
