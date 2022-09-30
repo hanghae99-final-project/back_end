@@ -1,5 +1,5 @@
 const timeModels = require("../models/time.model");
-const studyingModels = require("../models/studying");
+const studyingModels = require("../models/studying.model");
 const { BadRequestError, ConflictError, NotFoundError } = require("../errors");
 
 // 오늘, 어제 공부 기록 정보를 불러오는 함수

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Studying = require("../controllers/studying");
+const Studying = require("../controllers/studying.controller");
 
 const asyncWrapper = require("../middleware/async");
 
