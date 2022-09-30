@@ -6,13 +6,13 @@ exports.nicknameSchema = Joi.object({
     .min(2)
     .max(8)
     .empty()
-    .pattern(new RegExp(/^[가-힣]+$/)) // 닉네임은 한글만입력 가능
+    .pattern(new RegExp(/^[0-9a-zA-Z가-힣]+$/)) // 닉네임은 한글만입력 가능
     .required()
     .messages({
       "string.min": "2글자 ~ 8글자 이내로 작성해주세요",
       "string.max": "1글자 ~ 8글자 이내로 작성해주세요",
       "string.empty": "닉네임 입력해주세요",
-      "string.pattern.base": "한글만 입력가능합니다.",
+      "string.pattern.base": "한글,영문,숫자만 입력가능합니다.",
     }),
 });
 
