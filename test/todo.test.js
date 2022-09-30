@@ -1,5 +1,5 @@
-const Todo = require("../service/todo");
-const TodoModels = require("../models/todo");
+const Todo = require("../service/todo.service");
+const TodoModels = require("../models/todo.model");
 const ObjectId = require("mongodb").ObjectId;
 
 describe("login한 user", () => {

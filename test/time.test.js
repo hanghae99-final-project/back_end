@@ -1,6 +1,6 @@
-const Time = require("../service/time");
-const TimeModels = require("../models/time");
-const StudyingModels = require("../models/studying");
+const Time = require("../service/time.service");
+const TimeModels = require("../models/time.model");
+const StudyingModels = require("../models/studying.model");
 
 describe("login한 user", () => {
   const user = {
