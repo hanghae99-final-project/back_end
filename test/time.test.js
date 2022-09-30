@@ -1,4 +1,4 @@
-const Time = require("../service/time");
+const Time = require("../service/time.service");
 const TimeModels = require("../models/time");
 const StudyingModels = require("../models/studying");
 

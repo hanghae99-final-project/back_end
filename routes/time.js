@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const TimeController = require("../controllers/time");
+const TimeController = require("../controllers/time.controller");
 const asyncWrapper = require("../middleware/async");
 
 router.route("/").get(asyncWrapper(TimeController.getTime));

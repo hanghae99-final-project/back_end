@@ -1,4 +1,4 @@
-const userModels = require("../models/userValidation");
+const userModels = require("../models/userValidation.model");
 const userModel = require("../models/login");
 const { BadRequestError } = require("../errors");
 

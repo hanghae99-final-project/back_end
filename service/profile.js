@@ -1,5 +1,5 @@
 const profileModels = require("../models/profile");
-const userModels = require("../models/userValidation");
+const userModels = require("../models/userValidation.model");
 const { NotFoundError, BadRequestError } = require("../errors");
 const { DateTime } = require("luxon");
 
