@@ -1,4 +1,4 @@
-const Todo = require("../service/todo");
+const Todo = require("../service/todo.service");
 const TodoModels = require("../models/todo");
 const ObjectId = require("mongodb").ObjectId;
 

@@ -1,4 +1,4 @@
-const todoService = require("../service/todo");
+const todoService = require("../service/todo.service");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
 
