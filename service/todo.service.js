@@ -1,4 +1,4 @@
-const todoModels = require("../models/todo");
+const todoModels = require("../models/todo.model");
 const { DateTime } = require("luxon");
 const { NotFoundError } = require("../errors");
 

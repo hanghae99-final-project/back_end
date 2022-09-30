@@ -1,6 +1,6 @@
 const { DateTime } = require("luxon");
 const myPageModel = require("../models/myPage");
-const todoModels = require("../models/todo");
+const todoModels = require("../models/todo.model");
 const { BadRequestError } = require("../errors");
 
 exports.getStudyTime = async (user, yearMonth) => {
