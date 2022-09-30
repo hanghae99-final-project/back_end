@@ -1,5 +1,5 @@
 const express = require("express");
-const Admin = require("./admin/index");
+const Admin = require("./admin/index.route");
 const Users = require("./user.route");
 const Todo = require("./todo.route");
 const Time = require("./time.route");
