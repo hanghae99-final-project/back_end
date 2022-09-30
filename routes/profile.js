@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Profile = require("../controllers/profile");
+const Profile = require("../controllers/profile.controller");
 
 const asyncWrapper = require("../middleware/async");
 
@@ -19,9 +19,7 @@ router
   .route("/dday")
   .get(asyncWrapper(Profile.getDday))
   .post(asyncWrapper(Profile.postDday));
-  router
-  .route("/ddayOne")
-  .get(asyncWrapper(Profile.getDdayOne));
+router.route("/ddayOne").get(asyncWrapper(Profile.getDdayOne));
 router
   .route("/dday/:id")
   .put(asyncWrapper(Profile.putDday))
