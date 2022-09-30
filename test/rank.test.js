@@ -1,4 +1,4 @@
-const Rank = require("../service/rank");
+const Rank = require("../service/rank.service");
 const RankModels = require("../models/rank");
 const StudyingModels = require("../models/studying.model");
 

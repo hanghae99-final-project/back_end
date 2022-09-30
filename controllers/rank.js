@@ -1,4 +1,4 @@
-const rankService = require("../service/rank");
+const rankService = require("../service/rank.service");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
 
