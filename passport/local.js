@@ -1,7 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const Admin = require("../schemas/admin");
-const adminModel = require("../models/adminLogin");
+const adminModel = require("../models/admin/adminLogin.model");
 //카카오 로그인
 module.exports = () => {
   passport.use(

@@ -4,7 +4,7 @@ require("ejs");
 
 const express = require("express");
 const app = express();
-const route = require("./routes/index");
+const route = require("./routes/index.route");
 const morgan = require("morgan");
 const cors = require("cors");
 const passport = require("passport");
@@ -24,7 +24,12 @@ const requestMiddleWare = (req, res, next) => {
   console.log("request URL: ", req.originalUrl, " - ", new Date());
   next();
 };
-app.use(cors({ origin: process.env.FRONT_URL, credentials: true }));
+app.use(
+  cors({
+    origin: [process.env.FRONT_URL, process.env.BASE_URL],
+    credentials: true,
+  })
+);
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());

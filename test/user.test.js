@@ -1,5 +1,4 @@
-const userService = require("../service/user");
-// const userValidation = require("../models/userValidation");
+const userService = require("../service/user.service");
 
 describe("login한 user", () => {
   const user = {
