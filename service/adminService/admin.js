@@ -1,5 +1,5 @@
 const adminModel = require("../../models/admin/adminModels");
-const Quote = require("../../models/quotes");
+const Quote = require("../../models/quote.model");
 const Search = require("../../models/search");
 exports.getUserInfo = async (userId) => {
   return await adminModel.getUserInfoModel(userId);
