@@ -1,12 +1,10 @@
 const passport = require("passport");
 const local = require("./local");
 const Admin = require("../schemas/admin");
-const kakaoLocal = require("./kakaoLocal");
-const User = require("../schemas/user");
+const kakaoLogin = require("./kakaoLogin");
 
 module.exports.local = () => {
   passport.serializeUser((admin, done) => {
-    console.log(admin);
     done(null, admin);
   });
   passport.deserializeUser((admin, done) => {
@@ -15,14 +13,5 @@ module.exports.local = () => {
       .catch((err) => done(err));
   });
   local();
-  kakaoLocal();
+  kakaoLogin();
 };
-// module.exports.kakaoLocal = () => {
-//   passport.serializeUser((user, done) => {
-//     done(null, user.id);
-//   });
-//   passport.deserializeUser((id, done) => {
-//     User.findById(id, (err, user) => done(err, user));
-//   });
-
-// };

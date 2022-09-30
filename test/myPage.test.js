@@ -1,6 +1,6 @@
-const myPage = require("../service/myPage");
-const myPageModels = require("../models/myPage");
-const TimeModels = require("../models/time");
+const myPage = require("../service/myPage.service");
+
+const TimeModels = require("../models/time.model");
 
 describe("login한 user", () => {
   const user = {
