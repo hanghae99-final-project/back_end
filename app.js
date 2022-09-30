@@ -1,6 +1,14 @@
 require("dotenv").config();
 require("express-async-errors");
 require("ejs");
+const admin = require("firebase-admin");
+
+let serviceAccount = require("./ranking-planner-firebase-adminsdk-hn6qf-d15a7baf2d.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+});
 
 const express = require("express");
 const app = express();

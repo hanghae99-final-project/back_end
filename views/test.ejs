@@ -1,0 +1,70 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    
+    <title>Push Notifications Using Node</title>
+    <!--FireBase와 연결 -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script>
+       if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        });
+      }
+      var config = {
+        apiKey: "AIzaSyA3Jh36p31TW4UTjyNHXhqwxSNqNDZgE1M",
+        authDomain: "ranking-planner.firebaseapp.com",
+        projectId: "ranking-planner",
+        storageBucket: "ranking-planner.appspot.com",
+        messagingSenderId: "420276085804",
+      };
+      firebase.initializeApp(config);
+
+      const messaging = firebase.messaging();
+
+      //token값 알아내기
+      messaging
+        .requestPermission()
+        .then(function () {
+          console.log("Have permission");
+          return messaging.getToken();
+        })
+        .then(function (token) {
+          console.log(token);
+        $.ajax({
+     
+            dataType: 'json',
+            url: '/sendNotification',
+            data: token,
+            type: 'POST',
+      });
+        })
+        .catch(function (arr) {
+          console.log(arr);
+        });
+        
+
+      //화면이 켜져있을 경우 메시지 모습(forground)메세지 동작 
+      messaging.onMessage(function (payload) {
+        console.log(payload);
+        // var title = payload.notification.title;
+        var title = "페이지 온";
+        var options = {
+          body: payload.notification.body,
+          click_action: payload.notification.click_action,
+          icon: payload.notification.icon,
+        };
+        var notification = new Notification(title, options);
+      });
+    </script>
+  </head>
+  <body>
+    <button id="button">Loading..</button>
+  </body>
+</html>

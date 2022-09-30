@@ -33,4 +33,9 @@ router
   .route("/user/:userId")
   .get(isLoggedIn, asyncWrapper(adminPage.getUserInfoPage));
 
+router.get("/test", (req, res) => {
+  res.render("test");
+});
+
+router.route("/sendNotification").post(adminPage.sendNotification);
 module.exports = router;
