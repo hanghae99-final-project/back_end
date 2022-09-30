@@ -1,4 +1,4 @@
-const timeModels = require("../models/time");
+const timeModels = require("../models/time.model");
 const studyingModels = require("../models/studying");
 const { BadRequestError, ConflictError, NotFoundError } = require("../errors");
 
