@@ -1,5 +1,5 @@
 const rankModels = require("../models/rank");
-const studyingModels = require("../models/studying");
+const studyingModels = require("../models/studying.model");
 const { DateTime } = require("luxon");
 
 exports.getAllRank = async (user, period, category) => {
