@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const adminService = require("../../service/adminService/admin");
+const adminService = require("../../service/adminService/admin.service");
 
 exports.mainPage = async (req, res) => {
   let { where } = req.query;

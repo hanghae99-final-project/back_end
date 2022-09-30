@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const adminService = require("../../service/adminService/admin");
+const adminService = require("../../service/adminService/admin.service");
 
 exports.addObject = (req, res) => {
   const page = req.body.page;
