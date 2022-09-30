@@ -161,7 +161,6 @@ exports.deleteDday = async (req, res) => {
 exports.getNickCheck = async (req, res) => {
   const user = req.locals;
   const { nickname } = req.params;
-  console.log(nickname);
   if (typeof nickname !== "string") {
     throw new BadRequestError("nickname 형식이 맞지 않습니다.");
   }

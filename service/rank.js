@@ -15,20 +15,15 @@ exports.getAllRank = async (user, period, category) => {
   let ranking = undefined;
   let today = DateTime.now();
 
-  if (today.hour < 2) {
-    today = today.minus({ days: 1 });
-  }
-
   if (period === "day") {
-    periodStart = new Date(today.startOf("days").plus({ hours: 2 }));
-    periodEnd = new Date(today.endOf("days").plus({ hours: 2 }));
+    periodStart = new Date(today.startOf("days"));
+    periodEnd = new Date(today.endOf("days"));
   } else if (period === "week") {
-    //주의 시작은 월요일부터 (일요일부터 시작할 경우 moment(today).startOf("week"))
-    periodStart = new Date(today.startOf("weeks").plus({ hours: 2 }));
-    periodEnd = new Date(today.endOf("weeks").plus({ hours: 2 }));
+    periodStart = new Date(today.startOf("weeks"));
+    periodEnd = new Date(today.endOf("weeks"));
   } else if (period === "month") {
-    periodStart = new Date(today.startOf("months").plus({ hours: 2 }));
-    periodEnd = new Date(today.endOf("months").plus({ hours: 2 }));
+    periodStart = new Date(today.startOf("months"));
+    periodEnd = new Date(today.endOf("months"));
   }
   if (category) {
     if (category === "twenty") {

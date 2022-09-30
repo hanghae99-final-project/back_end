@@ -19,7 +19,6 @@ exports.getMyWeekly = async (req, res) => {
   );
   return res.status(StatusCodes.OK).json({ weeklyStudy });
 };
-// return res.status(StatusCodes.OK).json({ monthlyData, todoData, weeklyData });
 
 exports.getMyDailyTodo = async (req, res) => {
   const user = req.locals;

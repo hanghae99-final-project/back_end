@@ -11,16 +11,11 @@ exports.getStudyTime = async (user, yearMonth) => {
   const year = yearMonth.split("-")[0];
   const month = yearMonth.split("-")[1];
   const startOfMonth = new Date(
-    DateTime.fromISO(`${year}-${month}-01`).startOf("months").plus({ hours: 2 })
+    DateTime.fromISO(`${year}-${month}-01`).startOf("months")
   );
   const endOfMonth = new Date(
-    DateTime.fromISO(`${year}-${month}-01`)
-      .endOf("months")
-      .plus({ days: 1 })
-      .plus({ hours: 2 })
+    DateTime.fromISO(`${year}-${month}-01`).endOf("months").plus({ days: 1 })
   );
-  //const startOfMonth = moment().format(`${year}-${month}-01`);
-  //const endOfMonth = moment().format(`${year}-${month}-`) + moment().daysInMonth();
   const totalMonthTime = await myPageModel.getStudyTime(
     user,
     startOfMonth,
@@ -31,9 +26,6 @@ exports.getStudyTime = async (user, yearMonth) => {
   if (totalMonthTime.length > 0) {
     totalMonthTime.forEach((element) => {
       let day = DateTime.fromISO(element.createdAt.toISOString());
-      if (day.hour < 2) {
-        day = day.minus({ days: 1 });
-      }
       monthlyData.push({
         studyDate: day.toISODate(),
         studyTime: element.savedStudyTime,
@@ -51,25 +43,18 @@ exports.getWeeklyTime = async (user, startWeek, endWeek) => {
   if (!regex.test(startWeek) || !regex.test(endWeek)) {
     throw new BadRequestError("날짜 형식이 틀립니다.");
   }
-  const startOfWeek = new Date(DateTime.fromISO(startWeek).plus({ hours: 2 }));
-  const endOfWeek = new Date(
-    DateTime.fromISO(endWeek).plus({ days: 1 }).plus({ hours: 2 })
-  );
+  const startOfWeek = new Date(DateTime.fromISO(startWeek));
+  const endOfWeek = new Date(DateTime.fromISO(endWeek).plus({ days: 1 }));
 
-  console.log(endOfWeek);
   const totalWeekTime = await myPageModel.getStudyTime(
     user,
     startOfWeek,
     endOfWeek
   );
-  console.log(totalWeekTime);
   const weeklyData = [];
   if (totalWeekTime.length > 0) {
     totalWeekTime.forEach((element) => {
       let day = DateTime.fromISO(element.createdAt.toISOString());
-      if (day.hour < 2) {
-        day = day.minus({ days: 1 });
-      }
       weeklyData.push({
         studyDate: day.toISODate(),
         studyTime: element.savedStudyTime,

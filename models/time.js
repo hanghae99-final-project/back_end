@@ -17,8 +17,8 @@ exports.todayTime = async (user) => {
 
   // 오늘의 시작(todayStart)과 오늘의 끝(todayEnd) 설정
   // add(2, "hours")로 0시의 시작을 2시로 맞춰줌
-  const todayStart = new Date(today.startOf("days").plus({ hours: 2 }));
-  const todayEnd = new Date(today.endOf("days").plus({ hours: 2 }));
+  const todayStart = new Date(today.startOf("days"));
+  const todayEnd = new Date(today.endOf("days"));
 
   // Time db에 오늘의 시작과 끝, user정보로 오늘자 user의 data를 가져옴
   const todayTime = await Time.findOne({
@@ -40,15 +40,8 @@ exports.todayTime = async (user) => {
 // 어제 공부 기록 정보를 불러오는 함수
 exports.yesterdayTime = async (user) => {
   let today = DateTime.now();
-  if (today.hour < 2) {
-    today = today.minus({ days: 1 });
-  }
-  const yesterdayStart = new Date(
-    today.minus({ days: 1 }).startOf("days").plus({ hours: 2 })
-  );
-  const yesterdayEnd = new Date(
-    today.minus({ days: 1 }).endOf("days").plus({ hours: 2 })
-  );
+  const yesterdayStart = new Date(today.minus({ days: 1 }).startOf("days"));
+  const yesterdayEnd = new Date(today.minus({ days: 1 }).endOf("days"));
   const yesterdayTime = await Time.findOne({
     $and: [
       {
@@ -71,7 +64,7 @@ exports.createTime = async (studyStartPoint, user) => {
 };
 
 // 시간 저장 함수
-exports.saveTime = async (todayTime, user) => {
+exports.saveTime = async (todayTime) => {
   await todayTime.save();
 };
 
