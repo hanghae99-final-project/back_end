@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const Admin = require("../../schemas/admin");
-const nodemailer = require("../../models/mail");
+const nodemailer = require("../../models/admin/mail.model");
 const { BadRequestError } = require("../../errors");
 
 exports.checkValidation = async (value) => {
