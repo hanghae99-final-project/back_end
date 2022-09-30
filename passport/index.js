@@ -5,7 +5,6 @@ const kakaoLocal = require("./kakaoLocal");
 
 module.exports.local = () => {
   passport.serializeUser((admin, done) => {
-    console.log(admin);
     done(null, admin);
   });
   passport.deserializeUser((admin, done) => {

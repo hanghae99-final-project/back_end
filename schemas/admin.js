@@ -20,7 +20,6 @@ const adminSchema = mongoose.Schema(
   { timestamps: true }
 );
 adminSchema.pre("save", async function () {
-  console.log(process.env.SALTNUMBER);
   const salt = await bcrypt.genSalt(parseInt(process.env.SALTNUMBER));
 
   this.password = await bcrypt.hash(this.password, salt);
