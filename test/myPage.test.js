@@ -1,4 +1,4 @@
-const myPage = require("../service/myPage");
+const myPage = require("../service/myPage.service");
 
 const TimeModels = require("../models/time.model");
 
