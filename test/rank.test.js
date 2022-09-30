@@ -1,5 +1,5 @@
 const Rank = require("../service/rank.service");
-const RankModels = require("../models/rank");
+const RankModels = require("../models/rank.model");
 const StudyingModels = require("../models/studying.model");
 
 describe("user(20대), ageGroup이 전체 일 때", () => {

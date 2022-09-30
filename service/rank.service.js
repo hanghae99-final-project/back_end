@@ -1,4 +1,4 @@
-const rankModels = require("../models/rank");
+const rankModels = require("../models/rank.model");
 const studyingModels = require("../models/studying.model");
 const { DateTime } = require("luxon");
 
