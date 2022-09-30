@@ -1,7 +1,6 @@
 const Time = require("../schemas/time");
 
 exports.getAllRank = async (periodStart, periodEnd) => {
-  console.log("기간 :", periodStart);
   const periodRank = await Time.aggregate([
     {
       $match: {

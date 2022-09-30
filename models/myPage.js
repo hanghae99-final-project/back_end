@@ -1,5 +1,4 @@
 const Time = require("../schemas/time");
-const { DateTime } = require("luxon");
 exports.getStudyTime = async (user, firstDay, lastDay) => {
   const totalStudyTime = await Time.find({
     $and: [

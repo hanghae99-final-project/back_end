@@ -46,7 +46,7 @@ exports.studyStart = async (studyStartPoint, user) => {
       throw new ConflictError("공부 시작 포인트가 이미 존재합니다.");
     }
     todayTime.studyStartPoint = studyStartPoint;
-    await timeModels.saveTime(todayTime, user);
+    await timeModels.saveTime(todayTime);
     return "study start point save success";
 
     // 오늘 공부한 기록이 없을 경우 오늘 공부 data 생성
@@ -80,7 +80,7 @@ exports.studyEnd = async (studyEndPoint, user) => {
       todayTime.studyStartPoint = 0;
       todayTime.studyEndPoint = 0;
 
-      await timeModels.saveTime(todayTime, user);
+      await timeModels.saveTime(todayTime);
       return "Study time has been accumulated.";
     }
   } else {
@@ -110,7 +110,7 @@ exports.restStart = async (studyEndPoint, restStartPoint, user) => {
     todayTime.savedStudyTime += studyEndPoint - todayTime.studyStartPoint;
     todayTime.studyStartPoint = 0;
     todayTime.studyEndPoint = 0;
-    await timeModels.saveTime(todayTime, user);
+    await timeModels.saveTime(todayTime);
     return "rest start success";
   } else {
     throw new NotFoundError("데이터가 없습니다.");
@@ -140,7 +140,7 @@ exports.restEnd = async (studyStartPoint, restEndPoint, user) => {
       if (studyStartPoint !== 0) {
         todayTime.studyStartPoint = studyStartPoint;
       }
-      await timeModels.saveTime(todayTime, user);
+      await timeModels.saveTime(todayTime);
       return "Rest time has been accumulated.";
     }
   } else {
@@ -171,7 +171,7 @@ exports.resetPoint = async (user) => {
     todayTime.restEndPoint = 0;
     todayTime.savedStudyTime = 0;
     todayTime.savedRestTime = 0;
-    await timeModels.saveTime(todayTime, user);
+    await timeModels.saveTime(todayTime);
     return "시간 초기화 완료";
   } else {
     throw new NotFoundError("데이터가 없습니다.");
