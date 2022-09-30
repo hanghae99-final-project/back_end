@@ -4,7 +4,7 @@ require("ejs");
 
 const express = require("express");
 const app = express();
-const route = require("./routes/index");
+const route = require("./routes/index.route");
 const morgan = require("morgan");
 const cors = require("cors");
 const passport = require("passport");
