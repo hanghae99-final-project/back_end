@@ -1,13 +1,13 @@
 const express = require("express");
 const Admin = require("./admin/index");
-const Users = require("./user");
-const Todo = require("./todo");
-const Time = require("./time");
-const Rank = require("./rank");
+const Users = require("./user.route");
+const Todo = require("./todo.route");
+const Time = require("./time.route");
+const Rank = require("./rank.route");
 const MyPage = require("./myPage.route");
 const Profile = require("./profile.route");
-const Studying = require("./studying");
-const Quote = require("./quote");
+const Studying = require("./studying.route");
+const Quote = require("./quote.route");
 const authMiddleware = require("../middleware/userAuth");
 
 // const Forum = require("./forum");
