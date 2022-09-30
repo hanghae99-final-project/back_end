@@ -52,5 +52,5 @@ jobs:
           script: |
                 cd ${{ secrets.ubuntu_PATH }}
                 sudo git pull origin main
-                npm i
+                sudo npm i
                 pm2 restart app
