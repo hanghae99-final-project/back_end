@@ -1,5 +1,5 @@
 const userModels = require("../models/userValidation.model");
-const userModel = require("../models/login");
+const userModel = require("../models/login.model");
 const { BadRequestError } = require("../errors");
 
 exports.findUser = async (kakaoId) => {

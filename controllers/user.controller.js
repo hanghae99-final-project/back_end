@@ -2,7 +2,7 @@ const passport = require("passport");
 const userService = require("../service/user.service");
 const { StatusCodes } = require("http-status-codes");
 const User = require("../schemas/user");
-const userModel = require("../models/login");
+const userModel = require("../models/login.model");
 const { ConflictError } = require("../errors");
 
 exports.kakaoCallbackLocal = (req, res, next) => {
