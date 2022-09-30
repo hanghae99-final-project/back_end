@@ -1,4 +1,4 @@
-const timeService = require("../service/time");
+const timeService = require("../service/time.service");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
 
