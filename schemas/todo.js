@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const todolistSchema = mongoose.Schema({
-  work: String,
+  work: {
+    type: String,
+    maxlength: 20,
+    trim: true,
+  },
   isDone: Boolean,
   color: String,
 });

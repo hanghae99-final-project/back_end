@@ -24,8 +24,8 @@ const usersSchema = mongoose.Schema(
     },
     nickname: {
       type: String,
-      minlength: 1,
-      maxlength: 20,
+      minlength: 2,
+      maxlength: 10,
       unique: true,
     },
     email: {
