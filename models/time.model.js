@@ -9,12 +9,6 @@ exports.todayTime = async (user) => {
   // ex. 9월 12일 am 2:00 ~ 9월 13일 am 1:59 까지가 9월 12일 하루로 침
   let today = DateTime.now();
 
-  // 9월 12일자 db를 검색할 경우, 9월 13일 0시~2시에 검색할 경우 내일 자 db를 검색하는 오류가 발생
-  // 0~2시 사이에 검색할 경우 하루를 빼줌. 13일 -> 12일
-  if (today.hour < 2) {
-    today = today.minus({ days: 1 });
-  }
-
   // 오늘의 시작(todayStart)과 오늘의 끝(todayEnd) 설정
   // add(2, "hours")로 0시의 시작을 2시로 맞춰줌
   const todayStart = new Date(today.startOf("days"));
