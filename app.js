@@ -17,7 +17,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
 const scheduler = require("./config/scheduler");
-const alarm = require("./config/alarm");
+const alarm = require("./config/notification");
 
 const { errorHandlerMiddleware } = require("./middleware/errorHandler");
 
