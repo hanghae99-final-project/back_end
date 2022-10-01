@@ -23,3 +23,6 @@ exports.createJWT = function (userinfo) {
     }
   );
 };
+exports.insertNotifyToken = async (kakaoId, notificationToken) => {
+  await user.findOneAndUpdate({ kakaoId }, { $set: { notificationToken } });
+};

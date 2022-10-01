@@ -57,6 +57,9 @@ const usersSchema = mongoose.Schema(
         "공무원",
       ],
     },
+    notificationToken: {
+      type: String,
+    },
     /* 이전 : targetTime(목표시간)은 time, completed로 구성되었음
      * 현재 : targetTime(목표시간)은 시간에 대한 ms 숫자로 구성
      **/

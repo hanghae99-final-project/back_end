@@ -1,8 +1,6 @@
 const passport = require("passport");
 const userService = require("../service/user.service");
 const { StatusCodes } = require("http-status-codes");
-const User = require("../schemas/user");
-const userModel = require("../models/login.model");
 const { ConflictError } = require("../errors");
 
 exports.kakaoCallbackLocal = (req, res, next) => {
@@ -13,9 +11,14 @@ exports.kakaoCallbackLocal = (req, res, next) => {
       if (err) return next(err);
 
       const { kakaoId } = user;
-      const userInfo = await User.findOne({ kakaoId });
-
-      const token = userModel.createJWT(userInfo);
+      const userInfo = await userService.findUser(kakaoId);
+      if (req.body.notificationToken) {
+        await userService.insertNotifyToken(
+          kakaoId,
+          req.body.notificationToken
+        );
+      }
+      const token = await userService.createJWT(userInfo);
       res.status(StatusCodes.OK).json({ token });
     }
   )(req, res, next);

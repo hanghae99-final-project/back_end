@@ -43,3 +43,6 @@ exports.checkNickname = async (id, nickname, ageGroup, specialty) => {
   }
   return true;
 };
+exports.findUser = async (kakaoId) => {
+  return await User.findOne({ kakaoId });
+};

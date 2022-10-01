@@ -9,6 +9,9 @@ exports.findUser = async (kakaoId) => {
 exports.createJWT = async (userInfo) => {
   return await userModel.createJWT(userInfo);
 };
+exports.insertNotifyToken = async (kakaoId, notificationToken) => {
+  return await userModel.insertNotifyToken(kakaoId, notificationToken);
+};
 exports.nicknameCheck = async (nickname) => {
   await userModels.nicknameSchema.validateAsync({ nickname }).catch((error) => {
     throw new BadRequestError(error.message);
