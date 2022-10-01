@@ -1,12 +1,21 @@
 const schedule = require("node-schedule");
 const Time = require("../schemas/time");
+const User = require("../schemas/user");
 const { DateTime } = require("luxon");
 
 exports.scheduler = () => {
-  schedule.scheduleJob("*/5 * * * *", async (req, res) => {
+  schedule.scheduleJob("* * * * * *", async () => {
     const today = DateTime.now();
     const todayStart = new Date(today.startOf("days"));
     const todayEnd = new Date(today.endOf("days"));
+    const userNotify = await User.find({ notificationToken: { $ne: null } });
+    const tokenArr = [
+      "fENQfh3HtC4erqzPegm2NW:APA91bF1DFZv2z6G7C-6PoXmQoK9cT7jiBuoj6IpkC2gwlgzLVz-ffYrtU2rOlssVpypdVjxSrVXTeB1pYr3S9KyrI8yqhKL_On3TEU4jMSLt_6diurguXvPwS6YNQxjmYrR84WI-9No",
+    ];
+    userNotify.map((element) => {
+      tokenArr.push(element.notificationToken);
+    });
+    console.log(tokenArr);
     const times = await Time.aggregate([
       {
         $match: {
@@ -48,18 +57,14 @@ exports.scheduler = () => {
            * 여기 공간 있어요!
            * 요기여기야기! 기둥 뒤에 공간 있어요!
            */
-          const token = Object.keys(req.body);
-          const tokenArr = [];
-          token.map((i) => {
-            tokenArr.push(i);
-          });
+
           try {
             const body = {
               //메세지 받을 클라이어튼 토큰 입력
-              to: token[0],
+              to: "fENQfh3HtC4erqzPegm2NW:APA91bEo8bX7ZHwidBI1ATisMNrkJfK2xLjnGF-IkA3TLAhlthF5zvCm6Dy7n0C55BChXISP0ABmzVU2GX-GQYydzMXBok7fCsyVybsSNSzlxy6Ru94tavW18AALiyqRzL36YJHzzBWh",
               notification: {
                 title: "랭플", //메세지 제목
-                body: "안쪽", //메세지 내용
+                body: "랭플 알람입니다", //메세지 내용
               },
             };
 
