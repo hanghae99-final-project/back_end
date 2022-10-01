@@ -10,6 +10,6 @@ router.route("/kakao/callback").get(User.kakaoCallbackLocal);
 router
   .route("/modProfile")
   .patch(authMiddleware, asyncWrapper(User.modProfile));
-router.route("/notification", asyncWrapper(notification.scheduler));
+router.route("/notification").post(asyncWrapper(notification.scheduler));
 
 module.exports = router;
