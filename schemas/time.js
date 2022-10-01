@@ -38,6 +38,11 @@ const timeSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
+    isGoal: {
+      type: Boolean,
+      enum: [true, false],
+      default: false,
+    },
     insDate: { type: String, default: dateKorea },
   },
   { timestamps: true }
