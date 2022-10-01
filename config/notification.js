@@ -3,7 +3,7 @@ const Time = require("../schemas/time");
 const { DateTime } = require("luxon");
 
 exports.scheduler = () => {
-  schedule.scheduleJob("*/1 * * * *", async () => {
+  schedule.scheduleJob("*/5 * * * *", async () => {
     const today = DateTime.now();
     const todayStart = new Date(today.startOf("days"));
     const todayEnd = new Date(today.endOf("days"));
