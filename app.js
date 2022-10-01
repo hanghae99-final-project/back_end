@@ -17,6 +17,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
 const scheduler = require("./config/scheduler");
+const alarm = require("./config/alarm");
 
 const { errorHandlerMiddleware } = require("./middleware/errorHandler");
 
@@ -64,6 +65,7 @@ const start = async () => {
     await connectDB.connectDB(process.env.MONGO_URI);
     app.listen(port, console.log(`Server is listening port ${port}....`));
     scheduler.scheduler();
+    alarm.scheduler();
   } catch (error) {
     console.log(error);
   }

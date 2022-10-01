@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const moment = require("moment-timezone");
-const dateKorea = moment().tz("Asia/Seoul").format();
 
 const timeSchema = mongoose.Schema(
   {
@@ -38,7 +36,11 @@ const timeSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
-    insDate: { type: String, default: dateKorea },
+    isGoal: {
+      type: Boolean,
+      enum: [true, false],
+      default: false,
+    },
   },
   { timestamps: true }
 );
