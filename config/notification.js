@@ -65,6 +65,8 @@ exports.scheduler = () => {
               notification: {
                 title: "랭플", //메세지 제목
                 body: "랭플 알람입니다", //메세지 내용
+                click_action: "https://ranking-planner.com", //클릭시 홈페이지 이동
+                icon: "/firebase-logo.png", //사용자 프로필 오면 좋을듯
               },
             };
 
@@ -80,7 +82,6 @@ exports.scheduler = () => {
                 Authorization: `key=${process.env.FIREBASE_Authorization}`,
               },
             });
-            schedule.cancelJob("setTime");
           } catch (e) {
             console.log(e);
           }
