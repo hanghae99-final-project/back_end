@@ -72,17 +72,17 @@
 
 ### admin
 -로그인
- 등록되어져 있는 email으로만 로그인이 가능합니다.<br/>
- 등록되어져 있는 email로 node mialer를 사용하여 인증번호를 전송합니다. <br/>
- 등록되어져 있는 email로 인증을 받고 로그인을 하면 DB에 있는 인증번호를 삭제 합니다.<br/>
- 인증이 되면 로그인이 가능합니다.
+   등록되어져 있는 email으로만 로그인이 가능합니다.<br/>
+   등록되어져 있는 email로 node mialer를 사용하여 인증번호를 전송합니다. <br/>
+   등록되어져 있는 email로 인증을 받고 로그인을 하면 DB에 있는 인증번호를 삭제 합니다.<br/>
+   인증이 되면 로그인이 가능합니다.
 - 회원관리
-  현재 가입되어져 있는 총 회원의 수를 볼 수 있습니다.<br/>
-  회원들의 정보들을 볼 수 있습니다. <br/>
-  회원들의 닉네임으로 검색을 할 수 있습니다.<br/>
+   현재 가입되어져 있는 총 회원의 수를 볼 수 있습니다.<br/>
+   회원들의 정보들을 볼 수 있습니다. <br/>
+   회원들의 닉네임으로 검색을 할 수 있습니다.<br/>
 - 명언 관리
-  user에게 보여주는 명언들을 버튼 ajax를 사용하여 1개 이상의 input칸을 받아와 추가 할 수 있습니다.
-  user에게 보여주는 명언들 check box를 사용하여 여러개를 삭제가능합니다.
+   user에게 보여주는 명언들을 버튼 ajax를 사용하여 1개 이상의 input칸을 받아와 추가 할 수 있습니다.
+   user에게 보여주는 명언들 check box를 사용하여 여러개를 삭제가능합니다.
  
   
 
@@ -140,7 +140,11 @@
  스펙 index를 user data의 spec Array의 index와 비교하여 일치하는 spec을 제거한다.
 
 
-### Web push
+### Google Cloud Messaging API(Web-push)
+ - Google firebase
+   알림을 허용한 회원들 한에서 notification 토큰을 받은뒤 DB에 저장을 합니다.
+   저장을 하고 난다음 매 5분마다 node schedule이 목표 시간에 도달한 회원들에게 구글 firebase 서버키를 사용하여 크롭 웹 알림을 보냅니다.
+   
 
 
 
@@ -309,10 +313,10 @@ BackEnd
 
 >## 🦾팀원
 
-|이름|주요기능|
+|이름|깃허브 주소|
 |--|--|
-|박원균| ERD, ec2 서버 구축, https, web push, passport login,user validation, admin page, quote crud, user searching, ci/cd, logging, node-mailer|
-|이창현| ERD, ec2 서버 구축, https, studytime 기록, ranking, todo/d-day crud, profile crud, ci/cd, logging, node-scheduer|
+|이창현(부조장)| https://github.com/changhyeonlee-0703|
+|박원균(팀원)| https://github.com/CalvinParkNov|
 
 <br/>
 
