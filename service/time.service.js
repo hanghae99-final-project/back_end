@@ -79,7 +79,11 @@ exports.studyEnd = async (studyEndPoint, user) => {
       todayTime.savedStudyTime += studyEndPoint - todayTime.studyStartPoint;
       todayTime.studyStartPoint = 0;
       todayTime.studyEndPoint = 0;
-
+      if (typeof todayTime.isGoal === "boolean") {
+        if (user.targetTime <= todayTime.saveStudyTime) {
+          todayTime.isGoal = true;
+        }
+      }
       await timeModels.saveTime(todayTime);
       return "Study time has been accumulated.";
     }

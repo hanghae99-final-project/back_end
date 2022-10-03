@@ -9,6 +9,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const passport = require("passport");
 const { local } = require("./passport");
+const admin = require("firebase-admin");
 
 const connectDB = require("./config/connect");
 const bodyParser = require("body-parser");
@@ -17,6 +18,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
 const scheduler = require("./config/scheduler");
+const alarm = require("./config/notification");
 
 const { errorHandlerMiddleware } = require("./middleware/errorHandler");
 
@@ -57,6 +59,12 @@ app.use(errorHandlerMiddleware);
 app.use((req, res) => {
   res.status(404).send("not found");
 });
+let serviceAccount = require("./ranking-planner-firebase-adminsdk-hn6qf-d15a7baf2d.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+});
 const port = process.env.PORT || 5000;
 const start = async () => {
   try {
@@ -64,6 +72,7 @@ const start = async () => {
     await connectDB.connectDB(process.env.MONGO_URI);
     app.listen(port, console.log(`Server is listening port ${port}....`));
     scheduler.scheduler();
+    alarm.scheduler();
   } catch (error) {
     console.log(error);
   }

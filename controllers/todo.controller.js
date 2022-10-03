@@ -18,7 +18,8 @@ exports.getTodo = async (req, res) => {
 exports.createTodo = async (req, res) => {
   const user = req.locals;
   const { work, isDone, color } = req.body;
-  if (!work || !color || typeof isDone !== "boolean") {
+
+  if (!work || (work.trim() === "") | !color || typeof isDone !== "boolean") {
     throw new BadRequestError("입력 값이 없습니다.");
   }
   const result = await todoService.createTodo(work, isDone, color, user);

@@ -25,7 +25,7 @@ const usersSchema = mongoose.Schema(
     nickname: {
       type: String,
       minlength: 2,
-      maxlength: 10,
+      maxlength: 12,
       unique: true,
     },
     email: {
@@ -56,6 +56,9 @@ const usersSchema = mongoose.Schema(
         "의료",
         "공무원",
       ],
+    },
+    notificationToken: {
+      type: String,
     },
     /* 이전 : targetTime(목표시간)은 time, completed로 구성되었음
      * 현재 : targetTime(목표시간)은 시간에 대한 ms 숫자로 구성

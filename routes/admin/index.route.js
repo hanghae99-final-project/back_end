@@ -14,6 +14,14 @@ router.route("/login").post(asyncWrapper(admin.login));
 router.route("/logout").get(isLoggedIn, admin.logout);
 //추가 input text
 router.route("/addObject").post(asyncWrapper(adminData.addObject));
+//명언 가져오기
+router
+  .route("/quotes/:quoteId")
+  .get(isLoggedIn, asyncWrapper(adminPage.getQuote));
+//명언 수정하기
+router
+  .route("/modQuote/:quoteId")
+  .post(isLoggedIn, asyncWrapper(adminData.modQuote));
 //명언 삭제
 router
   .route("/deleteCheckedQuotes")
