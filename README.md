@@ -44,106 +44,129 @@
 
 ### Timer
  - 공부 시작 <br/>
-오늘 날짜 공부 data가 없을 때 : data 생성하고 공부 시작 시각을 기록한다.<br/>
-오늘 날짜 공부 data가 있을 때 : 공부 시작 시각을 업데이트 한다.
+   * 오늘 날짜 공부 data가 없을 때 : data 생성하고 공부 시작 시각을 기록한다.<br/>
+   * 오늘 날짜 공부 data가 있을 때 : 공부 시작 시각을 업데이트 한다.
  
  - 휴식 시작 <br/>
-공부 종료 시각과 공부 시작 시각으로 공부 누적 시간을 계산하고 휴식 시작 시각을 기록한다.(공부 시작/종료 시각 초기화)
+   * 공부 종료 시각과 공부 시작 시각으로 공부 누적 시간을 계산하고 휴식 시작 시각을 기록한다.(공부 시작/종료 시각 초기화)
 
  - 휴식 종료 <br/>
- 휴식 시작 시각과 휴식 종료 시각으로 휴식 누적 시간을 계산하고 공부 시작 시각을 기록한다.(휴식 시작/종료 시각 초기화)
+   * 휴식 시작 시각과 휴식 종료 시각으로 휴식 누적 시간을 계산하고 공부 시작 시각을 기록한다.(휴식 시작/종료 시각 초기화)
  
  - 공부 종료 <br/>
- 휴식 중일 때 : 휴식 시작 시각과 휴식 종료 시각으로 휴식 누적 시간을 계산한다.(휴식 시작/종료 시각 초기화)<br/>
- 공부 중일 때 : 공부 시작 시각과 공부 종료 시각으로 공부 누적 시간을 계산한다.(공부 시작/종료 시각 초기화)
+   * 휴식 중일 때 : 휴식 시작 시각과 휴식 종료 시각으로 휴식 누적 시간을 계산한다.(휴식 시작/종료 시각 초기화)<br/>
+   * 공부 중일 때 : 공부 시작 시각과 공부 종료 시각으로 공부 누적 시간을 계산한다.(공부 시작/종료 시각 초기화)
    
    
 ### ranking
 - 기간 별, 연령대 별 공부 시간 랭킹 보여주기<br/>
-  &nbsp; - 기간(오늘, 주간, 월간)을 기준으로 DB의 날짜 검색 범위를 지정한다.<br/>
-  &nbsp; - 연령대가 전체일 경우, 지정한 날짜로 검색한 time DB에서 user DB를 병합한다. 유저를 기준으로 공부 누적 시간을 더한 후 내림차순 정렬을 진행한다. <br/>
-  &nbsp; - 연령대가 20대, 30대 일 경우, 지정한 날짜로 검색한 time DB에서 user DB를 병합한 후 연령대를 기준으로 검색을 한번 더 진행한다. <br/>
-  &nbsp; - 경우의 수 : <br/> 
-  &nbsp; &nbsp; &nbsp; - 전체-오늘, 전체-주간, 전체-월간, <br/> 
-  &nbsp; &nbsp; &nbsp; - 20대-오늘, 20대-주간, 20대-월간, <br/>
-  &nbsp; &nbsp; &nbsp; - 30대-오늘, 30대-주간, 30대-월간 으로 총 9가지가 생긴다.
+   * 기간(오늘, 주간, 월간)을 기준으로 DB의 날짜 검색 범위를 지정한다.<br/>
+   * 연령대가 전체일 경우, 지정한 날짜로 검색한 time DB에서 user DB를 병합한다. 유저를 기준으로 공부 누적 시간을 더한 후 내림차순 정렬을 진행한다. <br/>
+   * 연령대가 20대, 30대 일 경우, 지정한 날짜로 검색한 time DB에서 user DB를 병합한 후 연령대를 기준으로 검색을 한번 더 진행한다. <br/>
+   * 경우의 수 : 
+      + 오늘, 전체-주간, 전체-월간, <br/> 
+      + 20대-오늘, 20대-주간, 20대-월간, <br/>
+      +  30대-오늘, 30대-주간, 30대-월간 으로 총 9가지가 생긴다.
   
   
 
 ### admin
--로그인
-   등록되어져 있는 email으로만 로그인이 가능합니다.<br/>
-   등록되어져 있는 email로 node mialer를 사용하여 인증번호를 전송합니다. <br/>
-   등록되어져 있는 email로 인증을 받고 로그인을 하면 DB에 있는 인증번호를 삭제 합니다.<br/>
-   인증이 되면 로그인이 가능합니다.
-- 회원관리
-   현재 가입되어져 있는 총 회원의 수를 볼 수 있습니다.<br/>
-   회원들의 정보들을 볼 수 있습니다. <br/>
-   회원들의 닉네임으로 검색을 할 수 있습니다.<br/>
-- 명언 관리
-   user에게 보여주는 명언들을 버튼 ajax를 사용하여 1개 이상의 input칸을 받아와 추가 할 수 있습니다.
-   user에게 보여주는 명언들 check box를 사용하여 여러개를 삭제가능합니다.
+
+- get
+  * 로그인 페이지 html ejs 를 불러온다.
+- post
+  * 이메일과 비밀번호를 설정하여 관리자에 등록을 한다.
+- sendCode post (ajax)
+   * jquery를 활용해서 이메일을 검사합니다. 그리고 이메일이 맞고 등록되지 않은 이메일이면 alert로 내용을 보여준다.
+   * 등록 되어져 있는 이메일일 경우 해당 이메일로 인증코드를 발속합니다. 인증코드는 DB에 저장합니다.
+   * 인증이 다 되었으면 로그인이 성공이되고 DB에 있는 인증코드는 삭제가 됩니다.
+- login post (ajax)
+  * 등록되어져 있는 email으로만 로그인이 가능합니다
+  * 등록되어져 있는 email로 node mialer를 사용하여 인증번호를 전송합니다.
+- checkCode post
+  * 등록되어져 있는 email로 인증을 받고 로그인을 하면 DB에 있는 인증번호를 삭제 합니다.
+  * 인증이 되면 로그인이 가능합니다.
+
+- main get
+   * 현재 가입되어져 있는 총 회원의 수를 볼 수 있습니다.<br/>
+   * 회원들의 정보들을 볼 수 있습니다. <br/>
+   * 회원들의 닉네임으로 검색을 할 수 있습니다.<br/>
+- user/:userId get
+   * 유저의 정보를 가져옵니다.
+
+- insQuote get
+   * 현재 등록되어져 있는 명언리스트 페이지를 html ejs로 불러옵니다.
+   * 명언을 추가할 수 있는 페이지 html ejs를 불러옵니다.
+- insQuote post
+   * 명언들을 추가 할 수 있습니다.
+
+- addObject post
+   * 명언에 1개 이상이상 추가된 input을 DB에 저장합니다.
+- deleteCheckedQuotes delete
+   * DB에 들록되어져 있는 명언을 1개 이상 삭제가 가능합니다.
  
   
 
 ### Todo
- - Todo post <br/>
- 오늘 Todo data가 없을 때 : data를 생성하고 data 내부의 todoArr에 todo(내용, 색상, 완료여부)를 저장한다.<br/>
- 오늘 Todo data가 있을 때 : data 내부의 todoArr에 todo를 push한다.
+
+- Todo post
+   * 오늘 Todo data가 없을 때 : data를 생성하고 data 내부의 todoArr에 todo(내용, 색상, 완료여부)를 저장한다.<br/>
+   * 오늘 Todo data가 있을 때 : data 내부의 todoArr에 todo를 push한다.
  
- - Todo get <br/>
- 받아온 날짜에 Todo data를 DB에서 가져온 후, TodoArr만 보여준다.
- 받아온 날짜에 Todo data가 없을 경우, 빈 배열을 반환한다.
+ - Todo get
+   * 받아온 날짜에 Todo data를 DB에서 가져온 후, TodoArr만 보여준다.
+   * 받아온 날짜에 Todo data가 없을 경우, 빈 배열을 반환한다.
  
- - Todo put <br/>
- 오늘 날짜 Todo data를 DB에서 가져온 후, TodoArr에 받아온 index값과 일치하는 Todo를 찾아 업데이트 해준다.
+ - Todo put 
+   * 오늘 날짜 Todo data를 DB에서 가져온 후, TodoArr에 받아온 index값과 일치하는 Todo를 찾아 업데이트 해준다.
  
- - Todo delete <br/>
- 오늘 날짜 Todo data를 DB에서 가져온 후, TodoArr에 받아온 index값과 일치하는 Todo만 slice한다.
+ - Todo delete
+   * 오늘 날짜 Todo data를 DB에서 가져온 후, TodoArr에 받아온 index값과 일치하는 Todo만 slice한다.
  
  
 ### D-day
  - D-day post <br/>
- 유저 data에서 dDay Array에 D-day(deadline, 내용)을 push한다.
+   * 유저 data에서 dDay Array에 D-day(deadline, 내용)을 push한다.
 
  - D-day get <br/>
- D-day가 없을 때 : 빈 배열을 반환한다.
- 오늘보다 이전 D-day만 있을 때 : DB에서 D-day Array를 가져온 후, Date lib으로 오늘과 비교하여 빈배열을 반환한다. 
- 오늘보다 이후 D-day만 있을 때 : DB에서 D-day Array를 가져온 후, Date lib으로 오늘과 비교하여 오늘 이후 D-day만 가져온다.
- 다양한 날짜 D-day가 있을 때 : DB에서 D-day Array를 가져온 후, Date lib으로 오늘과 비교하여 오늘 이후 D-day만 가져온다.
+   * D-day가 없을 때 : 빈 배열을 반환한다.
+   * 오늘보다 이전 D-day만 있을 때 : DB에서 D-day Array를 가져온 후, Date lib으로 오늘과 비교하여 빈배열을 반환한다. 
+   * 오늘보다 이후 D-day만 있을 때 : DB에서 D-day Array를 가져온 후, Date lib으로 오늘과 비교하여 오늘 이후 D-day만 가져온다.
+   * 다양한 날짜 D-day가 있을 때 : DB에서 D-day Array를 가져온 후, Date lib으로 오늘과 비교하여 오늘 이후 D-day만 가져온다.
  
  - D-day put <br/>
- 유저 data에서 dDay Array를 가져온 후, D-day index와 일치하는 D-day를 찾아 업데이트 해준다.
+   * 유저 data에서 dDay Array를 가져온 후, D-day index와 일치하는 D-day를 찾아 업데이트 해준다.
  
  - D-day delete <br/>
- 유저 data에서 dDay Array를 가져온 후, D-day index와 일치하는 D-day를 찾아 삭제 해준다.
+   * 유저 data에서 dDay Array를 가져온 후, D-day index와 일치하는 D-day를 찾아 삭제 해준다.
 
 
 ### 프로필
  - 프로필 put <br/>
- 프로필 nickname, ageGroup, specialty를 받아 user DB에 업데이트한다.<br/>
- 프로필 중복체크 기능이 있으나 회원 수정시 한번 더 nickname 중복을 체크한다.
+   * 프로필 nickname, ageGroup, specialty를 받아 user DB에 업데이트한다.<br/>
+   * 프로필 중복체크 기능이 있으나 회원 수정시 한번 더 nickname 중복을 체크한다.
  
 - 프로필 get <br/>
- user DB에서 유저의 nickname, ageGroup, specialty, spec을 보여준다.
+   * user DB에서 유저의 nickname, ageGroup, specialty, spec을 보여준다.
  
 - nickname의 중복체크<br/>
- 받아온 nickname을 DB에 검색한다.(검색 시 자신의 nickname은 제외해야 함)
+   * 받아온 nickname을 DB에 검색한다.(검색 시 자신의 nickname은 제외해야 함)
 
 - spec post <br/>
- education(학력,경력), career(학교/회사명), year, experience(설명) user data의 spec Array에 push한다.
+   * education(학력,경력), career(학교/회사명), year, experience(설명) user data의 spec Array에 push한다.
  
 - spec put <br/>
- 스펙 index를 user data의 spec Array의 index와 비교하여 일치하는 spec의 컬럼을 업데이트한다.
+   * 스펙 index를 user data의 spec Array의 index와 비교하여 일치하는 spec의 컬럼을 업데이트한다.
  
 - spec delete <br/>
- 스펙 index를 user data의 spec Array의 index와 비교하여 일치하는 spec을 제거한다.
+   * 스펙 index를 user data의 spec Array의 index와 비교하여 일치하는 spec을 제거한다.
 
 
 ### Google Cloud Messaging API(Web-push)
+
  - Google firebase
-   알림을 허용한 회원들 한에서 notification 토큰을 받은뒤 DB에 저장을 합니다.
-   저장을 하고 난다음 매 5분마다 node schedule이 목표 시간에 도달한 회원들에게 구글 firebase 서버키를 사용하여 크롭 웹 알림을 보냅니다.
+   * 알림을 허용한 회원들 한에서 notification 토큰을 받은뒤 DB에 저장을 합니다.
+   * 저장을 하고 난다음 매 5분마다 node schedule이 목표 시간에 도달한 회원들에게 구글 firebase 서버키를 사용하여 크롭 웹 알림을 보냅니다.
    
 
 
@@ -315,18 +338,74 @@ BackEnd
 
 |이름|깃허브 주소|
 |--|--|
-|이창현(부조장)| https://github.com/changhyeonlee-0703|
+|이창현(부리더)| https://github.com/changhyeonlee-0703|
 |박원균(팀원)| https://github.com/CalvinParkNov|
 
 <br/>
 
 >## 📝기술적 의사 결정
+>
+<details>
+<summary>Dayjs / Luxon Date Library</summary>
+<div markdown="1">
+Date 라이브러리를 대신해서 가장 많이 사용하는 moment라이브러리를 사용함. </br>
+그러나 현재 moment 공식 홈에서도 업데이트를 중단했다고 선언하였고 다른 여러 라이브러리를 추천해주는 상황에서 변경이 불가피함. </br>
+luxon, dayjs, date fns 라이브러리들의 퍼포먼스를 비교해본 결과 : </br>
+속도 : moment → luxon=date-fns → dayjs </br>
+    사이즈:  moment> date-fns>luxon>dayjs </br>
+    속도는 luxon과 date-fns가 비슷했으나 dayjs보다 2~3배 빠른 속도를 보였다. 그러나 사이즈 면에서 dayjs가 다른 라이브러리에 비해 3~4배 작았음. </br>
+    서버의 스팩 상 제일 적은 라이브러리보단 사이즈 도 비교적 작고 속도도 빠른 luxon라이브러리를 채택함. </br>
+  </div>
+</details>
+
+<details>
+<summary> mongoDB 선택 이유</summary>
+ <div markdown="1">
+   애플리케이션이 필요로 하는 형식으로 데이터가 저장되어 빠르게 입출력할 수 있다는 장점을 가지고 있다. 또한 다른 Documents의 구조를 넣을 수도 있다. </br> 
+   예시로 Book Doc에 author라는 컬럼 안에 User Doc을 넣을 수도 있으며 동시에 Follow 컬럼 내 배열 안에 User Doc를 여러개 넣을 수 있다는 장점을 가지고 있다. </br>
+   추후 수평적 확장에 대비하여서도 mongoDB를 사용.
+  </div>
+</details>
+
+<details>
+ <summary> Scheduler</summary>
+  <div markdown="1">
+node-scheduler와 리눅스의 crontab 중에 node-scheduelr는 노드 프로세스를 진행중이면 같이 적용되어 따로 관리가 필요없음을 인지함. </br>
+다만 프로세스가 꺼지면 스케쥴러도 같이 꺼지기에 노드 프로세스의 관리가 필요한데 이는 pm2 lib으로 처리 가능하므로 node-scheduler를 채택 </br>
+  </div>
+</details>
+
+<details>
+ <summary> Scheduler</summary>
+  <div markdown="1">
+node-scheduler와 리눅스의 crontab 중에 node-scheduelr는 노드 프로세스를 진행중이면 같이 적용되어 따로 관리가 필요없음을 인지함. </br>
+다만 프로세스가 꺼지면 스케쥴러도 같이 꺼지기에 노드 프로세스의 관리가 필요한데 이는 pm2 lib으로 처리 가능하므로 node-scheduler를 채택 </br>
+  </div>
+</details>
+
+<details>
+ <summary> CI/CD</summary>
+  <div markdown="1">
+jenkis를 직접 구현하진 않았으나 자료 검색 결과, 따로 서버를 만들어 ci/cd를 진행해야함. </br> 
+ ci/cd를 위한 서버를 세팅해야하는 번거로움 발생. git actions은 github에서 push, pull request할 때마다 서버를 빌려주므로 github event와 동시에 서버에 ci/cd를 가능하게 하고 상대적으로 이용이 쉬워 시간상, 업무상 효율성을 생각하여 git actions 적용  </div>
+</details>
 
 
+<details>
+ <summary> Error Handle</summary>
+  <div markdown="1">
+throw new Error를 사용할 시 status cide가 400으로 고정이 됨. </br>
+대안책으로 hapi/boom과 custom error 두가지 방법을 구현한 결과 두 방법 모두 커스텀 에러는 가능하나 hapi express에서 쓰는 boom보단 우리 서비스에 맞게 커스텀을 할 수 있는 custom error class를 채택하여 진행함. </br>
+ </div>
+</details>
 
+<details>
+ <summary> admin page </summary>
+  <div markdown="1">
+관리자가 유저에게 보여주는 메세지를 작성할 필요. </br>
+대표적인 예로 명언과 같은 설정한 메세지를 유저에게 보여주는 기능을 보유하고 있는데, vscode의 썬더 클라이언트나 포스트맨으로 명언을 추가해야하는 불편함 느낌. </br>
+관리자 페이지의 필요성을 느꼈으나, 발표 준비 주를 제외한 5주라는 짧은 시간관계 상 프론트단의 자원은 UI/ user 편의성에 집중을 하는 것이 맞다 판단됨. ejs, jquery를 사용하여 간결하고 깔끔하게 관리자 페이지를 생성 </br>
 
-
-
-
-
-
+ 가입한 인원의 수, 회원 정보, 닉네임 검색 기능, 명언 CRUD페이지 추가하여 매번 추가/수정/삭제를 하지 않아도 되는 편리함을 적용. </br>
+ </div>
+</details>
