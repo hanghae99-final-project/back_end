@@ -28,3 +28,9 @@ exports.findSearch = async (where) => {
 exports.totalUser = async () => {
   return await adminModel.getAllUsers();
 };
+exports.getQuoteInfo = async (quoteId) => {
+  return await adminModel.getSingleQuoteInfo(quoteId);
+};
+exports.modQuote = async (quoteId, quote) => {
+  return await adminModel.modQuote(quoteId, quote);
+};
