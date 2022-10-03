@@ -19,3 +19,9 @@ exports.getUserInfoPage = async (req, res) => {
   const data = await adminService.getUserInfo(userId);
   res.status(StatusCodes.OK).render("main/user", { data });
 };
+exports.getQuote = async (req, res) => {
+  const { quoteId } = req.params;
+  const data = await adminService.getQuoteInfo(quoteId);
+  console.log(data);
+  res.status(StatusCodes.OK).render("main/quotePage", { data });
+};
