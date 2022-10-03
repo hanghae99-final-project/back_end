@@ -1,0 +1,21 @@
+<%- include("../partials/header"); -%>
+<div class="content">
+  <div class="container">
+    <h2 class="mb-5">명언</h2>
+
+    <form action="/modQuote/<%=data._id%>" method="post">
+      
+    <div class="table-responsive">
+      <div>
+        <input type="text" value="<%= data.title%>" name="quote" size="50" required/>
+      </div>
+    </div>
+    <br/>
+    <button type="submit">수정하기</button>
+    </form>
+  </div>
+</div>
+
+</>
+
+<%- include("../partials/footer"); -%>

@@ -29,3 +29,13 @@ exports.deleteCheckedQuotes = async (req, res) => {
   const result = await adminService.checkedDelete(quote);
   res.send({ message: result });
 };
+
+exports.modQuote = async (req, res) => {
+  const { quoteId } = req.params;
+  const { quote } = req.body;
+  adminService.modQuote(quoteId, quote);
+  res.status(StatusCodes.OK).render("alert/successAlert", {
+    message: "수정되었습니다.",
+    page: "insQuote",
+  });
+};
