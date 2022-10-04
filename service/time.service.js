@@ -78,11 +78,8 @@ exports.studyEnd = async (studyEndPoint, user) => {
     } else {
       todayTime.savedStudyTime += studyEndPoint - todayTime.studyStartPoint;
       todayTime.studyStartPoint = 0;
-      todayTime.studyEndPoint = 0;
-      if (typeof todayTime.isGoal === "boolean") {
-        if (user.targetTime <= todayTime.saveStudyTime) {
-          todayTime.isGoal = true;
-        }
+      if (!todayTime.isGoal) {
+        todayTime.tempSavedStudyTime = todayTime.savedStudyTime;
       }
       await timeModels.saveTime(todayTime);
       return "Study time has been accumulated.";
@@ -113,7 +110,9 @@ exports.restStart = async (studyEndPoint, restStartPoint, user) => {
     todayTime.restStartPoint = restStartPoint;
     todayTime.savedStudyTime += studyEndPoint - todayTime.studyStartPoint;
     todayTime.studyStartPoint = 0;
-    todayTime.studyEndPoint = 0;
+    if (!todayTime.isGoal) {
+      todayTime.tempSavedStudyTime = todayTime.savedStudyTime;
+    }
     await timeModels.saveTime(todayTime);
     return "rest start success";
   } else {
@@ -139,7 +138,6 @@ exports.restEnd = async (studyStartPoint, restEndPoint, user) => {
     } else {
       todayTime.savedRestTime += restEndPoint - todayTime.restStartPoint;
       todayTime.restStartPoint = 0;
-      todayTime.restEndPoint = 0;
       // 공부 시작 시각이 있을 시 휴식을 종료하고 공부를 시작함
       if (studyStartPoint !== 0) {
         todayTime.studyStartPoint = studyStartPoint;
@@ -159,6 +157,14 @@ exports.postTargetTime = async (targetTime, user) => {
     // targetTime을 설정 후 저장
     userData.targetTime = targetTime;
     await timeModels.saveTargetTime(userData);
+
+    const todayTime = await timeModels.todayTime(user);
+    if (todayTime) {
+      todayTime.isGoal = false;
+      todayTime.tempSavedStudyTime = 0;
+      await timeModels.saveTime(todayTime);
+    }
+
     return "목표시간 설정 완료";
   } else {
     throw new NotFoundError("데이터가 없습니다.");
@@ -170,9 +176,7 @@ exports.resetPoint = async (user) => {
   const todayTime = await timeModels.todayTime(user);
   if (todayTime) {
     todayTime.studyStartPoint = 0;
-    todayTime.studyEndPoint = 0;
     todayTime.restStartPoint = 0;
-    todayTime.restEndPoint = 0;
     todayTime.savedStudyTime = 0;
     todayTime.savedRestTime = 0;
     await timeModels.saveTime(todayTime);

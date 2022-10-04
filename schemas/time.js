@@ -11,17 +11,7 @@ const timeSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    studyEndPoint: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
     restStartPoint: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    restEndPoint: {
       type: Number,
       required: true,
       default: 0,
@@ -40,6 +30,10 @@ const timeSchema = mongoose.Schema(
       type: Boolean,
       enum: [true, false],
       default: false,
+    },
+    tempSavedStudyTime: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }
