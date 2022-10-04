@@ -344,9 +344,38 @@ BackEnd
 <br/>
 
 >## 📝기술적 의사 결정
->
 <details>
-<summary>Dayjs / Luxon Date Library</summary>
+<summary> Trouble: Dayjs / Luxon Date Library</summary>
+
+ **🤯  JavaScript Date의 성능 이슈.**
+- 날짜/시간에 대한 처리를 개발자가 직접 구현해야하는 불편함 존재.  i.e. 윤년, 9월 31
+- 타 library에 비해 무겁고 속도 측면에서 느림.
+- MongoDB에서 저장하는 timestamp는 UTC 기준.
+- Date lib의 대안으로 가장 많이 사용하는 Moment lib을 채택했으나, legacy로 인하여 더 이상의 업데이트가 중지되었고, 추후 확장성을 위해 moment에서 추천하는 Date lib을 사용.
+<p align="center"><img src="https://user-images.githubusercontent.com/82853790/193856920-b36a584d-99bf-4dc5-88e6-e65d630d5ef0.png" width="700" height="350" /></p>
+
+
+**🌠  해결.** 
+Date Libaray : **luxon,** dayjs, date-fns (성능 테스트 : 1 - 5000번 반복하여 100번의 평균 속도를 측정)
+
+ - 속도 : luxon ≤ date-fns < dayjs
+ - 사이즈 :  date-fns> moment > luxon >>> dayjs
+<figure class="third">
+    <img src="https://user-images.githubusercontent.com/82853790/193856772-b38c3fab-2df0-4beb-9824-036d25e1fcd3.png"/>
+    <img src="https://user-images.githubusercontent.com/82853790/193856834-b7d065cc-3fed-46e3-b248-e76a8625587f.png"/>
+</figure>
+
+ - 결론 :
+속도 테스트 결과, **luxon library가 가장 빠른 것으로 결론을 도출.** 그러나 사이즈 면에서 dayjs가 다른 라이브러리에 비해 6~10배 작았음.<br/>
+서버사이드의 측면과 서비스의 특성 상 Library의  크기보단 속도 우선이라 판단하여 비교적 사이즈가 적고 가장 빠른 **luxon라이브러리**를 채택함.<br/>
+</details>
+
+
+
+
+
+<details>
+<summary>**🤯   JavaScript Date의 성능 이슈.**</summary>
 <div markdown="1">
 Date 라이브러리를 대신해서 가장 많이 사용하는 moment라이브러리를 사용함. </br>
 그러나 현재 moment 공식 홈에서도 업데이트를 중단했다고 선언하였고 다른 여러 라이브러리를 추천해주는 상황에서 변경이 불가피함. </br>
