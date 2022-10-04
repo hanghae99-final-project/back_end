@@ -12,6 +12,7 @@ exports.mainPage = async (req, res) => {
 };
 exports.insQuotePage = async (req, res) => {
   const quotes = await adminService.quoteFind({});
+
   res.status(StatusCodes.OK).render("main/insQuotePage", { data: quotes });
 };
 exports.getUserInfoPage = async (req, res) => {
@@ -22,6 +23,6 @@ exports.getUserInfoPage = async (req, res) => {
 exports.getQuote = async (req, res) => {
   const { quoteId } = req.params;
   const data = await adminService.getQuoteInfo(quoteId);
-  console.log(data);
+
   res.status(StatusCodes.OK).render("main/quotePage", { data });
 };
