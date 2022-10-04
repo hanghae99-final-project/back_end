@@ -72,3 +72,12 @@ exports.getTargetTime = async (user) => {
 exports.saveTargetTime = async (userData) => {
   await userData.save();
 };
+
+exports.insertNotifyToken = async (user, notificationToken) => {
+  const result = await User.findOneAndUpdate(
+    { _id: user._id },
+    { $set: { notificationToken } },
+    { new: true }
+  );
+  console.log(result);
+};
