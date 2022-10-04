@@ -9,7 +9,12 @@ exports.create = async (quote) => {
 };
 
 exports.getAllQuotes = async () => {
-  const getAllQuotes = await Quote.find({});
+  const count = await Quote.count({});
+
+  const random = Math.floor(Math.random() * count);
+
+  const getAllQuotes = await Quote.findOne().skip(random).exec();
+
   return getAllQuotes;
 };
 exports.getOneQuote = async (number) => {
