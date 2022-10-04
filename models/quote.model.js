@@ -8,14 +8,16 @@ exports.create = async (quote) => {
   return "success";
 };
 
-exports.getAllQuotes = async () => {
+exports.getRandomQuote = async () => {
   const count = await Quote.count({});
 
   const random = Math.floor(Math.random() * count);
 
-  const getAllQuotes = await Quote.findOne().skip(random).exec();
+  return await Quote.findOne().skip(random).exec();
+};
 
-  return getAllQuotes;
+exports.getAllQuotes = async () => {
+  return await Quote.find({});
 };
 exports.getOneQuote = async (number) => {
   const getOneQuote = await Quote.findOne({ number });
