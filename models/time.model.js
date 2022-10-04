@@ -76,7 +76,7 @@ exports.saveTargetTime = async (userData) => {
 exports.insertNotifyToken = async (user, notificationToken) => {
   console.log(user);
   await User.findOneAndUpdate(
-    { kakaoId: user },
+    { userId: user._id },
     { $set: { notificationToken } }
   );
 };
