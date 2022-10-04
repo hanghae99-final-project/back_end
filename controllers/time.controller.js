@@ -13,13 +13,15 @@ exports.getTime = async (req, res) => {
 // (공부 시작 버튼) 공부 시작 시각을 Time db에 기록 함수
 exports.studyStart = async (req, res) => {
   const user = req.locals;
-  const { studyStartPoint } = req.body;
+  const { studyStartPoint, notificationToken } = req.body;
+
   if (!studyStartPoint) {
     throw new BadRequestError("공부 시작 시각을 받아오지 않습니다.");
   } else if (studyStartPoint <= 0 || typeof studyStartPoint !== "number") {
     throw new BadRequestError("공부 종료 시각이 0 이하 or 숫자가 아닙니다.");
   }
-  if (req.body.notificationToken) {
+
+  if (notificationToken) {
     await timeService.insertNotifyToken(user, req.body.notificationToken);
   }
   const result = await timeService.studyStart(studyStartPoint, user);
