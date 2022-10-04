@@ -162,7 +162,7 @@
    * 스펙 index를 user data의 spec Array의 index와 비교하여 일치하는 spec을 제거한다.
 
 
-### Google Cloud Messaging API(Web-push)
+### Firebase Cloud Messaging API(Web-push)
 
  - Google firebase
    * 알림을 허용한 회원들 한에서 notification 토큰을 받은뒤 DB에 저장을 합니다.
