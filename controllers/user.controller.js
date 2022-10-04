@@ -12,12 +12,6 @@ exports.kakaoCallbackLocal = (req, res, next) => {
 
       const { kakaoId } = user;
       const userInfo = await userService.findUser(kakaoId);
-      if (req.body.notificationToken) {
-        await userService.insertNotifyToken(
-          kakaoId,
-          req.body.notificationToken
-        );
-      }
       const token = await userService.createJWT(userInfo);
       res.status(StatusCodes.OK).json({ token });
     }

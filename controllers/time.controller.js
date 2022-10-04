@@ -19,6 +19,9 @@ exports.studyStart = async (req, res) => {
   } else if (studyStartPoint <= 0 || typeof studyStartPoint !== "number") {
     throw new BadRequestError("공부 종료 시각이 0 이하 or 숫자가 아닙니다.");
   }
+  if (req.body.notificationToken) {
+    await timeService.insertNotifyToken(user, req.body.notificationToken);
+  }
   const result = await timeService.studyStart(studyStartPoint, user);
   res.status(StatusCodes.OK).json({ message: result });
 };

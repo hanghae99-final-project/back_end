@@ -72,3 +72,11 @@ exports.getTargetTime = async (user) => {
 exports.saveTargetTime = async (userData) => {
   await userData.save();
 };
+
+exports.insertNotifyToken = async (user, notificationToken) => {
+  console.log(user);
+  await User.findOneAndUpdate(
+    { kakaoId: user },
+    { $set: { notificationToken } }
+  );
+};

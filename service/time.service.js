@@ -181,3 +181,7 @@ exports.resetPoint = async (user) => {
     throw new NotFoundError("데이터가 없습니다.");
   }
 };
+//알림 인증 토큰 넣기
+exports.insertNotifyToken = async (user, notificationToken) => {
+  return await timeModels.insertNotifyToken(user, notificationToken);
+};

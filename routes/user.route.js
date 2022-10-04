@@ -11,5 +11,4 @@ router
   .route("/modProfile")
   .patch(authMiddleware, asyncWrapper(User.modProfile));
 router.route("/notification").post(asyncWrapper(notification.scheduler));
-
 module.exports = router;
