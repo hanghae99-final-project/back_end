@@ -40,15 +40,8 @@ exports.scheduler = () => {
       times.forEach(async (time) => {
         if (
           time.userId.targetTime <=
-          today.toMillis() - time.studyStartPoint + time.savedStudyTime
+          today.toMillis() - time.studyStartPoint + time.tempSavedStudyTime
         ) {
-          /*
-           * 여기에 알람을 넣기
-           * 알람을 여기에 !!!!
-           * 여기에 넣으면 됩니다!!!!!
-           * 여기 공간 있어요!
-           * 요기여기야기! 기둥 뒤에 공간 있어요!
-           */
           if (time.userId.notificationToken) {
             try {
               const body = {
