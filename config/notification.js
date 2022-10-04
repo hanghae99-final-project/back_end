@@ -1,7 +1,7 @@
 const schedule = require("node-schedule");
 const Time = require("../schemas/time");
 const { DateTime } = require("luxon");
-
+const fetch = require("node-fetch");
 exports.scheduler = () => {
   schedule.scheduleJob("*/5 * * * *", async () => {
     const today = DateTime.now();
