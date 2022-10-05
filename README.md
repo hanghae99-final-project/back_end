@@ -336,7 +336,7 @@ BackEnd
 
 <br/>
 
->## 📝기술적 의사 결정
+>## 📝기술적 의사 결정 & 트러블 슈팅
 <details>
 <summary> Trouble: Dayjs / Luxon Date Library</summary>
 
