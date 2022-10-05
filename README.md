@@ -1,17 +1,6 @@
-## 목 차
-1. [프로젝트 소개](#1.-프로젝트-소개)
-2. [팀 구성](#🤸🏻‍♀️-팀-구성)
-3. [아키텍쳐](#🧱-아키텍쳐)
-4. [사용 기술 스텍](#🛠-기술-스텍)
-5. [주요 기능](#⚙-주요-기능)
-6. [라이브러리](#📂-라이브러리)
-7. [ERD](#📖-ERD)
-9. [트러블 슈팅](#🔥-트러블-슈팅)
-10. 
-
-
-
 ># 👑취준생을 위한 시간 관리 플랫폼, 랭플👑
+
+<img width="100%" src="https://user-images.githubusercontent.com/95389265/193836979-d0885d4e-1f0d-4796-972c-181fee784fb8.png" >
 
 랭플은 열심히 미래를 준비하고 있음에도 불구하고, **항상 불안해하는 취준생**들을 대상으로
 
@@ -34,144 +23,117 @@
 
 >## 🖥️기능
 
+- **메인 페이지**
+    - 타임 타이머 
+    - 스톱워치
+    - 랜덤 명언
+    - 설정 디데이
+    - todo 리스트
+    - 현재 공부 중인 사람 수
+- **마이 페이지**
+    - 프로필 수정
+    - 디데이 설정
+    - 스터디로그 그래프 (월별, 주별)
+    - 날짜별 todo 리스트
+- **랭킹 페이지**
+    - 전체, 20대, 30대 랭킹
+    - 일간, 주간, 월간 랭킹
 
-### 로그인/회원가입
- - Passport kakao로 유저의 email주소를 받아와 회원가입을 진행한다. 
- - 영문, 숫자, 한글을 이용하여 nickname을 받고, 기존 nickname의 유무를 확인한다.
- - 20대/30대 등 연령대 선택 및 자신이 준비하는 분야를 선택할 수 있다.
- - JWT를 통해 유저의 정보를 받아온다.
+<br/><br/><br/>
 
 
-### Timer
- - 공부 시작 <br/>
-   * 오늘 날짜 공부 data가 없을 때 : data 생성하고 공부 시작 시각을 기록한다.<br/>
-   * 오늘 날짜 공부 data가 있을 때 : 공부 시작 시각을 업데이트 한다.
- 
- - 휴식 시작 <br/>
-   * 공부 종료 시각과 공부 시작 시각으로 공부 누적 시간을 계산하고 휴식 시작 시각을 기록한다.(공부 시작/종료 시각 초기화)
 
- - 휴식 종료 <br/>
-   * 휴식 시작 시각과 휴식 종료 시각으로 휴식 누적 시간을 계산하고 공부 시작 시각을 기록한다.(휴식 시작/종료 시각 초기화)
- 
- - 공부 종료 <br/>
-   * 휴식 중일 때 : 휴식 시작 시각과 휴식 종료 시각으로 휴식 누적 시간을 계산한다.(휴식 시작/종료 시각 초기화)<br/>
-   * 공부 중일 때 : 공부 시작 시각과 공부 종료 시각으로 공부 누적 시간을 계산한다.(공부 시작/종료 시각 초기화)
+>### 메인페이지
+
+<div align="center">
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193459516-9644d202-3cbb-4292-b51c-8e7727eac006.png" title="Green"/>
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193459581-ca4fd92e-a3fd-4e74-8ead-5d8ce6a91b57.png" title="Blue"/>
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193459584-4cdf119d-6c63-4e1d-8c4f-48f68ce0a15a.png" title="Red"/>
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193460731-a4a2a4ea-da32-45ef-9a0f-f3ba89f59b80.png" title="Todo"/>
+</div>
+
+-  **타임 타이머( or Circle Timer )**  <br/>
+   공부 시작 Green 휴식 시작 Blue 목표 시간 달성 Red, 시간은 매일 밤 **12시** 초기화<br/>
+    - 공부 시작 : 오늘 날짜 공부 데이터가 없을 때 데이터를 생성하고 있을 경우 공부 시작 시각을 업데이트
+    - 휴식 시작 : 공부 시간을 누적하고 휴식 시작
+    - 휴식 종료 : 휴식 시간을 누적하고 공부 시작
+    - 그만 하기 : 휴식 중일 땐 휴식 시간을 누적, 공부 중일 땐 공부 시간을 누적
+
+
+- **투두 리스트**
+    - Todo Get : 받아온 날짜로 Todo Document에 검색하여 todoArr를 반환
+    - Todo Post : 오늘의 Todo 데이터가 없을 때 data를 생성하고 todoArr에 todo를 기록, 데이터가 있을 경우 오늘자 데이터 todoArr Push
+    - Todo Put : 오늘의 Todo 데이터에서 todoArr에 받아온 index값과 동일한 todo를 변경
+    - Todo Delete : 오늘의 Todo 데이터에서 todoArr에 받아온 index값과 동일한 todo를 삭제
    
-   
-### ranking
-- 기간 별, 연령대 별 공부 시간 랭킹 보여주기<br/>
-   * 기간(오늘, 주간, 월간)을 기준으로 DB의 날짜 검색 범위를 지정한다.<br/>
-   * 연령대가 전체일 경우, 지정한 날짜로 검색한 time DB에서 user DB를 병합한다. 유저를 기준으로 공부 누적 시간을 더한 후 내림차순 정렬을 진행한다. <br/>
-   * 연령대가 20대, 30대 일 경우, 지정한 날짜로 검색한 time DB에서 user DB를 병합한 후 연령대를 기준으로 검색을 한번 더 진행한다. <br/>
-   * 경우의 수 : 
-      + 오늘, 전체-주간, 전체-월간, <br/> 
-      + 20대-오늘, 20대-주간, 20대-월간, <br/>
-      +  30대-오늘, 30대-주간, 30대-월간 으로 총 9가지가 생긴다.
-  
-  
-
-### admin
-
-- get
-  * 로그인 페이지 html ejs 를 불러온다.
-- post
-  * 이메일과 비밀번호를 설정하여 관리자에 등록을 한다.
-- sendCode post (ajax)
-   * jquery를 활용해서 이메일을 검사합니다. 그리고 이메일이 맞고 등록되지 않은 이메일이면 alert로 내용을 보여준다.
-   * 등록 되어져 있는 이메일일 경우 해당 이메일로 인증코드를 발속합니다. 인증코드는 DB에 저장합니다.
-   * 인증이 다 되었으면 로그인이 성공이되고 DB에 있는 인증코드는 삭제가 됩니다.
-- login post (ajax)
-  * 등록되어져 있는 email으로만 로그인이 가능합니다
-  * 등록되어져 있는 email로 node mialer를 사용하여 인증번호를 전송합니다.
-- checkCode post
-  * 등록되어져 있는 email로 인증을 받고 로그인을 하면 DB에 있는 인증번호를 삭제 합니다.
-  * 인증이 되면 로그인이 가능합니다.
-
-- main get
-   * 현재 가입되어져 있는 총 회원의 수를 볼 수 있습니다.<br/>
-   * 회원들의 정보들을 볼 수 있습니다. <br/>
-   * 회원들의 닉네임으로 검색을 할 수 있습니다.<br/>
-- user/:userId get
-   * 유저의 정보를 가져옵니다.
-
-- insQuote get
-   * 현재 등록되어져 있는 명언리스트 페이지를 html ejs로 불러옵니다.
-   * 명언을 추가할 수 있는 페이지 html ejs를 불러옵니다.
-- insQuote post
-   * 명언들을 추가 할 수 있습니다.
-
-- addObject post
-   * 명언에 1개 이상이상 추가된 input을 DB에 저장합니다.
-- deleteCheckedQuotes delete
-   * DB에 들록되어져 있는 명언을 1개 이상 삭제가 가능합니다.
- 
-  
-
-### Todo
-
-- Todo post
-   * 오늘 Todo data가 없을 때 : data를 생성하고 data 내부의 todoArr에 todo(내용, 색상, 완료여부)를 저장한다.<br/>
-   * 오늘 Todo data가 있을 때 : data 내부의 todoArr에 todo를 push한다.
- 
- - Todo get
-   * 받아온 날짜에 Todo data를 DB에서 가져온 후, TodoArr만 보여준다.
-   * 받아온 날짜에 Todo data가 없을 경우, 빈 배열을 반환한다.
- 
- - Todo put 
-   * 오늘 날짜 Todo data를 DB에서 가져온 후, TodoArr에 받아온 index값과 일치하는 Todo를 찾아 업데이트 해준다.
- 
- - Todo delete
-   * 오늘 날짜 Todo data를 DB에서 가져온 후, TodoArr에 받아온 index값과 일치하는 Todo만 slice한다.
- 
- 
-### D-day
- - D-day post <br/>
-   * 유저 data에서 dDay Array에 D-day(deadline, 내용)을 push한다.
-
- - D-day get <br/>
-   * D-day가 없을 때 : 빈 배열을 반환한다.
-   * 오늘보다 이전 D-day만 있을 때 : DB에서 D-day Array를 가져온 후, Date lib으로 오늘과 비교하여 빈배열을 반환한다. 
-   * 오늘보다 이후 D-day만 있을 때 : DB에서 D-day Array를 가져온 후, Date lib으로 오늘과 비교하여 오늘 이후 D-day만 가져온다.
-   * 다양한 날짜 D-day가 있을 때 : DB에서 D-day Array를 가져온 후, Date lib으로 오늘과 비교하여 오늘 이후 D-day만 가져온다.
- 
- - D-day put <br/>
-   * 유저 data에서 dDay Array를 가져온 후, D-day index와 일치하는 D-day를 찾아 업데이트 해준다.
- 
- - D-day delete <br/>
-   * 유저 data에서 dDay Array를 가져온 후, D-day index와 일치하는 D-day를 찾아 삭제 해준다.
+- **현재 공부 중인 인원 수**
+    - Studying Get : 공부 시작 버튼을 눌를 시 Studying Document에 유저정보 등록
+    - Studying Delete : 그만 하기 버튼을 눌를 시 Studying Document에 유저정보 제거
 
 
-### 프로필
- - 프로필 put <br/>
-   * 프로필 nickname, ageGroup, specialty를 받아 user DB에 업데이트한다.<br/>
-   * 프로필 중복체크 기능이 있으나 회원 수정시 한번 더 nickname 중복을 체크한다.
- 
-- 프로필 get <br/>
-   * user DB에서 유저의 nickname, ageGroup, specialty, spec을 보여준다.
- 
-- nickname의 중복체크<br/>
-   * 받아온 nickname을 DB에 검색한다.(검색 시 자신의 nickname은 제외해야 함)
+<br/><br/>
 
-- spec post <br/>
-   * education(학력,경력), career(학교/회사명), year, experience(설명) user data의 spec Array에 push한다.
- 
-- spec put <br/>
-   * 스펙 index를 user data의 spec Array의 index와 비교하여 일치하는 spec의 컬럼을 업데이트한다.
- 
-- spec delete <br/>
-   * 스펙 index를 user data의 spec Array의 index와 비교하여 일치하는 spec을 제거한다.
+>### 랭킹페이지
+
+<div align="center">
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193480912-39f60e18-22bf-498f-bc87-0425edd14415.png" title="ranking"/>
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193480952-e8574ba4-a40b-42ad-a10f-2611f78ee88c.png" title="bottom sheet"/>
+</div>
 
 
-### Firebase Cloud Messaging API(Web-push)
-
- - Google firebase
-   * 알림을 허용한 회원들 한에서 notification 토큰을 받은뒤 DB에 저장을 합니다.
-   * 저장을 하고 난다음 매 5분마다 node schedule이 목표 시간에 도달한 회원들에게 구글 firebase 서버키를 사용하여 크롭 웹 알림을 보냅니다.
-   
+- **랭킹**
+	- 일간, 주간, 월간 랭킹 확인 가능 (Time Document 날짜 검색 범위 설정 User Document별 공부 시간 통합)
+	- 유저의 연령대 별 랭킹 확인 가능 (위 절차 진행 후 연령대별 필터링)
+	- 각각 유저의 랭킹에서 유저의 직종 및 현재 접속 여부 확인 가능 (Studying Document의 유저 정보 Join)
 
 
+<br/><br/>
 
 
+>### 마이페이지
+	 
+<div align="center">
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193481340-bd2aada6-9e0d-4159-9a73-b9a6b8b23390.png" title="Green"/>
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193481380-8c1a9dfd-0e36-427b-bd11-3aa0e177872b.png" title="Blue"/>
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193481379-6cdc9cb9-eac8-43a7-8c0f-151b703e02a3.png" title="Blue"/>
+</div>
+
+- **오늘 공부한 시간과 어플을 사용하면서 공부한 총 시간 확인 가능**
+    - 유저 월간 공부 기록 : Time Document에서 날짜(월간) 범위 및 유저 정보를 기준으로 검색
+    - 유저 주간 공부 기록 : Time Document에서 날짜(주간) 범위 및 유저 정보를 기준으로 검색
+
+- **프로필 수정**
+    - 유저 정보 Get : 토큰으로 받은 유저 index, User Document 검색
+    - 유저 정보 Put : 닉네임, 연령대, 분야 바꾸기 가능
+    - nickname의 중복체크 : 자신의 nickname을 제외한 다른 유저의 닉네임 검색
+
+- **디데이 설정**
+    - D-day Get : User Document의 D-day Array 컬럼의 서브 D-day Documents 날짜 역순으로 출력
+    - D-day Post : User Document의 D-day Array 컬럼의 서브 D-day Documents 입력
+    - D-day Put : 서브 D-day Documents에서 D-day index 검색 후 일치하는 D-day 수정
+    - D-day Delete : 서브 D-day Documents에서 D-day index 검색 후 일치하는 D-day 삭제
+
+- **날짜 별 투두 리스트**
+	- 다른 날짜의 투두 리스트를 확인 가능(Todo Get)
+	- **Done 수정 불가**
+
+<br/>
+
+>### Web Push(알람 기능)
+
+<div align="center">
+<img src ="https://user-images.githubusercontent.com/82853790/194051121-b8500b8b-3bca-4736-bf1c-264a30a7d588.png" />
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193459584-4cdf119d-6c63-4e1d-8c4f-48f68ce0a15a.png" title="Red"/>
+</div>
+
+- **목표 시간 달성 시 알람 기능**
+    - 목표시간 달성 시 Web Push(FCM) 기능을 이용하여 유저에게 알람 발송
+    - 유저가 웹에서 알람 허용 시 가능(로그인 시 fcm 토큰 발송)
+
+- **목표 시간 설정 시 알람 기능 초기화**
+    - 목표 시간을 달성 후 알람을 계속 받고 싶으면, 목표 시간 설정으로 알람 초기화
+
+<br/>
 
 >## 🛠️사용 기술 스택
 
@@ -212,6 +174,10 @@
 
 
 >## 📖라이브러리
+
+<details>
+<summary> Library used </summary>
+ 
 | 이름   | 설명                                                                                                      |
 | ------ | ------------------------------------------------------------------------------------------------------------- |
 | mongoose | mongoDB 데이터를 모델링할 수 있는 간단한 스키마 기반 solution을 제공하여, 검증, 쿼리, 작성 비즈니스 로직 등이 포함되어 적용 |
@@ -230,7 +196,7 @@
 | winston | 서버의 요청, 응답, 오류를 커스텀 로깅하기 위해 적용. |
 |winston-daily-rotate-file| 날짜별로 로그 파일을 관리하기 위해 사용. |
 
-
+</details>
 
 
 
@@ -242,7 +208,9 @@
 
 
 >## 🛍️파일 구조
-
+<details>
+<summary> File structure</summary>
+ 
 ```
 BackEnd
 ├─ app.js
@@ -330,12 +298,14 @@ BackEnd
 ├─ views // admin page ejs
 └─ public // admin page css&js
 ```
-
+</details>
 
 <br/>
 
 >## 🦾팀원
 
+이창현(Github Link) : https://github.com/changhyeonlee-0703 <br/>
+박원균(Github Link) : https://github.com/CalvinParkNov
 |이름|깃허브 주소|
 |--|--|
 |이창현(부리더)| https://github.com/changhyeonlee-0703|
@@ -347,14 +317,14 @@ BackEnd
 <details>
 <summary> Trouble: Dayjs / Luxon Date Library</summary>
 
-### **🤯 JavaScript Date의 성능 이슈.**
+### 🤯 JavaScript Date의 성능 이슈.
 - 날짜/시간에 대한 처리를 개발자가 직접 구현해야하는 불편함 존재.  i.e. 윤년, 9월 31
 - 타 library에 비해 무겁고 속도 측면에서 느림.
 - MongoDB에서 저장하는 timestamp는 UTC 기준.
 - Date lib의 대안으로 가장 많이 사용하는 Moment lib을 채택했으나, legacy로 인하여 더 이상의 업데이트가 중지되었고, 추후 확장성을 위해 moment에서 추천하는 Date lib을 사용.
 <p align="center"><img src="https://user-images.githubusercontent.com/82853790/193856920-b36a584d-99bf-4dc5-88e6-e65d630d5ef0.png" width="600" height="300" /></p>
 
-### **🌠 해결.**
+### 🌠 해결.
 Date Libaray : **luxon,** dayjs, date-fns (성능 테스트 : 1 - 5000번 반복하여 100번의 평균 속도를 측정)
 
  - 속도 : luxon ≤ date-fns < dayjs
@@ -369,12 +339,13 @@ Date Libaray : **luxon,** dayjs, date-fns (성능 테스트 : 1 - 5000번 반복
 <br/>
 
 <details>
-<summary> Technical Debate:  NoSQL vs RDBMS</summary>
+<summary> Technical Debate:  DB Select</summary>
 
+### 🤯 NoSQL vs RDBMS 
 - Database를 설정 시 MySQL과 MongoDB가 존재함.
 - 서비스의 특성 상 최종적으로 RDBMS MySQL보다 NoSQL인 Mongo를 선택.
 
-### ⭐ **MongoDB를 선택한 이유.**
+### ⭐ MongoDB를 선택한 이유.
 - 서비스에 필요로 하는 형식으로 데이터가 저장되어 빠르게 입,출력할 수 있다는 장점 존재.<br/>
 - 또한 다른 Documents의 구조를 넣을 수 있고 제작, 기획, 구현하는 시점에서 서비스의 비즈니스 구조가 크게 바뀔 수 있음을 감안하여 **수평적 확장에 용이한 MongoDB** 선택.<br/>
 - ex). 
@@ -387,6 +358,7 @@ Date Libaray : **luxon,** dayjs, date-fns (성능 테스트 : 1 - 5000번 반복
 <details>
 <summary> Technical Debate: 스케줄 업무 자동화</summary>
 
+### 🤯 Linux Cron tab vs Node Scheduler
 - 정시 기준으로 순위 및 **오늘의 공부 시간을 저장하고 초기화**해주는 예약 기능이 필요. <br/>
 - Linux Cron tab, Node Scheduler 중 Node Scheduler 채택.
 
@@ -400,6 +372,7 @@ Date Libaray : **luxon,** dayjs, date-fns (성능 테스트 : 1 - 5000번 반복
 <details>
 <summary> Technical Debate: 자동화 업무(CI/CD)</summary>
 
+### 🤯 FTP - vscode 연동 vs Git actions vs Jenkis
 - 로컬환경에서 코드의 수정 후 Filezilla or git bash를 사용하여 main server, test server에 올려줘야하는 불편함 발생.  <br/>
 - FTP - vscode 연동 vs Git actions vs Jenkis 중 **Git actions 채택.**
 
@@ -431,7 +404,8 @@ Custom API Error를 구현하여 필요한 error class를 생성하고 https-sta
 
 <details>
 <summary> Trouble: 공지사항 or 유저에게 보여주는 명언을 코드 단 없이 간결하게 crud하기</summary>
-
+ 
+### 🤯 명언 CRUD의 불편함
 - 서비스 특성 상 클라이언트에게 보여줘야 할 문구(명언)들이 존재.  <br/>
 - **유저 공지 메세지를 postman, thunder Client, mongoDB 상에서 일일이 넣어줘야 하는 불편함 발견.**
 <div align="center">
@@ -449,6 +423,7 @@ Custom API Error를 구현하여 필요한 error class를 생성하고 https-sta
 <details>
 <summary> Technical Debate: 관리자 페이지 but How?</summary>
 
+### 🤯 시간, 물적, 인적 자원의 고려
 - 5주라는 **짧은 시간 관계 상 front 자원은 UI/UX 클라이언트 페이지를 집중**하는 것이 옳은 것이라 판단됨.  <br/>
 - 관리자 페이지는 명언의 CRUD나 회원의 정보만 보여주는 간결한 페이지이기에 UI/UX보단 기능 위주의 페이지를 생성.
 
