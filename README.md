@@ -347,94 +347,126 @@ BackEnd
 <details>
 <summary> Trouble: Dayjs / Luxon Date Library</summary>
 
- **🤯  JavaScript Date의 성능 이슈.**
+### **🤯 JavaScript Date의 성능 이슈.**
 - 날짜/시간에 대한 처리를 개발자가 직접 구현해야하는 불편함 존재.  i.e. 윤년, 9월 31
 - 타 library에 비해 무겁고 속도 측면에서 느림.
 - MongoDB에서 저장하는 timestamp는 UTC 기준.
 - Date lib의 대안으로 가장 많이 사용하는 Moment lib을 채택했으나, legacy로 인하여 더 이상의 업데이트가 중지되었고, 추후 확장성을 위해 moment에서 추천하는 Date lib을 사용.
-<p align="center"><img src="https://user-images.githubusercontent.com/82853790/193856920-b36a584d-99bf-4dc5-88e6-e65d630d5ef0.png" width="700" height="350" /></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/82853790/193856920-b36a584d-99bf-4dc5-88e6-e65d630d5ef0.png" width="600" height="300" /></p>
 
-
-**🌠  해결.** 
+### **🌠 해결.**
 Date Libaray : **luxon,** dayjs, date-fns (성능 테스트 : 1 - 5000번 반복하여 100번의 평균 속도를 측정)
 
  - 속도 : luxon ≤ date-fns < dayjs
  - 사이즈 :  date-fns> moment > luxon >>> dayjs
-<figure class="third">
-    <img src="https://user-images.githubusercontent.com/82853790/193856772-b38c3fab-2df0-4beb-9824-036d25e1fcd3.png"/>
-    <img src="https://user-images.githubusercontent.com/82853790/193856834-b7d065cc-3fed-46e3-b248-e76a8625587f.png"/>
-</figure>
+ - 결론 : 속도 측면에서 luxon, 사이즈 측면에서 dayjs 이나 서버 상에서 크기보단 속도가 우선이라 판단하여 가장 빠르고 비교적 사이즈가 작은 **luxon**을 채택
 
- - 결론 :
-속도 테스트 결과, **luxon library가 가장 빠른 것으로 결론을 도출.** 그러나 사이즈 면에서 dayjs가 다른 라이브러리에 비해 6~10배 작았음.<br/>
-서버사이드의 측면과 서비스의 특성 상 Library의  크기보단 속도 우선이라 판단하여 비교적 사이즈가 적고 가장 빠른 **luxon라이브러리**를 채택함.<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/82853790/193856772-b38c3fab-2df0-4beb-9824-036d25e1fcd3.png" width="700" height="400"/>
+    <img src="https://user-images.githubusercontent.com/82853790/193856834-b7d065cc-3fed-46e3-b248-e76a8625587f.png" width="700" height="400"/>
+</div>
 </details>
-
-
-
-
+<br/>
 
 <details>
-<summary>**🤯   JavaScript Date의 성능 이슈.**</summary>
-<div markdown="1">
-Date 라이브러리를 대신해서 가장 많이 사용하는 moment라이브러리를 사용함. </br>
-그러나 현재 moment 공식 홈에서도 업데이트를 중단했다고 선언하였고 다른 여러 라이브러리를 추천해주는 상황에서 변경이 불가피함. </br>
-luxon, dayjs, date fns 라이브러리들의 퍼포먼스를 비교해본 결과 : </br>
-속도 : moment → luxon=date-fns → dayjs </br>
-    사이즈:  moment> date-fns>luxon>dayjs </br>
-    속도는 luxon과 date-fns가 비슷했으나 dayjs보다 2~3배 빠른 속도를 보였다. 그러나 사이즈 면에서 dayjs가 다른 라이브러리에 비해 3~4배 작았음. </br>
-    서버의 스팩 상 제일 적은 라이브러리보단 사이즈 도 비교적 작고 속도도 빠른 luxon라이브러리를 채택함. </br>
-  </div>
+<summary> Technical Debate:  NoSQL vs RDBMS</summary>
+
+- Database를 설정 시 MySQL과 MongoDB가 존재함.
+- 서비스의 특성 상 최종적으로 RDBMS MySQL보다 NoSQL인 Mongo를 선택.
+
+### ⭐ **MongoDB를 선택한 이유.**
+- 서비스에 필요로 하는 형식으로 데이터가 저장되어 빠르게 입,출력할 수 있다는 장점 존재.<br/>
+- 또한 다른 Documents의 구조를 넣을 수 있고 제작, 기획, 구현하는 시점에서 서비스의 비즈니스 구조가 크게 바뀔 수 있음을 감안하여 **수평적 확장에 용이한 MongoDB** 선택.<br/>
+- ex). 
+  - time db - 알람기능을 위한 isGoal, tempSavedStudyTime 컬럼 추가
+  - user db - dday 컬럼을 dday docs컬럼으로 수정
+  - user db - todo docs 컬럼을 외부의 todo db로 생성
 </details>
+<br/>
 
 <details>
-<summary> mongoDB 선택 이유</summary>
- <div markdown="1">
-   애플리케이션이 필요로 하는 형식으로 데이터가 저장되어 빠르게 입출력할 수 있다는 장점을 가지고 있다. 또한 다른 Documents의 구조를 넣을 수도 있다. </br> 
-   예시로 Book Doc에 author라는 컬럼 안에 User Doc을 넣을 수도 있으며 동시에 Follow 컬럼 내 배열 안에 User Doc를 여러개 넣을 수 있다는 장점을 가지고 있다. </br>
-   추후 수평적 확장에 대비하여서도 mongoDB를 사용.
-  </div>
+<summary> Technical Debate: 스케줄 업무 자동화</summary>
+
+- 정시 기준으로 순위 및 **오늘의 공부 시간을 저장하고 초기화**해주는 예약 기능이 필요. <br/>
+- Linux Cron tab, Node Scheduler 중 Node Scheduler 채택.
+
+### ⭐ node-scheduelr를 선택한 이유
+- 노드 프로세스를 실행 중일시 node-scheduler의 관리가 따로 필요가 없음.<br/>
+- 그러나 프로세스가 꺼지면 node-scheduler의 기능도 같이 꺼짐.<br/>
+- 프로세스의 돌발적인 정지를 방지하는 **pm2 프로세스 관리 도구**로 예상치 못한 기능 꺼짐을 방지하여 node-scheduler의 단점을 극복하고 장점을 살릴 수 있다 판단.<br/>
 </details>
+<br/>
 
 <details>
- <summary> Scheduler</summary>
-  <div markdown="1">
-node-scheduler와 리눅스의 crontab 중에 node-scheduelr는 노드 프로세스를 진행중이면 같이 적용되어 따로 관리가 필요없음을 인지함. </br>
-다만 프로세스가 꺼지면 스케쥴러도 같이 꺼지기에 노드 프로세스의 관리가 필요한데 이는 pm2 lib으로 처리 가능하므로 node-scheduler를 채택 </br>
-  </div>
+<summary> Technical Debate: 자동화 업무(CI/CD)</summary>
+
+- 로컬환경에서 코드의 수정 후 Filezilla or git bash를 사용하여 main server, test server에 올려줘야하는 불편함 발생.  <br/>
+- FTP - vscode 연동 vs Git actions vs Jenkis 중 **Git actions 채택.**
+
+### ⭐ Git actions을 선택한 이유
+- FTP - vscode 연동을 통해 수정된 코드 업데이트 가능. 그러나 서버 환경으로 업데이트된 추가 기능 또는 버그 수정 코드를 테스트하는 자체적인 기능이 없음.<br/>
+- Jenkis는 서버를 오픈하여 빌드 시 test script로 test 코드를 진행함.<br/>
+- 테스트 코드를 위한 서버 오픈과 발표 및 출시가 몇 일 안 남은 시점에서 Jenkis보단 **Git actions**을 채택.<br/>
+- Github에서 push, pull request 시 CI/CD를 가능하게 하는 서버를 빌려줌. 또한 Github Event와 동시에 서버에 CI/CD를 가능하게 하므로 다른 두 기술보다 상대적으로 적용과 이용이 쉬움.<br/>
+- 또한 dev branch를 두어 test server에 이상이 없을 시 main branch로 전환해야 하므로 git Event시 적용되는 Git actions을 선택함.
 </details>
+<br/>
 
 <details>
- <summary> Scheduler</summary>
-  <div markdown="1">
-node-scheduler와 리눅스의 crontab 중에 node-scheduelr는 노드 프로세스를 진행중이면 같이 적용되어 따로 관리가 필요없음을 인지함. </br>
-다만 프로세스가 꺼지면 스케쥴러도 같이 꺼지기에 노드 프로세스의 관리가 필요한데 이는 pm2 lib으로 처리 가능하므로 node-scheduler를 채택 </br>
-  </div>
+<summary> Trouble: Error Handler</summary>
+
+### 🤯 에러 핸들링에 대한 고찰
+- 예외처리 로직 상에서 직접적으로 return 구현은 쉬우나, 에러를 잡고 기록하는 과정(logging)에서 불편함이 발생.
+- 에러 처리는 되나, 각 로직 상에서 발생하는 에러들을 관리할 수 없음.
+- try-catch + throw new Error를 이용하여 에러를 하나의 미들웨어에 통합시키고 관리함으로서 로깅, 에러핸들링이 가능하나 모든 에러가 400으로 통일된다는 문제점 발생.
+
+### ⭐ 에러의 커스텀(status code 변경)과 관리 및 기록할 수 있는 방법
+ 1. hapi/boom (library)
+ 2. Custom API Error
+ 
+ hapi/boom 라이브러리로 에러 핸들링을 했으나, hapi framework에서 쓰는 library는 express framework로 작성한 서비스에 맞지 않는다 판단. **Custom Error API를 채택.**
+Custom API Error를 구현하여 필요한 error class를 생성하고 https-status-codes library를 사용하여 정확한 상태 코드와 정확한 에러 메세지를 커스텀할 수 있음. 서비스에 맞게 구현하여 사용 또한 간편하고 Error library를 사용할 필요가 없어 가벼우면서 간결한 코드가 가능. 
 </details>
+<br/>
 
 <details>
- <summary> CI/CD</summary>
-  <div markdown="1">
-jenkis를 직접 구현하진 않았으나 자료 검색 결과, 따로 서버를 만들어 ci/cd를 진행해야함. </br> 
- ci/cd를 위한 서버를 세팅해야하는 번거로움 발생. git actions은 github에서 push, pull request할 때마다 서버를 빌려주므로 github event와 동시에 서버에 ci/cd를 가능하게 하고 상대적으로 이용이 쉬워 시간상, 업무상 효율성을 생각하여 git actions 적용  </div>
-</details>
+<summary> Trouble: 공지사항 or 유저에게 보여주는 명언을 코드 단 없이 간결하게 crud하기</summary>
 
+- 서비스 특성 상 클라이언트에게 보여줘야 할 문구(명언)들이 존재.  <br/>
+- **유저 공지 메세지를 postman, thunder Client, mongoDB 상에서 일일이 넣어줘야 하는 불편함 발견.**
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/82853790/194036690-2471bce9-c625-4747-b8ab-a609ab401a21.png" />
+</div>
+
+### 🌠 관리자 페이지 생성. 관리자 페이지를 생성을 하면서 가져오는 이득이 무엇인가? 
+- 클라이언트에게 보여주는 명언 추가, 수정, 삭제가 가능함.<br/>
+- 관리자 페이지로 로그인하면 회원가입한 총 회원 수를 볼 수 있음.<br/>
+- 회원을 검색 할 수 있음.<br/>
+<br/>
+</details>
+<br/>
 
 <details>
- <summary> Error Handle</summary>
-  <div markdown="1">
-throw new Error를 사용할 시 status cide가 400으로 고정이 됨. </br>
-대안책으로 hapi/boom과 custom error 두가지 방법을 구현한 결과 두 방법 모두 커스텀 에러는 가능하나 hapi express에서 쓰는 boom보단 우리 서비스에 맞게 커스텀을 할 수 있는 custom error class를 채택하여 진행함. </br>
- </div>
-</details>
+<summary> Technical Debate: 관리자 페이지 but How?</summary>
 
-<details>
- <summary> admin page </summary>
-  <div markdown="1">
-관리자가 유저에게 보여주는 메세지를 작성할 필요. </br>
-대표적인 예로 명언과 같은 설정한 메세지를 유저에게 보여주는 기능을 보유하고 있는데, vscode의 썬더 클라이언트나 포스트맨으로 명언을 추가해야하는 불편함 느낌. </br>
-관리자 페이지의 필요성을 느꼈으나, 발표 준비 주를 제외한 5주라는 짧은 시간관계 상 프론트단의 자원은 UI/ user 편의성에 집중을 하는 것이 맞다 판단됨. ejs, jquery를 사용하여 간결하고 깔끔하게 관리자 페이지를 생성 </br>
+- 5주라는 **짧은 시간 관계 상 front 자원은 UI/UX 클라이언트 페이지를 집중**하는 것이 옳은 것이라 판단됨.  <br/>
+- 관리자 페이지는 명언의 CRUD나 회원의 정보만 보여주는 간결한 페이지이기에 UI/UX보단 기능 위주의 페이지를 생성.
 
- 가입한 인원의 수, 회원 정보, 닉네임 검색 기능, 명언 CRUD페이지 추가하여 매번 추가/수정/삭제를 하지 않아도 되는 편리함을 적용. </br>
- </div>
+### 🌠 How?
+- 관리자페이지의 URI는 함부로 알려지면 안되므로 백엔드 서버로만 접속이 가능하게 생성.<br/>
+- 로그인은 등록되어져 있는 이메일만 가능하고, 이메일로 전송한 인증번호를 입력해야 로그인이 가능하게 하여 보안 상향.<br/>
+- 짧은 시간으로 생성을 해야 하므로 ejs template engin과 jquery를 사용하여 **간결하고 깔끔하게 관리자 페이지를 생성**.<br/>
+<br/>
+
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/82853790/194037899-4cf58adb-e878-4fd8-baf9-431f0d5aecc9.png" width="250" height="150"/>
+    <img src="https://user-images.githubusercontent.com/82853790/194038112-b2603abc-2398-44bf-a165-ab525503d45a.png" width="250" height="100"/>
+</div>
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/82853790/194038064-72b4812c-c694-4299-ac23-fee30c5cb922.png" width="700" height="350"/> 
+</div>
+<br/>
+기능 위주의 관리자 페이지 구현. 관리자(랭플 관련 팀원)만 관리자 페이지 접근이 가능.
+
 </details>
