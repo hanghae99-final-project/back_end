@@ -468,30 +468,3 @@ Custom API Error를 구현하여 필요한 error class를 생성하고 https-sta
 기능 위주의 관리자 페이지 구현. 관리자(랭플 관련 팀원)만 관리자 페이지 접근이 가능.
 
 </details>
-
-
-<details>
-<summary> Technical Debate: 관리자 페이지 but How?</summary>
-
-### 🤯 시간, 물적, 인적 자원의 고려
-- 5주라는 **짧은 시간 관계 상 front 자원은 UI/UX 클라이언트 페이지를 집중**하는 것이 옳은 것이라 판단됨.  <br/>
-- 관리자 페이지는 명언의 CRUD나 회원의 정보만 보여주는 간결한 페이지이기에 UI/UX보단 기능 위주의 페이지를 생성.
-
-### 🌠 How?
-- 관리자페이지의 URI는 함부로 알려지면 안되므로 백엔드 서버로만 접속이 가능하게 생성.<br/>
-- 로그인은 등록되어져 있는 이메일만 가능하고, 이메일로 전송한 인증번호를 입력해야 로그인이 가능하게 하여 보안 상향.<br/>
-- 짧은 시간으로 생성을 해야 하므로 ejs template engin과 jquery를 사용하여 **간결하고 깔끔하게 관리자 페이지를 생성**.<br/>
-<br/>
-
-<div align="center">
-    <img src="https://user-images.githubusercontent.com/82853790/194037899-4cf58adb-e878-4fd8-baf9-431f0d5aecc9.png" width="250" height="150"/>
-    <img src="https://user-images.githubusercontent.com/82853790/194038112-b2603abc-2398-44bf-a165-ab525503d45a.png" width="250" height="100"/>
-</div>
-<br/>
-<div align="center">
-    <img src="https://user-images.githubusercontent.com/82853790/194038064-72b4812c-c694-4299-ac23-fee30c5cb922.png" width="700" height="350"/> 
-</div>
-<br/>
-기능 위주의 관리자 페이지 구현. 관리자(랭플 관련 팀원)만 관리자 페이지 접근이 가능.
-
-</details>
