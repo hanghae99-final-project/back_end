@@ -119,6 +119,26 @@
 
 <br/>
 
+>### Web push(알람 기능)
+
+<div align="center">
+<img src ="https://user-images.githubusercontent.com/82853790/194051121-b8500b8b-3bca-4736-bf1c-264a30a7d588.png" />
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193459584-4cdf119d-6c63-4e1d-8c4f-48f68ce0a15a.png" title="Red"/>
+</div>
+
+- **목표 시간 달성 시 알람 기능**
+    - 목표시간 달성 시 Web Push(FCM) 기능을 이용하여 유저에게 알람 발송
+    - 유저가 웹에서 알람 허용 시 가능(로그인 시 fcm 토큰 발송)
+
+- **목표 시간 설정 시 알람 기능 초기화**
+    - 목표 시간을 달성 후 알람을 계속 받고 싶으면, 목표 시간 설정으로 알람 초기화
+    
+- **Firebase Cloud Messaging API(Web-push)**
+    - 알림을 허용한 회원들 한에서 notification 토큰을 받은뒤 DB에 저장
+    - 매 5분마다 node schedule이 목표 시간에 도달한 회원들에게 구글 firebase 서버키를 사용하여 크롭 웹 알림
+<br/>
+
+
 >### admin Page
 
 <div align="center">
