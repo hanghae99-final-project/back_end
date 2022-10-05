@@ -119,7 +119,7 @@
 
 <br/>
 
->### Web Push(알람 기능)
+>### admin Page
 
 <div align="center">
 <img src ="https://user-images.githubusercontent.com/82853790/194051121-b8500b8b-3bca-4736-bf1c-264a30a7d588.png" />
@@ -132,7 +132,10 @@
 
 - **목표 시간 설정 시 알람 기능 초기화**
     - 목표 시간을 달성 후 알람을 계속 받고 싶으면, 목표 시간 설정으로 알람 초기화
-
+    
+- **Firebase Cloud Messaging API(Web-push)**
+    - 알림을 허용한 회원들 한에서 notification 토큰을 받은뒤 DB에 저장
+    - 매 5분마다 node schedule이 목표 시간에 도달한 회원들에게 구글 firebase 서버키를 사용하여 크롭 웹 알림
 <br/>
 
 >## 🛠️사용 기술 스택
@@ -419,6 +422,33 @@ Custom API Error를 구현하여 필요한 error class를 생성하고 https-sta
 <br/>
 </details>
 <br/>
+
+<details>
+<summary> Technical Debate: 관리자 페이지 but How?</summary>
+
+### 🤯 시간, 물적, 인적 자원의 고려
+- 5주라는 **짧은 시간 관계 상 front 자원은 UI/UX 클라이언트 페이지를 집중**하는 것이 옳은 것이라 판단됨.  <br/>
+- 관리자 페이지는 명언의 CRUD나 회원의 정보만 보여주는 간결한 페이지이기에 UI/UX보단 기능 위주의 페이지를 생성.
+
+### 🌠 How?
+- 관리자페이지의 URI는 함부로 알려지면 안되므로 백엔드 서버로만 접속이 가능하게 생성.<br/>
+- 로그인은 등록되어져 있는 이메일만 가능하고, 이메일로 전송한 인증번호를 입력해야 로그인이 가능하게 하여 보안 상향.<br/>
+- 짧은 시간으로 생성을 해야 하므로 ejs template engin과 jquery를 사용하여 **간결하고 깔끔하게 관리자 페이지를 생성**.<br/>
+<br/>
+
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/82853790/194037899-4cf58adb-e878-4fd8-baf9-431f0d5aecc9.png" width="250" height="150"/>
+    <img src="https://user-images.githubusercontent.com/82853790/194038112-b2603abc-2398-44bf-a165-ab525503d45a.png" width="250" height="100"/>
+</div>
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/82853790/194038064-72b4812c-c694-4299-ac23-fee30c5cb922.png" width="700" height="350"/> 
+</div>
+<br/>
+기능 위주의 관리자 페이지 구현. 관리자(랭플 관련 팀원)만 관리자 페이지 접근이 가능.
+
+</details>
+
 
 <details>
 <summary> Technical Debate: 관리자 페이지 but How?</summary>
