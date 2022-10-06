@@ -136,8 +136,7 @@
 >### Web push(알람 기능)
 
 <div align="center">
-<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193459584-4cdf119d-6c63-4e1d-8c4f-48f68ce0a15a.png"/>
-<img width="120%" src ="https://user-images.githubusercontent.com/82853790/194051121-b8500b8b-3bca-4736-bf1c-264a30a7d588.png" />
+<img width="70%" src ="https://user-images.githubusercontent.com/82853790/194310320-476abf11-2711-42cf-9b55-1163abbdcef1.png" />
 </div>
 
 - **목표 시간 달성 시 알람 기능**
