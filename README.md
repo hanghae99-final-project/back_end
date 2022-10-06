@@ -41,7 +41,12 @@
 
 <br/><br/><br/>
 
+>## 아키텍처
+<div align="center">
+<img width="700" height="500" src= "https://user-images.githubusercontent.com/82853790/194307654-b5603144-636c-4853-b5b5-c72981e965d8.jpg"/>
+</div>
 
+<br/><br/><br/>
 
 >### 메인페이지
 
@@ -117,7 +122,7 @@
 	- 다른 날짜의 투두 리스트를 확인 가능(Todo Get)
 	- **Done 수정 불가**
 
-<br/>
+<br/><br/>
 
 >### Web push(알람 기능)
 
@@ -137,25 +142,36 @@
     - 알림을 허용한 회원들 한에서 notification 토큰을 받은뒤 DB에 저장
     - 매 5분마다 node schedule이 목표 시간에 도달한 회원들에게 구글 firebase 서버키를 사용하여 크롭 웹 알림
 <br/>
-
+<br/><br/>
 
 >### admin Page
 
 <div align="center">
-<img src ="https://user-images.githubusercontent.com/82853790/194051121-b8500b8b-3bca-4736-bf1c-264a30a7d588.png" />
-<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193459584-4cdf119d-6c63-4e1d-8c4f-48f68ce0a15a.png" title="Red"/>
+<img width="49%" src ="https://user-images.githubusercontent.com/82853790/194300267-4a73f1fb-8b71-4f9a-aba1-a7623c3b99f6.png" />
+<img width="50%" src= "https://user-images.githubusercontent.com/82853790/194301549-ce922224-325b-4f82-acb7-a32a9080081d.PNG"/>
 </div>
 
-- **목표 시간 달성 시 알람 기능**
-    - 목표시간 달성 시 Web Push(FCM) 기능을 이용하여 유저에게 알람 발송
-    - 유저가 웹에서 알람 허용 시 가능(로그인 시 fcm 토큰 발송)
+-  **admin user login**  <br/>
+   사전에 관리자 아이디는 등록이 되어 있어야 한다.<br/>
+    - 등록되어 있는 email로 node mialer를 사용하여 인증번호를 전송
+    - 인증 코드 발 송 후 DB에 인증 코드 저장
+    - 인증 확인되면 DB에 있는 인증 코드 삭제
+    - 코드 인증 후 비밀번호와 아이디가 일치하면 로그인
 
-- **목표 시간 설정 시 알람 기능 초기화**
-    - 목표 시간을 달성 후 알람을 계속 받고 싶으면, 목표 시간 설정으로 알람 초기화
-    
-- **Firebase Cloud Messaging API(Web-push)**
-    - 알림을 허용한 회원들 한에서 notification 토큰을 받은뒤 DB에 저장
-    - 매 5분마다 node schedule이 목표 시간에 도달한 회원들에게 구글 firebase 서버키를 사용하여 크롭 웹 알림
+
+- **유저 테이블**
+    - User 수 : 현재 가입된 총 회원의 수
+    - User Get : 현재 가입된 회원의 정보 테이블 출력
+    - nickname search : 가입된 nickanme으로 회원 정보를 검색
+ 
+
+- **명언 CRUD**
+   유저에게 보여주는 데이터로 관리자가 명언을 관리해야 함<br/>
+    - Quote Get : 명언 출력
+    - Quote Post : 1개 이상의 명언 생성
+    - Quote Put : 명언 수정
+    - Quote Delete : 1개 이상의 명언 삭제
+
 <br/>
 
 >## 🛠️사용 기술 스택
@@ -325,16 +341,6 @@ BackEnd
 
 <br/>
 
->## 🦾팀원
-
-이창현(Github Link) : https://github.com/changhyeonlee-0703 <br/>
-박원균(Github Link) : https://github.com/CalvinParkNov
-|이름|깃허브 주소|
-|--|--|
-|이창현(부리더)| https://github.com/changhyeonlee-0703|
-|박원균(팀원)| https://github.com/CalvinParkNov|
-
-<br/>
 
 >## 📝기술적 의사 결정 & 트러블 슈팅
 <details>
@@ -468,3 +474,14 @@ Custom API Error를 구현하여 필요한 error class를 생성하고 https-sta
 기능 위주의 관리자 페이지 구현. 관리자(랭플 관련 팀원)만 관리자 페이지 접근이 가능.
 
 </details>
+
+
+>## 🦾팀원
+
+|이름|Github Link|Blog Link|
+|--|--|--|
+|이창현|https://github.com/changhyeonlee-0703|https://lucian-blog.tistory.com|
+|박원균|https://github.com/CalvinParkNov|https://velog.io/@pwk921110|
+
+
+<br/>
