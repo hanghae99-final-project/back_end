@@ -38,6 +38,15 @@
 - **랭킹 페이지**
     - 전체, 20대, 30대 랭킹
     - 일간, 주간, 월간 랭킹
+- **알람 기능**
+    - 목표 시간 달성 시 알람 전송
+    - 목표 시간 초기화 시 알람 초기화
+- **admin 페이지**
+    - 명언 CRUD
+    - 회원 정보 검색
+    - 회원 정보 테이블
+
+
 
 <br/><br/><br/>
 
@@ -127,8 +136,8 @@
 >### Web push(알람 기능)
 
 <div align="center">
-<img src ="https://user-images.githubusercontent.com/82853790/194051121-b8500b8b-3bca-4736-bf1c-264a30a7d588.png" />
-<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193459584-4cdf119d-6c63-4e1d-8c4f-48f68ce0a15a.png" title="Red"/>
+<img width="18%" src= "https://user-images.githubusercontent.com/95389265/193459584-4cdf119d-6c63-4e1d-8c4f-48f68ce0a15a.png"/>
+<img width="120%" src ="https://user-images.githubusercontent.com/82853790/194051121-b8500b8b-3bca-4736-bf1c-264a30a7d588.png" />
 </div>
 
 - **목표 시간 달성 시 알람 기능**
