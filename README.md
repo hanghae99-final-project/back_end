@@ -182,6 +182,15 @@
 
 <br/>
 
+>## 🛠️ERD
+
+<br/>
+
+<div align="center">
+<img height="50%" src="https://user-images.githubusercontent.com/82853790/194448646-e7ee3c5c-4937-42e2-aba8-55a5a1965dba.png"/>
+</div>
+
+
 >## 🛠️사용 기술 스택
 
 <br/>
